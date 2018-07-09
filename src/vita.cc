@@ -5,7 +5,10 @@
 #include <vitamtp.h>
 #include <QDateTime>
 #include <QTemporaryDir>
+#include <QUrl>
+#include <QFileInfo>
 #include <QtNetwork/QHostInfo>
+
 #ifdef Q_OS_WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -185,6 +188,111 @@ void VitaConn::processEvent(vita_event_t *evt) {
     uint32_t eventId = evt->Param1;
     LOG(QString("Event received, code: %2, id: %3").arg(code, 0, 16).arg(eventId));
     switch (code) {
+    case PTP_EC_VITA_RequestSendNumOfObject: {
+        int ohfi = evt->Param2;
+        int items = 1;
+
+        if (VitaMTP_SendNumOfObject(currDev, eventId, items) != PTP_RC_OK) {
+            LOG(QString("Error occurred receiving object count for OHFI parent %1").arg(ohfi));
+        } else {
+            LOG(QString("Returned count of %1 objects for OHFI parent %2").arg(items).arg(ohfi));
+            VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);
+        }
+        break;
+    }
+    case PTP_EC_VITA_RequestSendObjectMetadata: {
+        break;
+    }
+    case PTP_EC_VITA_RequestSendObject: {
+        break;
+    }
+    case PTP_EC_VITA_RequestCancelTask: {
+        quint32 eventIdToCancel = evt->Param2;
+        LOG(QString("Canceling event %1").arg(eventIdToCancel));
+        quint16 ret = VitaMTP_CancelTask(currDev, eventIdToCancel);
+
+        if (ret == PTP_RC_OK) {
+            VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);
+        }
+        break;
+    }
+    case PTP_EC_VITA_RequestSendHttpObjectFromURL: {
+        char *url;
+        if (VitaMTP_GetUrl(currDev, eventId, &url) != PTP_RC_OK) {
+            LOG("Failed to receive URL");
+            return;
+        }
+
+        QString basename = QFileInfo(QUrl(url).path()).fileName();
+
+        QByteArray data;
+
+        bool ignorefile = false;
+        if (basename == "psp2-updatelist.xml") {
+            LOG("Found request for update list. Sending embedded xml file");
+            QFile res(":/main/resources/xml/psp2-updatelist.xml");
+            res.open(QIODevice::ReadOnly);
+            data = res.readAll();
+
+            // fetch country code from url
+            QString countryCode;
+            QStringList parts = QUrl(url).path().split('/');
+            if (parts.size() >= 2) {
+                parts.removeLast();
+                countryCode = parts.last();
+                qDebug() << "Detected country code from URL: " << countryCode;
+
+                if (countryCode != "us") {
+                    QString regionTag = QString("<region id=\"%1\">").arg(countryCode);
+                    data.replace("<region id=\"us\">", qPrintable(regionTag));
+                }
+            } else {
+                LOG("No country code found in URL, defaulting to \"us\"");
+            }
+        } else {
+            /*
+            qDebug("Reading from local file");
+            data = file.readAll();
+
+            if (basename == "psp2-updatelist.xml" && !ignorefile) {
+                messageSent(tr("The PSVita has requested an update check, sending local xml file and ignoring version settings"));
+            } else {
+                QString versiontype = settings.value("versiontype", "zero").toString();
+                QString customVersion = settings.value("customversion", "00.000.000").toString();
+
+                // verify that the update file is really the 3.60 pup
+                // to prevent people updating to the wrong version and lose henkaku.
+                if (ignorexml && basename == "PSP2UPDAT.PUP" &&
+                    (versiontype == "henkaku" ||
+                    (versiontype == "custom" &&
+                        customVersion == "03.600.000"))) {
+                    QCryptographicHash crypto(QCryptographicHash::Sha256);
+                    crypto.addData(data);
+                    QString result = crypto.result().toHex();
+
+                    if (result != hash360) {
+                        qWarning("3.60 PUP SHA256 mismatch");
+                        qWarning("> Actual:   %s", qPrintable(result));
+                        qWarning("> Expected: %s", qPrintable(hash360));
+                        // notify the user
+                        messageSent(tr("The XML version is set to 3.60 but the PUP file hash doesn't match, cancel the update if you don't want this"));
+                    }
+                }
+            }
+            */
+        }
+
+        LOG(QString("Sending %1 bytes of data for HTTP request %2").arg(data.size()).arg(url));
+
+        if (VitaMTP_SendHttpObjectFromURL(currDev, eventId, data.data(), data.size()) != PTP_RC_OK) {
+            qWarning("Failed to send HTTP object");
+        } else {
+            VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);
+        }
+
+        free(url);
+        break;
+    }
     case PTP_EC_VITA_RequestGetSettingInfo: {
         settings_info_t *settingsinfo;
         if (VitaMTP_GetSettingInfo(currDev, eventId, &settingsinfo) != PTP_RC_OK) {
@@ -197,6 +305,7 @@ void VitaConn::processEvent(vita_event_t *evt) {
         VitaMTP_Data_Free_Settings(settingsinfo);
         VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);
         break;
+    }
     case PTP_EC_VITA_RequestSendStorageSize: {
         int ohfi = evt->Param2;
 
@@ -222,7 +331,6 @@ void VitaConn::processEvent(vita_event_t *evt) {
     }
     default:
         break;
-    }
     }
 }
 

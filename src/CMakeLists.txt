@@ -16,15 +16,17 @@ set(SRC_FILES
 )
 
 set(UI_FILES
-    finalhe.qrc finalhe.ui
+    finalhe.ui
 )
 set(RES_FILES
     finalhe.rc resource.h finalhe.ico
+	finalhe.qrc
+	resources/xml/psp2-updatelist.xml
 )
 
 set(TRANSLATION_FILES
-    lang/zh_CN.ts
-    lang/zh_TW.ts
+    translations/zh_CN.ts
+    translations/zh_TW.ts
 )
 
 qt5_create_translation(TRANSLATION_MESSAGES main.cc ${UI_FILES} ${TRANSLATION_FILES})
