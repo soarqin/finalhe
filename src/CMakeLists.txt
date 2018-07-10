@@ -12,6 +12,7 @@ set(SRC_FILES
     main.cc
 	log.cc log.hh
 	finalhe.cc finalhe.hh
+	package.cc package.hh
 	vita.cc vita.hh
 )
 

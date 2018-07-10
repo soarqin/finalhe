@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ui_finalhe.h"
+#include "package.hh"
 #include "vita.hh"
 
 #include <QtWidgets/QMainWindow>
@@ -22,14 +23,11 @@ private slots:
 
 private:
     void loadLanguage(const QString &s);
-    void downloadPackage();
-    void startDownloadPackage();
-    void startUnpackPackage();
 
 private:
     Ui::FinalHEClass ui;
     QTranslator trans;
     QTimer eventTimer;
+    Package *pkg;
     VitaConn *vita;
-    QDir baseDir;
 };
