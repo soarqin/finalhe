@@ -7,16 +7,23 @@ extern "C" {
 #endif
 
 typedef struct {
-   uint8_t data[64];
-   uint32_t datalen;
-   uint32_t bitlen[2];
-   uint32_t state[8];
-} SHA256_CTX;
+    uint32_t total[2];          /*!< The number of Bytes processed.  */
+    uint32_t state[8];          /*!< The intermediate digest state.  */
+    unsigned char buffer[64];   /*!< The data block being processed. */
+}
+sha256_context;
 
-void sha256_transform(SHA256_CTX *ctx, const uint8_t data[]);
-void sha256_init(SHA256_CTX *ctx);
-void sha256_update(SHA256_CTX *ctx, const uint8_t data[], uint32_t len);
-void sha256_final(SHA256_CTX *ctx, uint8_t hash[]);
+void sha256_init(sha256_context *ctx);
+
+int sha256_starts(sha256_context *ctx);
+
+int sha256_update(sha256_context *ctx,
+    const unsigned char *input,
+    size_t ilen);
+
+int sha256_final(sha256_context *ctx,
+    unsigned char output[32]);
+
 void sha256_vector(size_t num_elem, const uint8_t *addr[], const size_t *len,
          uint8_t *mac);
 

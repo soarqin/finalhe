@@ -4,6 +4,7 @@
 
 #include <sha256.h>
 #include <pkg.h>
+#include <miniz_zip.h>
 
 #include <QDir>
 #include <QCoreApplication>
@@ -58,6 +59,7 @@ bool Package::download(const QString & url, const QString & localFilename, const
             QCoreApplication::processEvents();
         }
         delete[] buf;
+        file.close();
         uint8_t sum[32];
         sha256_final(&ctx, sum);
         QByteArray array((const char*)sum, 32);
@@ -93,15 +95,55 @@ bool Package::startDownload(const QString & url, const QString & localFilename) 
 }
 
 bool Package::startUnpackPackage(const char *filename) {
-    LOG("Unpacking package...");
+    LOG(QString("Unpacking %1...").arg(filename));
     pkg_disable_output();
     QString oldDir = QDir::currentPath();
     QDir::setCurrent(pkgBasePath);
     pkg_dec(filename, nullptr);
     QDir::setCurrent(oldDir);
+    LOG("Done.");
     return true;
 }
 
 bool Package::startUnpackHencore(const char *filename) {
+    LOG(QString("Unpacking %1...").arg(filename));
+    QDir dir(pkgBasePath);
+    QFile file(dir.filePath(filename));
+    file.open(QFile::ReadOnly);
+    mz_zip_archive arc;
+    mz_zip_zero_struct(&arc);
+    arc.m_pIO_opaque = &file;
+    arc.m_pRead = [](void *pOpaque, mz_uint64 file_ofs, void *pBuf, size_t n)->size_t {
+        QFile *f = (QFile*)pOpaque;
+        if (!f->seek(file_ofs)) return 0;
+        return f->read((char*)pBuf, n);
+    };
+    if (!mz_zip_reader_init(&arc, file.size(), 0)) {
+        file.close();
+        LOG(QString("Unable to decompress %1").arg(filename));
+        return false;
+    }
+    dir.rmpath("h-encore");
+    uint32_t num = mz_zip_reader_get_num_files(&arc);
+    for (uint32_t i = 0; i < num; ++i) {
+        char zfilename[1024];
+        mz_zip_reader_get_filename(&arc, i, zfilename, 1024);
+        if (mz_zip_reader_is_file_a_directory(&arc, i)) {
+            dir.mkpath(zfilename);
+        } else {
+            QFile wfile(dir.filePath(zfilename));
+            wfile.open(QFile::WriteOnly | QFile::Truncate);
+            mz_zip_reader_extract_to_callback(&arc, i,
+                [](void *pOpaque, mz_uint64 file_ofs, const void *pBuf, size_t n)->size_t {
+                    QFile *f = (QFile*)pOpaque;
+                    return f->write((const char*)pBuf, n);
+                }, &wfile, 0);
+            wfile.close();
+        }
+        LOG(zfilename);
+    }
+    mz_zip_reader_end(&arc);
+    file.close();
+    LOG("Done.");
     return true;
 }
