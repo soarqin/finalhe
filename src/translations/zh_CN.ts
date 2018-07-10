@@ -33,7 +33,7 @@
     </message>
     <message>
         <location filename="../finalhe.ui" line="56"/>
-        <source>Connect</source>
+        <source>Start</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

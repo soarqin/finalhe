@@ -95,7 +95,8 @@ static void free_pc_capability_info(capability_info_t *info) {
     delete info;
 }
 
-VitaConn::VitaConn() {
+VitaConn::VitaConn(const QString& baseDir) {
+    appBaseDir = baseDir;
     VitaMTP_Init();
     VitaMTP_USB_Init();
 }

@@ -8,7 +8,7 @@ typedef struct LIBVitaMTP_event vita_event_t;
 
 class VitaConn {
 public:
-    VitaConn();
+    VitaConn(const QString& baseDir);
     virtual ~VitaConn();
 
     void process();
@@ -19,6 +19,7 @@ private:
     void deviceDisconnect();
 
 private:
+    QString appBaseDir;
     vita_device_t *currDev = nullptr;
     uint64_t nextTick = 0ULL;
     QString onlineId;

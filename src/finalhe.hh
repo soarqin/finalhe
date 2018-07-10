@@ -6,6 +6,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QTranslator>
 #include <QTimer>
+#include <QDir>
 
 class FinalHE: public QMainWindow {
     Q_OBJECT
@@ -16,15 +17,19 @@ public:
 
 private slots:
     void langChange();
-	void onConnect();
+	void onStart();
 	void eventTimerUpdate();
 
 private:
     void loadLanguage(const QString &s);
+    void downloadPackage();
+    void startDownloadPackage();
+    void startUnpackPackage();
 
 private:
     Ui::FinalHEClass ui;
     QTranslator trans;
     QTimer eventTimer;
-    VitaConn vita;
+    VitaConn *vita;
+    QDir baseDir;
 };
