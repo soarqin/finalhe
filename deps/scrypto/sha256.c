@@ -239,3 +239,7 @@ void sha256_vector(size_t num_elem, const uint8_t *addr[], const size_t *len,
         sha256_update(&ctx, addr[i], len[i]);
     sha256_final(&ctx, mac);
 }
+
+void sha256_copy(sha256_context *to, sha256_context *from) {
+    *to = *from;
+}

@@ -50,7 +50,7 @@ void FinalHE::langChange() {
 
 void FinalHE::onStart() {
     pkg->downloadHencore();
-    //pkg->downloadDemo();
+    pkg->downloadDemo();
 }
 
 void FinalHE::eventTimerUpdate() {

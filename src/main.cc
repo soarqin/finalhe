@@ -47,12 +47,17 @@ int main(int argc, char *argv[]) {
 
 #ifdef _WIN32
     WndInfo wndInfo;
-    if (findQCMA(&wndInfo) && QMessageBox::question(nullptr, FinalHE::tr("WARNING"), FinalHE::tr("Qcma is running, force close it now?")) == QMessageBox::Yes) {
-        if (PostMessageA(wndInfo.hwnd, WM_QUIT, 0, 0), Sleep(1000), findQCMA(&wndInfo)) {
-            HANDLE hProc = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | PROCESS_TERMINATE, FALSE, wndInfo.procId);
-            if (!TerminateProcess(hProc, 0) || (Sleep(1000), findQCMA(&wndInfo))) {
-                QMessageBox::critical(nullptr, FinalHE::tr("ERROR"), FinalHE::tr("Unable to close Qcma, please close it manually and then restart this tool."));
+    if (findQCMA(&wndInfo)) {
+        if (QMessageBox::question(nullptr, FinalHE::tr("WARNING"), FinalHE::tr("Qcma is running, force close it now?")) == QMessageBox::Yes) {
+            if (PostMessageA(wndInfo.hwnd, WM_QUIT, 0, 0), Sleep(1000), findQCMA(&wndInfo)) {
+                HANDLE hProc = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ | PROCESS_TERMINATE, FALSE, wndInfo.procId);
+                if (!TerminateProcess(hProc, 0) || (Sleep(1000), findQCMA(&wndInfo))) {
+                    QMessageBox::critical(nullptr, FinalHE::tr("ERROR"), FinalHE::tr("Unable to close Qcma, please close it manually and then restart this tool."));
+                }
             }
+        } else {
+            a.quit();
+            return 0;
         }
     }
 #endif

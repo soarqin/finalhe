@@ -74,13 +74,13 @@ static int aes_supported_x86()
     return supported;
 }
 
-void aes_init_x86(aes_key* context, const uint8_t* key);
-void aes_init_dec_x86(aes_key* context, const uint8_t* key);
-void aes_ecb_encrypt_x86(const aes_key* context, const uint8_t* input, uint8_t* output);
-void aes_ecb_decrypt_x86(const aes_key* context, const uint8_t* input, uint8_t* output);
-void aes_ctr_xor_x86(const aes_key* context, const uint8_t* iv, uint8_t* buffer, size_t size);
-void aes_cmac_process_x86(const aes_key* ctx, uint8_t* block, const uint8_t *buffer, uint32_t size);
-void aes_psp_decrypt_x86(const aes_key* ctx, const uint8_t* prev, const uint8_t* block, uint8_t* buffer, uint32_t size);
+void aes_init_x86(aes_context* context, const uint8_t* key);
+void aes_init_dec_x86(aes_context* context, const uint8_t* key);
+void aes_ecb_encrypt_x86(const aes_context* context, const uint8_t* input, uint8_t* output);
+void aes_ecb_decrypt_x86(const aes_context* context, const uint8_t* input, uint8_t* output);
+void aes_ctr_xor_x86(const aes_context* context, const uint8_t* iv, uint8_t* buffer, size_t size);
+void aes_cmac_process_x86(const aes_context* ctx, uint8_t* block, const uint8_t *buffer, uint32_t size);
+void aes_psp_decrypt_x86(const aes_context* ctx, const uint8_t* prev, const uint8_t* block, uint8_t* buffer, uint32_t size);
 #endif
 
 static const uint8_t rcon[] = {
@@ -220,7 +220,7 @@ static inline uint32_t setup_mix3(uint32_t x)
     return (Te[byte32(x, 3)] << 24) ^ (Te[byte32(x, 2)] << 16) ^ (Te[byte32(x, 1)] << 8) ^ Te[byte32(x, 0)];
 }
 
-int aes_init(aes_key* ctx, const uint8_t* key, int bits)
+int aes_init(aes_context* ctx, const uint8_t* key, int bits)
 {
     switch(bits) {
         case 128: ctx->nr = 10; break;
@@ -280,7 +280,7 @@ int aes_init(aes_key* ctx, const uint8_t* key, int bits)
     return 0;
 }
 
-int aes_init_dec(aes_key* ctx, const uint8_t* key, int bits)
+int aes_init_dec(aes_context* ctx, const uint8_t* key, int bits)
 {
     switch(bits) {
         case 128: ctx->nr = 10; break;
@@ -295,7 +295,7 @@ int aes_init_dec(aes_key* ctx, const uint8_t* key, int bits)
     }
 #endif
 
-    aes_key enc;
+    aes_context enc;
     if (aes_init(&enc, key, bits) < 0)
         return -1;
 
@@ -324,7 +324,7 @@ int aes_init_dec(aes_key* ctx, const uint8_t* key, int bits)
     return 0;
 }
 
-static void aes_encrypt(const aes_key* ctx, const uint8_t* input, uint8_t* output)
+static void aes_encrypt(const aes_context* ctx, const uint8_t* input, uint8_t* output)
 {
     uint32_t t0, t1, t2, t3;
     const uint32_t* key = ctx->key;
@@ -363,7 +363,7 @@ static void aes_encrypt(const aes_key* ctx, const uint8_t* input, uint8_t* outpu
     set32be(output + 12, s3);
 }
 
-static void aes_decrypt(const aes_key* ctx, const uint8_t* input, uint8_t* output)
+static void aes_decrypt(const aes_context* ctx, const uint8_t* input, uint8_t* output)
 {
     const uint32_t* key = ctx->key;
 
@@ -401,7 +401,7 @@ static void aes_decrypt(const aes_key* ctx, const uint8_t* input, uint8_t* outpu
     set32be(output + 12, s3);
 }
 
-void aes_ecb_encrypt(const aes_key* ctx, const uint8_t* input, uint8_t* output)
+void aes_ecb_encrypt(const aes_context* ctx, const uint8_t* input, uint8_t* output)
 {
 #if PLATFORM_SUPPORTS_AESNI
     if (aes_supported_x86())
@@ -413,7 +413,7 @@ void aes_ecb_encrypt(const aes_key* ctx, const uint8_t* input, uint8_t* output)
     aes_encrypt(ctx, input, output);
 }
 
-void aes_ecb_decrypt(const aes_key* ctx, const uint8_t* input, uint8_t* output)
+void aes_ecb_decrypt(const aes_context* ctx, const uint8_t* input, uint8_t* output)
 {
 #if PLATFORM_SUPPORTS_AESNI
     if (aes_supported_x86())
@@ -435,7 +435,7 @@ static inline void ctr_add(uint8_t* counter, uint64_t n)
     }
 }
 
-void aes_ctr_xor(const aes_key* context, const uint8_t* iv, uint64_t block, uint8_t* buffer, size_t size)
+void aes_ctr_xor(const aes_context* context, const uint8_t* iv, uint64_t block, uint8_t* buffer, size_t size)
 {
     uint8_t tmp[16];
     uint8_t counter[16];
@@ -479,13 +479,13 @@ void aes_ctr_xor(const aes_key* context, const uint8_t* iv, uint64_t block, uint
 // https://tools.ietf.org/rfc/rfc4493.txt
 
 typedef struct {
-    aes_key key;
+    aes_context key;
     uint8_t last[16];
     uint8_t block[16];
     uint32_t size;
 } aes_cmac_ctx;
 
-static void aes_cmac_process(const aes_key* ctx, uint8_t* block, const uint8_t *buffer, uint32_t size)
+static void aes_cmac_process(const aes_context* ctx, uint8_t* block, const uint8_t *buffer, uint32_t size)
 {
     assert(size % 16 == 0);
 
@@ -588,7 +588,7 @@ void aes_cmac(const uint8_t* key, const uint8_t* buffer, uint32_t size, uint8_t*
     aes_cmac_done(&ctx, mac);
 }
 
-void aes_psp_decrypt(const aes_key* ctx, const uint8_t* iv, uint32_t index, uint8_t* buffer, uint32_t size)
+void aes_psp_decrypt(const aes_context* ctx, const uint8_t* iv, uint32_t index, uint8_t* buffer, uint32_t size)
 {
     assert(size % 16 == 0);
 

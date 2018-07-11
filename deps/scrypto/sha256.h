@@ -27,6 +27,8 @@ int sha256_final(sha256_context *ctx,
 void sha256_vector(size_t num_elem, const uint8_t *addr[], const size_t *len,
          uint8_t *mac);
 
+void sha256_copy(sha256_context *to, sha256_context *from);
+
 #ifdef __cplusplus
 }
 #endif

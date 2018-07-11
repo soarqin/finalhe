@@ -26,7 +26,7 @@
     rkeys[i + 2] = _mm_xor_si128(_s, _t);          \
 }
 
-void aes_init_x86(aes_key* ctx, const uint8_t* key)
+void aes_init_x86(aes_context* ctx, const uint8_t* key)
 {
     __m128i* ekey = (__m128i*)ctx->key;
 
@@ -61,9 +61,9 @@ void aes_init_x86(aes_key* ctx, const uint8_t* key)
     }
 }
 
-void aes_init_dec_x86(aes_key* ctx, const uint8_t* key)
+void aes_init_dec_x86(aes_context* ctx, const uint8_t* key)
 {
-    aes_key enc;
+    aes_context enc;
     enc.nr = ctx->nr;
     aes_init_x86(&enc, key);
 
@@ -124,14 +124,14 @@ static __m128i aes_decrypt_x86(__m128i input, const __m128i* key, int nr)
     return _mm_aesdeclast_si128(tmp, _mm_load_si128(key + nr));
 }
 
-void aes_ecb_encrypt_x86(const aes_key* ctx, const uint8_t* input, uint8_t* output)
+void aes_ecb_encrypt_x86(const aes_context* ctx, const uint8_t* input, uint8_t* output)
 {
     const __m128i* key = (__m128i*)ctx->key;
     __m128i tmp = aes_encrypt_x86(_mm_loadu_si128((const __m128i*)input), key, ctx->nr);
     _mm_storeu_si128((__m128i*)output, tmp);
 }
 
-void aes_ecb_decrypt_x86(const aes_key* ctx, const uint8_t* input, uint8_t* output)
+void aes_ecb_decrypt_x86(const aes_context* ctx, const uint8_t* input, uint8_t* output)
 {
     const __m128i* key = (__m128i*)ctx->key;
     __m128i tmp = aes_decrypt_x86(_mm_loadu_si128((const __m128i*)input), key, ctx->nr);
@@ -146,7 +146,7 @@ static __m128i ctr_increment(__m128i counter)
     return _mm_shuffle_epi8(tmp, swap);
 }
 
-void aes_ctr_xor_x86(const aes_key* ctx, const uint8_t* iv, uint8_t* buffer, size_t size)
+void aes_ctr_xor_x86(const aes_context* ctx, const uint8_t* iv, uint8_t* buffer, size_t size)
 {
     const __m128i* key = (__m128i*)ctx->key;
     __m128i counter = _mm_loadu_si128((const __m128i*)iv);
@@ -177,7 +177,7 @@ void aes_ctr_xor_x86(const aes_key* ctx, const uint8_t* iv, uint8_t* buffer, siz
     }
 }
 
-void aes_cmac_process_x86(const aes_key* ctx, uint8_t* block, const uint8_t* buffer, uint32_t size)
+void aes_cmac_process_x86(const aes_context* ctx, uint8_t* block, const uint8_t* buffer, uint32_t size)
 {
     const __m128i* key = (__m128i*)ctx->key;
     __m128i* data = (__m128i*)buffer;
@@ -192,7 +192,7 @@ void aes_cmac_process_x86(const aes_key* ctx, uint8_t* block, const uint8_t* buf
     _mm_storeu_si128((__m128i*)block, tmp);
 }
 
-void aes_psp_decrypt_x86(const aes_key* ctx, const uint8_t* prev, const uint8_t* block, uint8_t* buffer, uint32_t size)
+void aes_psp_decrypt_x86(const aes_context* ctx, const uint8_t* prev, const uint8_t* block, uint8_t* buffer, uint32_t size)
 {
     const __m128i* key = (__m128i*)ctx->key;
     __m128i one = _mm_setr_epi32(0, 0, 0, 1);

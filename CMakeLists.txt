@@ -28,4 +28,7 @@ else ()
 endif ()
 
 add_subdirectory(deps/psvlib/pkg)
+add_subdirectory(deps/psvlib/img)
+set_target_properties(vitapkg PROPERTIES FOLDER psvlib)
+set_target_properties(psvimg PROPERTIES FOLDER psvlib)
 add_subdirectory(src)

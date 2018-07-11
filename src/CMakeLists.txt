@@ -10,8 +10,9 @@ find_package(Qt5LinguistTools)
 
 set(SRC_FILES
     main.cc
-	log.cc log.hh
+	downloader.cc downloader.hh
 	finalhe.cc finalhe.hh
+	log.cc log.hh
 	package.cc package.hh
 	vita.cc vita.hh
 )

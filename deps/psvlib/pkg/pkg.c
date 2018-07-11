@@ -324,24 +324,24 @@ int pkg_dec(const char *pkgname, const char *zrif)
     uint8_t main_key[16];
     if (key_type == 2)
     {
-        aes_key key;
+        aes_context key;
         aes_init(&key, pkg_vita_2, 128);
         aes_ecb_encrypt(&key, iv, main_key);
     }
     else if (key_type == 3)
     {
-        aes_key key;
+        aes_context key;
         aes_init(&key, pkg_vita_3, 128);
         aes_ecb_encrypt(&key, iv, main_key);
     }
     else if (key_type == 4)
     {
-        aes_key key;
+        aes_context key;
         aes_init(&key, pkg_vita_4, 128);
         aes_ecb_encrypt(&key, iv, main_key);
     }
 
-    aes_key key;
+    aes_context key;
     aes_init(&key, main_key, 128);
 
     char content[256];
@@ -488,7 +488,7 @@ int pkg_dec(const char *pkgname, const char *zrif)
             _error_func("ERROR: pkg file contains file with very long name\n");
         }
 
-        const aes_key* item_key = &key;
+        const aes_context* item_key = &key;
 
         char name[ZIP_MAX_FILENAME];
         sys_read(pkg, enc_offset + name_offset, name, name_size);
