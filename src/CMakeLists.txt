@@ -44,7 +44,7 @@ qt5_wrap_ui(${CMAKE_CURRENT_BINARY_DIR}/ui_finalhe.h finalhe.ui)
 
 add_definitions(-DUSING_STATIC_LIBICONV -DLIBXML_STATIC)
 add_executable(finalhe WIN32 ${SRC_FILES} ${UI_FILES} ${RES_FILES} ${TRANSLATION_FILES} ${TRANSLATION_QM})
-target_link_libraries(finalhe Qt5::Widgets Qt5::Network vitamtp vitapkg miniz scrypto)
+target_link_libraries(finalhe Qt5::Widgets Qt5::Network vitamtp vitapkg psvimg miniz scrypto)
 if (WIN32)
 	target_link_libraries(finalhe shlwapi)
 endif ()

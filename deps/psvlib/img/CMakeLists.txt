@@ -9,5 +9,5 @@ add_library(psvimg
     psvimg-create.c psvimg-create.h
 	psvimg.h)
 
-#target_include_directories(psvimg PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(psvimg PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(psvimg scrypto zlibstatic)

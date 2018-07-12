@@ -232,7 +232,7 @@ typedef enum {
 
 static int use_sys_output = 1;
 
-int pkg_dec(const char *pkgname, const char *zrif)
+int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
 {
     if (use_sys_output) sys_output_init();
     _output_func("[*] loading...\n");
@@ -411,7 +411,10 @@ int pkg_dec(const char *pkgname, const char *zrif)
         _error_func("ERROR: unsupported type\n");
     }
 
-    root[0] = 0;
+    if (target_dir == NULL)
+        root[0] = 0;
+    else
+        strcpy(root, target_dir);
 
     if (type == PKG_TYPE_VITA_DLC)
     {

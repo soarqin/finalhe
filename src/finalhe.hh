@@ -20,6 +20,7 @@ private slots:
     void langChange();
 	void onStart();
 	void eventTimerUpdate();
+    void enableStart();
 
 private:
     void loadLanguage(const QString &s);

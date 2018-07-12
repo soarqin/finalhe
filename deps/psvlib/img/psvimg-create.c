@@ -17,7 +17,7 @@
 #include <direct.h>
 #include <io.h>
 #include <fcntl.h>
-#define pipe(n) _pipe(n, 256 * 1024, _O_BINARY)
+#define pipe(n) _pipe(n, 64 * 1024, _O_BINARY)
 #define mkdir(n, m) _mkdir(n)
 #else
 #include <unistd.h>
@@ -54,7 +54,7 @@ int psvimg_create(const char *inputdir, const char *outputdir, const char *key, 
   char path[MAX_PATH_LEN];
   int mfd;
   PsvMd_t md;
-  pthread_t th1, th2;
+  pthread_t th1;
 
   // TODO: support more types
   if (is_meta) {
@@ -91,6 +91,11 @@ int psvimg_create(const char *inputdir, const char *outputdir, const char *key, 
     }
   }
 
+  if (parse_key(key, args2.key) < 0) {
+      fprintf(stderr, "invalid key\n");
+      return 1;
+  }
+
   if (pipe(fds) < 0) {
     fprintf(stderr, "pipe 1");
     return 1;
@@ -107,38 +112,32 @@ int psvimg_create(const char *inputdir, const char *outputdir, const char *key, 
 
   snprintf(path, sizeof(path), "%s/%s.psvimg", outputdir, md.name);
 
+  args2.in = fds[0];
   args2.out = open(path, O_BINARY | O_WRONLY | O_CREAT | O_TRUNC, 0644);
   if (args2.out < 0) {
+    close(args1.out);
+    close(args2.in);
     fprintf(stderr, "psvimg output");
-    return 1;
-  }
-  args2.in = fds[0];
-
-  if (parse_key(key, args2.key) < 0) {
-    fprintf(stderr, "invalid key\n");
     return 1;
   }
 
   memcpy(args2.iv, md.iv, sizeof(args2.iv));
 
-  if (pthread_create(&th1, NULL, pack_thread, &args1) != 0) {
+  if (pthread_create(&th1, NULL, encrypt_thread, &args2) != 0) {
     fprintf(stderr, "unable to create thread");
     return 1;
   }
-  encrypt_thread(&args2);
+  pack_thread(&args1);
+  close(args1.out);
   pthread_join(th1, NULL);
+  close(args2.in);
+  close(args2.out);
 
   if (stat(path, &st) < 0) {
     fprintf(stderr, "stat");
     return 1;
   }
-  fprintf(stderr, "created %s (size: %"
-#ifdef _MSC_VER
-      "l"
-#else
-      "ll"
-#endif
-      "x, content size: %zx)\n", path, st.st_size, args1.content_size);
+  fprintf(stderr, "created %s (size: %lx, content size: %zx)\n", path, st.st_size, args1.content_size);
   md.total_size = args1.content_size;
   md.psvimg_size = st.st_size;
 
@@ -160,6 +159,9 @@ int psvimg_create(const char *inputdir, const char *outputdir, const char *key, 
   args2.in = fds[2];
   args2.out = open(path, O_BINARY | O_WRONLY | O_CREAT | O_TRUNC, 0644);
   if (args2.out < 0) {
+    close(args1.in);
+    close(args1.out);
+    close(args2.in);
     fprintf(stderr, "psvmd output");
     return 1;
   }
@@ -168,19 +170,23 @@ int psvimg_create(const char *inputdir, const char *outputdir, const char *key, 
   }
 
   if (pthread_create(&th1, NULL, encrypt_thread, &args2) != 0) {
-    fprintf(stderr, "unable to create thread");
-    return 1;
-  }
-  if (pthread_create(&th2, NULL, compress_thread, &args1) != 0) {
+      close(args1.in);
+      close(args1.out);
+    close(args2.in);
+    close(args2.out);
     fprintf(stderr, "unable to create thread");
     return 1;
   }
 
   write_block(fds[1], &md, sizeof(md));
   close(fds[1]);
+  compress_thread(&args1);
+  close(args1.in);
+  close(args1.out);
 
-  pthread_join(th2, NULL);
   pthread_join(th1, NULL);
+  close(args2.in);
+  close(args2.out);
 
   fprintf(stderr, "created %s\n", path);
 

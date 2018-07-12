@@ -128,6 +128,49 @@ void VitaConn::process() {
     }
 }
 
+void VitaConn::buildData() {
+    QDir dir(appBaseDir);
+    dir.cd("h-encore");
+    int ohfi = ohfiMax++;
+    recursiveScanRootDirectory(dir.path(), "PCSG90096", ohfi, 10);
+}
+
+int VitaConn::recursiveScanRootDirectory(const QString &base_path, const QString &rel_path, int parent_ohfi, int root_ohfi) {
+    int total_objects = 0;
+
+    QDir dir(base_path + "/" + rel_path);
+    dir.setSorting(QDir::Name);
+    QFileInfoList qsl = dir.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot);
+
+    foreach(const QFileInfo &info, qsl) {
+        QString rel_name = rel_path.isNull() ? info.fileName() : rel_path + "/" + info.fileName();
+
+        int ohfi = ohfiMax++;
+        // insertObjectEntryInternal(base_path, rel_name, parent_ohfi, root_ohfi);
+        LOG(QString("%1 %2 %3 %4").arg(base_path).arg(rel_name).arg(ohfi).arg(parent_ohfi));
+
+        if (ohfi > 0) {
+            // update progress dialog
+            if (info.isDir()) {
+                // emit directoryAdded(base_path + "/" + rel_name);
+                int inserted = recursiveScanRootDirectory(base_path, rel_name, ohfi, root_ohfi);
+                if (inserted < 0) {
+                    return -1;
+                }
+
+                total_objects += inserted;
+                // qint64 dirsize = getChildenTotalSize(ohfi);
+                // setObjectSize(ohfi, dirsize);
+            } else if (info.isFile()) {
+                // emit fileAdded(info.fileName());
+                total_objects++;
+            }
+        }
+    }
+
+    return total_objects;
+}
+
 void VitaConn::doConnect() {
     if (currDev != nullptr) return;
     currDev = VitaMTP_Get_First_USB_Vita();
@@ -302,6 +345,8 @@ void VitaConn::processEvent(vita_event_t *evt) {
         }
 
         LOG(QString("Current account id: %1").arg(settingsinfo->current_account.accountId));
+        accountId = settingsinfo->current_account.accountId;
+        emit gotAccountId(accountId);
 
         VitaMTP_Data_Free_Settings(settingsinfo);
         VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);

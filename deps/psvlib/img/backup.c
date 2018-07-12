@@ -97,8 +97,6 @@ void *encrypt_thread(void *pargs) {
   write_block(args->out, footer.raw, AES_BLOCK_SIZE);
 
 end:
-  close(args->out);
-  close(args->in);
   return NULL;
 }
 
@@ -168,8 +166,6 @@ void *compress_thread(void *pargs) {
   (void)deflateEnd(&strm);
 
 end:
-  close(args->out);
-  close(args->in);
   return NULL;
 }
 
@@ -410,7 +406,5 @@ void *pack_thread(void *pargs) {
 end:
   closedir(dir);
 end2:
-  close(args->out);
-  close(args->in);
   return NULL;
 }

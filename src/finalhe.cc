@@ -35,6 +35,9 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent), eventTimer(this) {
     connect(&eventTimer, SIGNAL(timeout()), this, SLOT(eventTimerUpdate()));
 	connect(ui.btnStart, SIGNAL(clicked()), this, SLOT(onStart()));
 	connect(ui.comboLang, SIGNAL(currentIndexChanged(int)), this, SLOT(langChange()));
+    connect(vita, &VitaConn::gotAccountId, this, [this](QString &accountId) { pkg->getBackupKey(accountId); });
+    connect(pkg, SIGNAL(gotBackupKey()), SLOT(enableStart()));
+    vita->buildData();
 }
 
 FinalHE::~FinalHE() {
@@ -49,12 +52,15 @@ void FinalHE::langChange() {
 }
 
 void FinalHE::onStart() {
-    pkg->downloadHencore();
-    pkg->downloadDemo();
+    emit pkg->startDownload();
 }
 
 void FinalHE::eventTimerUpdate() {
     vita->process();
+}
+
+void FinalHE::enableStart() {
+    ui.btnStart->setEnabled(true);
 }
 
 void FinalHE::loadLanguage(const QString &s) {
