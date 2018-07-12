@@ -5,6 +5,7 @@
 #include "vita.hh"
 
 #include <QtWidgets/QMainWindow>
+#include <QString>
 #include <QTranslator>
 #include <QTimer>
 #include <QDir>
@@ -21,6 +22,9 @@ private slots:
 	void onStart();
 	void eventTimerUpdate();
     void enableStart();
+
+signals:
+    void appendLog(const QString &text);
 
 private:
     void loadLanguage(const QString &s);

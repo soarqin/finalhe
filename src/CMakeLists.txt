@@ -43,15 +43,15 @@ source_group(translations FILES ${TRANSLATION_FILES} ${TRANSLATION_QM})
 qt5_wrap_ui(${CMAKE_CURRENT_BINARY_DIR}/ui_finalhe.h finalhe.ui)
 
 add_definitions(-DUSING_STATIC_LIBICONV -DLIBXML_STATIC)
-add_executable(finalhe WIN32 ${SRC_FILES} ${UI_FILES} ${RES_FILES} ${TRANSLATION_FILES} ${TRANSLATION_QM})
-target_link_libraries(finalhe Qt5::Widgets Qt5::Network vitamtp vitapkg psvimg miniz scrypto)
+add_executable(FinalHE WIN32 ${SRC_FILES} ${UI_FILES} ${RES_FILES} ${TRANSLATION_FILES} ${TRANSLATION_QM})
+target_link_libraries(FinalHE Qt5::Widgets Qt5::Network vitamtp vitapkg psvimg miniz scrypto)
 if (WIN32)
-	target_link_libraries(finalhe shlwapi)
+	target_link_libraries(FinalHE shlwapi)
 endif ()
 
-add_custom_command(TARGET finalhe POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::Core> $<TARGET_FILE:Qt5::Gui> $<TARGET_FILE:Qt5::Widgets> $<TARGET_FILE:Qt5::Network> $<TARGET_FILE_DIR:finalhe>
-	COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:finalhe>/lang
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${TRANSLATION_QM} $<TARGET_FILE_DIR:finalhe>/lang
+add_custom_command(TARGET FinalHE POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::Core> $<TARGET_FILE:Qt5::Gui> $<TARGET_FILE:Qt5::Widgets> $<TARGET_FILE:Qt5::Network> $<TARGET_FILE_DIR:FinalHE>
+	COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:FinalHE>/lang
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${TRANSLATION_QM} $<TARGET_FILE_DIR:FinalHE>/lang
 	DEPENDS ${TRANSLATION_QM}
 )

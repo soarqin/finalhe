@@ -31,7 +31,7 @@ public slots:
 private slots:
     void downloadDemo();
     void downloadHencore();
-    bool createPsvImgs();
+    void createPsvImgs();
     void downloadFinished(QFile*);
     void fetchFinished(void*);
 
@@ -40,5 +40,3 @@ private:
     Downloader downloader;
     QString backupKey;
 };
-
-#include "package.moc"

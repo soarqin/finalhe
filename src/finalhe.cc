@@ -8,7 +8,9 @@
 
 FinalHE::FinalHE(QWidget *parent): QMainWindow(parent), eventTimer(this) {
     ui.setupUi(this);
-    logSetFunc(std::bind(&QPlainTextEdit::appendPlainText, ui.logBrowser, std::placeholders::_1));
+    logSetFunc([this](const QString &text) {
+        emit appendLog(text);
+    });
     QDir dir(qApp->applicationDirPath());
     QDir baseDir(dir);
     if (!baseDir.cd("data")) {
@@ -37,6 +39,7 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent), eventTimer(this) {
 	connect(ui.comboLang, SIGNAL(currentIndexChanged(int)), this, SLOT(langChange()));
     connect(vita, &VitaConn::gotAccountId, this, [this](QString &accountId) { pkg->getBackupKey(accountId); });
     connect(pkg, SIGNAL(gotBackupKey()), SLOT(enableStart()));
+    connect(this, SIGNAL(appendLog(const QString&)), ui.logBrowser, SLOT(appendPlainText(const QString&)));
     vita->buildData();
 }
 

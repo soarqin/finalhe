@@ -7,10 +7,37 @@
 #include <psvimg-create.h>
 #include <miniz_zip.h>
 
-#include <QCoreApplication>
 #include <QDir>
 #include <QThread>
-#include <QMessageBox>
+#include <QCoreApplication>
+
+class Worker : public QObject {
+    Q_OBJECT
+public:
+    Worker() {
+    }
+    virtual ~Worker() {
+
+    }
+    static void start(QObject *host, const std::function<void()> &thFunc, const std::function<void()> &finFunc) {
+        QThread* thread = new QThread;
+        Worker* worker = new Worker();
+        worker->moveToThread(thread);
+        connect(thread, &QThread::started, worker, [worker, thFunc]() {
+            thFunc();
+            emit worker->finished();
+        });
+        connect(worker, &Worker::finished, host, finFunc);
+        connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
+        connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
+        connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+        thread->start();
+    }
+private:
+    std::function<void()> threadFunc, finishFunc;
+signals:
+    void finished();
+};
 
 const char *HENCORE_URL = "https://github.com/TheOfficialFloW/h-encore/releases/download/v1.0/h-encore.zip";
 const char *HENCORE_FILE = "h-encore.zip";
@@ -50,7 +77,6 @@ bool Package::download(const QString & url, const QString & localFilename, const
             }
             for (int j = 0; j < 20; ++j) {
                 QThread::msleep(100);
-                QCoreApplication::processEvents();
             }
         }
         if (!succ) {
@@ -70,68 +96,73 @@ void Package::startDownload(const QString &url, const QString & localFilename) {
 }
 
 bool Package::startUnpackDemo(const char *filename) {
-    LOG(tr("Unpacking %1...").arg(filename));
-    pkg_disable_output();
-    QString oldDir = QDir::currentPath();
-    QDir curr(pkgBasePath);
-    if (curr.cd("h-encore")) {
-        curr.removeRecursively();
-        curr.cdUp();
-    }
-    curr.mkpath("h-encore");
-    QDir::setCurrent(pkgBasePath);
-    pkg_dec(filename, "h-encore/", nullptr);
-    curr.cd("h-encore");
-    curr.cd("app");
-    curr.rename("PCSG90096", "ux0_temp_game_PCSG90096_app_PCSG90096");
-    LOG(tr("Done."));
-    QDir::setCurrent(oldDir);
-    emit unpackedDemo();
+    Worker::start(this, [this, filename] {
+        LOG(tr("Unpacking %1...").arg(filename));
+        pkg_disable_output();
+        QString oldDir = QDir::currentPath();
+        QDir curr(pkgBasePath);
+        if (curr.cd("h-encore")) {
+            curr.removeRecursively();
+            curr.cdUp();
+        }
+        curr.mkpath("h-encore");
+        QDir::setCurrent(pkgBasePath);
+        pkg_dec(filename, "h-encore/", nullptr);
+        curr.cd("h-encore");
+        curr.cd("app");
+        curr.rename("PCSG90096", "ux0_temp_game_PCSG90096_app_PCSG90096");
+        QDir::setCurrent(oldDir);
+    }, [this] {
+        LOG(tr("Done."));
+        emit unpackedDemo();
+    });
     return true;
 }
 
 bool Package::startUnpackHencore(const char *filename) {
-    LOG(tr("Unpacking %1...").arg(filename));
-    QDir dir(pkgBasePath);
-    QFile file(dir.filePath(filename));
-    file.open(QFile::ReadOnly);
-    mz_zip_archive arc;
-    mz_zip_zero_struct(&arc);
-    arc.m_pIO_opaque = &file;
-    arc.m_pRead = [](void *pOpaque, mz_uint64 file_ofs, void *pBuf, size_t n)->size_t {
-        QFile *f = (QFile*)pOpaque;
-        if (!f->seek(file_ofs)) return 0;
-        return f->read((char*)pBuf, n);
-    };
-    if (!mz_zip_reader_init(&arc, file.size(), 0)) {
-        file.close();
-        LOG(tr("Unable to decompress %1").arg(filename));
-        return false;
-    }
-    uint32_t num = mz_zip_reader_get_num_files(&arc);
-    for (uint32_t i = 0; i < num; ++i) {
-        char zfilename[1024];
-        mz_zip_reader_get_filename(&arc, i, zfilename, 1024);
-        if (mz_zip_reader_is_file_a_directory(&arc, i)) {
-            dir.mkpath(zfilename);
-        } else {
-            QFile wfile(dir.filePath(zfilename));
-            wfile.open(QFile::WriteOnly | QFile::Truncate);
-            mz_zip_reader_extract_to_callback(&arc, i,
-                [](void *pOpaque, mz_uint64 file_ofs, const void *pBuf, size_t n)->size_t {
-                    QFile *f = (QFile*)pOpaque;
-                    return f->write((const char*)pBuf, n);
-                }, &wfile, 0);
-            wfile.close();
+    Worker::start(this, [this, filename] {
+        LOG(tr("Unpacking %1...").arg(filename));
+        QDir dir(pkgBasePath);
+        QFile file(dir.filePath(filename));
+        file.open(QFile::ReadOnly);
+        mz_zip_archive arc;
+        mz_zip_zero_struct(&arc);
+        arc.m_pIO_opaque = &file;
+        arc.m_pRead = [](void *pOpaque, mz_uint64 file_ofs, void *pBuf, size_t n)->size_t {
+            QFile *f = (QFile*)pOpaque;
+            if (!f->seek(file_ofs)) return 0;
+            return f->read((char*)pBuf, n);
+        };
+        if (!mz_zip_reader_init(&arc, file.size(), 0)) {
+            file.close();
+            LOG(tr("Unable to decompress %1").arg(filename));
         }
-        LOG(zfilename);
-    }
-    mz_zip_reader_end(&arc);
-    file.close();
-    QFile::copy(pkgBasePath + "/h-encore/app/ux0_temp_game_PCSG90096_app_PCSG90096/sce_sys/package/temp.bin",
-        pkgBasePath + "/h-encore/license/ux0_temp_game_PCSG90096_license_app_PCSG90096/6488b73b912a753a492e2714e9b38bc7.rif");
-    LOG(tr("Done."));
-    emit unpackedHencore();
+        uint32_t num = mz_zip_reader_get_num_files(&arc);
+        for (uint32_t i = 0; i < num; ++i) {
+            char zfilename[1024];
+            mz_zip_reader_get_filename(&arc, i, zfilename, 1024);
+            if (mz_zip_reader_is_file_a_directory(&arc, i)) {
+                dir.mkpath(zfilename);
+            } else {
+                QFile wfile(dir.filePath(zfilename));
+                wfile.open(QFile::WriteOnly | QFile::Truncate);
+                mz_zip_reader_extract_to_callback(&arc, i,
+                    [](void *pOpaque, mz_uint64 file_ofs, const void *pBuf, size_t n)->size_t {
+                        QFile *f = (QFile*)pOpaque;
+                        return f->write((const char*)pBuf, n);
+                    }, &wfile, 0);
+                wfile.close();
+            }
+            LOG(zfilename);
+        }
+        mz_zip_reader_end(&arc);
+        file.close();
+        QFile::copy(pkgBasePath + "/h-encore/app/ux0_temp_game_PCSG90096_app_PCSG90096/sce_sys/package/temp.bin",
+            pkgBasePath + "/h-encore/license/ux0_temp_game_PCSG90096_license_app_PCSG90096/6488b73b912a753a492e2714e9b38bc7.rif");
+    }, [this] {
+        LOG(tr("Done."));
+        emit unpackedHencore();
+    });
     return true;
 }
 
@@ -142,7 +173,7 @@ bool Package::verify(const QString & filepath, const char * sha256sum) {
         sha256_context ctx;
         sha256_init(&ctx);
         sha256_starts(&ctx);
-        size_t bufsize = 32 * 1024 * 1024;
+        size_t bufsize = 2 * 1024 * 1024;
         char *buf;
         do {
             bufsize >>= 1;
@@ -182,23 +213,21 @@ void Package::downloadHencore() {
         startUnpackHencore(HENCORE_FILE);
 }
 
-bool Package::createPsvImgs() {
-    /*
-    psvimg-create -n app -K YOUR_KEY app PCSG90096/app
-    psvimg-create -n appmeta -K YOUR_KEY appmeta PCSG90096/appmeta
-    psvimg-create -n license -K YOUR_KEY license PCSG90096/license
-    psvimg-create -n savedata -K YOUR_KEY savedata PCSG90096/savedata
-    */
-    QString oldDir = QDir::currentPath();
-    QDir curr(pkgBasePath);
-    curr.cd("h-encore");
-    QDir::setCurrent(curr.path());
-    psvimg_create("app", "PCSG90096/app", backupKey.toUtf8().constData(), "app", 0);
-    psvimg_create("appmeta", "PCSG90096/appmeta", backupKey.toUtf8().constData(), "appmeta", 0);
-    psvimg_create("license", "PCSG90096/license", backupKey.toUtf8().constData(), "license", 0);
-    psvimg_create("savedata", "PCSG90096/savedata", backupKey.toUtf8().constData(), "savedata", 0);
-    QDir::setCurrent(oldDir);
-    return false;
+void Package::createPsvImgs() {
+    Worker::start(this, [this] {
+        LOG(tr("Creating psvimg's..."));
+        QString oldDir = QDir::currentPath();
+        QDir curr(pkgBasePath);
+        curr.cd("h-encore");
+        QDir::setCurrent(curr.path());
+        psvimg_create("app", "PCSG90096/app", backupKey.toUtf8().constData(), "app", 0);
+        psvimg_create("appmeta", "PCSG90096/appmeta", backupKey.toUtf8().constData(), "appmeta", 0);
+        psvimg_create("license", "PCSG90096/license", backupKey.toUtf8().constData(), "license", 0);
+        psvimg_create("savedata", "PCSG90096/savedata", backupKey.toUtf8().constData(), "savedata", 0);
+        QDir::setCurrent(oldDir);
+    }, [this] {
+        LOG(tr("Done."));
+    });
 }
 
 void Package::fetchFinished(void *arg) {
@@ -227,3 +256,5 @@ void Package::downloadFinished(QFile *f) {
         }
     }
 }
+
+#include "package.moc"

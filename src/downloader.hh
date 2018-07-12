@@ -52,5 +52,3 @@ private:
     QList<Request*> requests;
     void *getArg = nullptr;
 };
-
-#include "downloader.moc"
