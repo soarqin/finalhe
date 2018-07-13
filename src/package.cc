@@ -9,32 +9,34 @@
 
 #include <QDir>
 #include <QThread>
-#include <QCoreApplication>
 
 class Worker : public QObject {
     Q_OBJECT
 public:
-    Worker() {
+    Worker(void *carryArg = nullptr): arg(carryArg) {
     }
     virtual ~Worker() {
 
     }
-    static void start(QObject *host, const std::function<void()> &thFunc, const std::function<void()> &finFunc) {
+    static void start(QObject *host, const std::function<void(void*)> &thFunc, const std::function<void(void*)> &finFunc, void *carryArg = nullptr) {
         QThread* thread = new QThread;
-        Worker* worker = new Worker();
+        Worker* worker = new Worker(carryArg);
         worker->moveToThread(thread);
-        connect(thread, &QThread::started, worker, [worker, thFunc]() {
-            thFunc();
+        connect(thread, &QThread::started, worker, [worker, carryArg, thFunc]() {
+            thFunc(carryArg);
             emit worker->finished();
         });
-        connect(worker, &Worker::finished, host, finFunc);
+        connect(worker, &Worker::finished, host, [carryArg, finFunc]() {
+            finFunc(carryArg);
+        });
         connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
         connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
         connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
         thread->start();
     }
-private:
-    std::function<void()> threadFunc, finishFunc;
+public:
+    void *arg;
+
 signals:
     void finished();
 };
@@ -63,29 +65,49 @@ void Package::get(const QString &url, QString &result) {
     downloader.doGet(url, &result);
 }
 
-bool Package::download(const QString & url, const QString & localFilename, const char *sha256sum) {
+void Package::download(const QString &url, const QString &localFilename, const char *sha256sum) {
     QDir dir(pkgBasePath);
     QString filename = dir.filePath(localFilename);
     if (QFile::exists(filename)) {
-        if (verify(filename, sha256sum)) return true;
-        LOG(tr("Removing old file."));
-        bool succ = false;
-        for (int i = 0; i < 5; ++i) {
-            if (QFile::remove(filename)) {
-                succ = true;
+        static int n = 0;
+        Worker::start(this, [this, filename, sha256sum](void *arg) {
+            *(int*)arg = 0;
+            if (verify(filename, sha256sum)) {
+                *(int*)arg = 1;
+                return;
+            }
+            LOG(tr("Removing old file."));
+            bool succ = false;
+            for (int i = 0; i < 5; ++i) {
+                if (QFile::remove(filename)) {
+                    succ = true;
+                    break;
+                }
+                for (int j = 0; j < 20; ++j) {
+                    QThread::msleep(100);
+                }
+            }
+            if (!succ) {
+                LOG(tr("Failed to remove old file, operation aborted."));
+                *(int*)arg = 2;
+                return;
+            }
+        }, [this, url, filename](void *arg) {
+            switch (*(int*)arg) {
+            case 0:
+                startDownload(url, filename);
+                break;
+            case 1: {
+                QFileInfo fi(filename);
+                if (fi.fileName() == BSPKG_FILE)
+                    startUnpackDemo(BSPKG_FILE);
+                else if (fi.fileName() == HENCORE_FILE)
+                    startUnpackHencore(HENCORE_FILE);
                 break;
             }
-            for (int j = 0; j < 20; ++j) {
-                QThread::msleep(100);
             }
-        }
-        if (!succ) {
-            LOG(tr("Failed to remove old file, operation aborted."));
-            return false;
-        }
+        }, &n);
     }
-    startDownload(url, filename);
-    return false;
 }
 
 void Package::startDownload(const QString &url, const QString & localFilename) {
@@ -96,7 +118,7 @@ void Package::startDownload(const QString &url, const QString & localFilename) {
 }
 
 bool Package::startUnpackDemo(const char *filename) {
-    Worker::start(this, [this, filename] {
+    Worker::start(this, [this, filename](void*) {
         LOG(tr("Unpacking %1...").arg(filename));
         pkg_disable_output();
         QString oldDir = QDir::currentPath();
@@ -112,7 +134,7 @@ bool Package::startUnpackDemo(const char *filename) {
         curr.cd("app");
         curr.rename("PCSG90096", "ux0_temp_game_PCSG90096_app_PCSG90096");
         QDir::setCurrent(oldDir);
-    }, [this] {
+    }, [this](void*) {
         LOG(tr("Done."));
         emit unpackedDemo();
     });
@@ -120,7 +142,7 @@ bool Package::startUnpackDemo(const char *filename) {
 }
 
 bool Package::startUnpackHencore(const char *filename) {
-    Worker::start(this, [this, filename] {
+    Worker::start(this, [this, filename](void*) {
         LOG(tr("Unpacking %1...").arg(filename));
         QDir dir(pkgBasePath);
         QFile file(dir.filePath(filename));
@@ -159,7 +181,7 @@ bool Package::startUnpackHencore(const char *filename) {
         file.close();
         QFile::copy(pkgBasePath + "/h-encore/app/ux0_temp_game_PCSG90096_app_PCSG90096/sce_sys/package/temp.bin",
             pkgBasePath + "/h-encore/license/ux0_temp_game_PCSG90096_license_app_PCSG90096/6488b73b912a753a492e2714e9b38bc7.rif");
-    }, [this] {
+    }, [this](void*) {
         LOG(tr("Done."));
         emit unpackedHencore();
     });
@@ -182,7 +204,6 @@ bool Package::verify(const QString & filepath, const char * sha256sum) {
         qint64 rsz;
         while ((rsz = file.read(buf, bufsize)) > 0) {
             sha256_update(&ctx, (const uint8_t*)buf, rsz);
-            QCoreApplication::processEvents();
         }
         delete[] buf;
         file.close();
@@ -204,17 +225,15 @@ void Package::getBackupKey(const QString &aid) {
 }
 
 void Package::downloadDemo() {
-    if (download(BSPKG_URL, BSPKG_FILE, BSPKG_SHA256))
-        startUnpackDemo(BSPKG_FILE);
+    download(BSPKG_URL, BSPKG_FILE, BSPKG_SHA256);
 }
 
 void Package::downloadHencore() {
-    if (download(HENCORE_URL, HENCORE_FILE, HENCORE_SHA256))
-        startUnpackHencore(HENCORE_FILE);
+    download(HENCORE_URL, HENCORE_FILE, HENCORE_SHA256);
 }
 
 void Package::createPsvImgs() {
-    Worker::start(this, [this] {
+    Worker::start(this, [this](void*) {
         LOG(tr("Creating psvimg's..."));
         QString oldDir = QDir::currentPath();
         QDir curr(pkgBasePath);
@@ -225,7 +244,7 @@ void Package::createPsvImgs() {
         psvimg_create("license", "PCSG90096/license", backupKey.toUtf8().constData(), "license", 0);
         psvimg_create("savedata", "PCSG90096/savedata", backupKey.toUtf8().constData(), "savedata", 0);
         QDir::setCurrent(oldDir);
-    }, [this] {
+    }, [this](void*) {
         LOG(tr("Done."));
     });
 }
@@ -246,14 +265,27 @@ void Package::downloadFinished(QFile *f) {
     QString filepath = f->fileName();
     QFileInfo fi(filepath);
     delete f;
+    static int n = 0;
     if (fi.fileName() == HENCORE_FILE) {
-        if (verify(filepath, HENCORE_SHA256)) {
-            startUnpackHencore(HENCORE_FILE);
-        }
+        Worker::start(this, [this, filepath](void *arg) {
+            if (verify(filepath, HENCORE_SHA256)) 
+                *(int*)arg = 1;
+            else
+                *(int*)arg = 0;
+        }, [this](void *arg) {
+            if (*(int*)arg)
+                startUnpackHencore(HENCORE_FILE);
+        });
     } else if (fi.fileName() == BSPKG_FILE) {
-        if (verify(filepath, BSPKG_SHA256)) {
-            startUnpackDemo(BSPKG_FILE);
-        }
+        Worker::start(this, [this, filepath](void *arg) {
+            if (verify(filepath, BSPKG_SHA256))
+                *(int*)arg = 1;
+            else
+                *(int*)arg = 0;
+        }, [this](void *arg) {
+            if (*(int*)arg)
+                startUnpackDemo(BSPKG_FILE);
+        });
     }
 }
 

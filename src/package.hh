@@ -19,7 +19,7 @@ signals:
 
 private:
     void get(const QString &url, QString &result);
-    bool download(const QString &url, const QString &localFilename, const char *sha256sum);
+    void download(const QString &url, const QString &localFilename, const char *sha256sum);
     void startDownload(const QString &url, const QString &localFilename);
     bool startUnpackDemo(const char *filename);
     bool startUnpackHencore(const char *filename);
