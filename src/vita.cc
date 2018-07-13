@@ -132,7 +132,7 @@ void VitaConn::buildData() {
     QDir dir(appBaseDir);
     dir.cd("h-encore");
     int ohfi = ohfiMax++;
-    recursiveScanRootDirectory(dir.path(), "PCSG90096", ohfi, 10);
+    recursiveScanRootDirectory(dir.path(), "PCSG90096", ohfi, VITA_OHFI_VITAAPP);
 }
 
 int VitaConn::recursiveScanRootDirectory(const QString &base_path, const QString &rel_path, int parent_ohfi, int root_ohfi) {
@@ -245,6 +245,27 @@ void VitaConn::processEvent(vita_event_t *evt) {
         break;
     }
     case PTP_EC_VITA_RequestSendObjectMetadata: {
+        browse_info_t browse;
+        if (VitaMTP_GetBrowseInfo(currDev, eventId, &browse) != PTP_RC_OK) {
+            LOG("GetBrowseInfo failed");
+            return;
+        }
+        /*
+        if (ohfi != VITA_OHFI_VITAAPP) {
+            qWarning("Cannot find OHFI %d in database", ohfi);
+            VitaMTP_ReportResult(currDev, eventId, PTP_RC_VITA_Invalid_OHFI);
+            return;
+        }
+        */
+        break;
+    }
+    case PTP_EC_VITA_RequestSendObjectMetadataItems:
+    {
+        uint32_t ohfi;
+        if (VitaMTP_SendObjectMetadataItems(currDev, eventId, &ohfi) != PTP_RC_OK) {
+            LOG("Cannot get OHFI for retreving metadata");
+            return;
+        }
         break;
     }
     case PTP_EC_VITA_RequestSendObject: {
