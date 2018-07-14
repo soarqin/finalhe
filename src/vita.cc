@@ -1,6 +1,7 @@
 #include "vita.hh"
 
 #include "log.hh"
+#include "worker.hh"
 
 #include <vitamtp.h>
 #include <QDateTime>
@@ -95,44 +96,81 @@ static void free_pc_capability_info(capability_info_t *info) {
     delete info;
 }
 
-VitaConn::VitaConn(const QString& baseDir) {
+static void copyMetadata(metadata_t *meta, VitaConn::MetaInfo *mi) {
+    memset(meta, 0, sizeof(metadata_t));
+    meta->ohfiParent = mi->ohfiParent;
+    meta->ohfi = mi->ohfi;
+    meta->name = strdup(mi->name.toUtf8().data());
+    meta->path = strdup(mi->path.toUtf8().data());
+    meta->type = mi->type;
+    meta->dateTimeCreated = mi->dateTimeCreated;
+    meta->size = mi->size;
+    meta->dataType = (enum DataType)mi->dataType;
+}
+
+static void freeMetadata(metadata_t *meta) {
+    free(meta->name);
+    free(meta->path);
+}
+
+void VitaConn::MetaInfo::updateSize() {
+    size = 0;
+    for (auto &p : subMeta) {
+        size += p.second->size;
+    }
+}
+
+VitaConn::VitaConn(const QString& baseDir, QObject *obj_parent): QObject(obj_parent) {
     appBaseDir = baseDir;
     VitaMTP_Init();
     VitaMTP_USB_Init();
 }
 
 VitaConn::~VitaConn() {
-    deviceDisconnect();
-    VitaMTP_USB_Exit();
-    VitaMTP_Cleanup();
+    if (clientThread != nullptr) {
+        running = false;
+        clientThread->wait();
+        clientThread = nullptr;
+    }
 }
 
 void VitaConn::process() {
-    if (currDev == nullptr) {
-        uint64_t currTick = QDateTime::currentMSecsSinceEpoch();
-        if (currTick < nextTick) return;
-        nextTick = currTick + 2000;
-        doConnect();
-        return;
-    }
-    vita_event_t evt;
-    int res = VitaMTP_Peek_Event(currDev, &evt);
-    if (res > 0) return;
-    if (res < 0) {
-        LOG(QString("Disconnected from %1").arg(VitaMTP_Get_Identification(currDev)));
+    running = true;
+    Worker::start(this, [this](void*) {
+        while (running) {
+            if (currDev == nullptr) {
+                doConnect();
+                if (currDev == nullptr) {
+                    QThread::sleep(2);
+                }
+                continue;
+            }
+            vita_event_t evt;
+            int res = VitaMTP_Read_Event(currDev, &evt);
+            if (res < 0) {
+                LOG(QString("Disconnected from %1").arg(VitaMTP_Get_Identification(currDev)));
+                deviceDisconnect();
+                continue;
+            }
+            processEvent(&evt);
+        }
         deviceDisconnect();
-        return;
-    }
-    if (evt.Code != 0) {
-        processEvent(&evt);
-    }
+        VitaMTP_USB_Exit();
+        VitaMTP_Cleanup();
+    }, [this](void*) {
+        running = false;
+        clientThread = nullptr;
+    });
 }
 
 void VitaConn::buildData() {
+    QMutexLocker locker(&metaMutex);
     QDir dir(appBaseDir);
     dir.cd("h-encore");
     int ohfi = ohfiMax++;
+    auto *thisMeta = metaAddFile(dir.path(), "PCSG90096", ohfi, VITA_OHFI_VITAAPP, VITA_OHFI_VITAAPP, true);
     recursiveScanRootDirectory(dir.path(), "PCSG90096", ohfi, VITA_OHFI_VITAAPP);
+    thisMeta->updateSize();
 }
 
 int VitaConn::recursiveScanRootDirectory(const QString &base_path, const QString &rel_path, int parent_ohfi, int root_ohfi) {
@@ -149,22 +187,20 @@ int VitaConn::recursiveScanRootDirectory(const QString &base_path, const QString
         // insertObjectEntryInternal(base_path, rel_name, parent_ohfi, root_ohfi);
         LOG(QString("%1 %2 %3 %4").arg(base_path).arg(rel_name).arg(ohfi).arg(parent_ohfi));
 
-        if (ohfi > 0) {
-            // update progress dialog
-            if (info.isDir()) {
-                // emit directoryAdded(base_path + "/" + rel_name);
-                int inserted = recursiveScanRootDirectory(base_path, rel_name, ohfi, root_ohfi);
-                if (inserted < 0) {
-                    return -1;
-                }
+        // update progress dialog
+        if (info.isDir()) {
+            auto *thisMeta = metaAddFile(base_path, rel_name, ohfi, parent_ohfi, root_ohfi, true);
 
-                total_objects += inserted;
-                // qint64 dirsize = getChildenTotalSize(ohfi);
-                // setObjectSize(ohfi, dirsize);
-            } else if (info.isFile()) {
-                // emit fileAdded(info.fileName());
-                total_objects++;
+            int inserted = recursiveScanRootDirectory(base_path, rel_name, ohfi, root_ohfi);
+            if (inserted < 0) {
+                return -1;
             }
+
+            total_objects += inserted;
+            thisMeta->updateSize();
+        } else if (info.isFile()) {
+            metaAddFile(base_path, rel_name, ohfi, parent_ohfi, root_ohfi, false);
+            total_objects++;
         }
     }
 
@@ -228,13 +264,15 @@ void VitaConn::doConnect() {
 }
 
 void VitaConn::processEvent(vita_event_t *evt) {
+    QMutexLocker locker(&metaMutex);
     uint16_t code = evt->Code;
     uint32_t eventId = evt->Param1;
     LOG(QString("Event received, code: %2, id: %3").arg(code, 0, 16).arg(eventId));
     switch (code) {
     case PTP_EC_VITA_RequestSendNumOfObject: {
         int ohfi = evt->Param2;
-        int items = 1;
+        auto ite = metaMap.find(ohfi);
+        int items = ite == metaMap.end() ? -1 : (int)ite->second.subMeta.size();
 
         if (VitaMTP_SendNumOfObject(currDev, eventId, items) != PTP_RC_OK) {
             LOG(QString("Error occurred receiving object count for OHFI parent %1").arg(ohfi));
@@ -250,21 +288,51 @@ void VitaConn::processEvent(vita_event_t *evt) {
             LOG("GetBrowseInfo failed");
             return;
         }
-        /*
-        if (ohfi != VITA_OHFI_VITAAPP) {
-            qWarning("Cannot find OHFI %d in database", ohfi);
+
+        metadata_t *meta = NULL;
+        buildMetaData(&meta, browse.ohfiParent, browse.index, browse.numObjects);
+        if (VitaMTP_SendObjectMetadata(currDev, eventId, meta) != PTP_RC_OK) {  // send all objects with OHFI parent
+            LOG(QString("Sending metadata for OHFI parent %1 failed").arg(browse.ohfiParent));
             VitaMTP_ReportResult(currDev, eventId, PTP_RC_VITA_Invalid_OHFI);
-            return;
+        } else {
+            VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);
         }
-        */
+        while (meta) {
+            metadata_t *current = meta;
+            meta = meta->next_metadata;
+            freeMetadata(current);
+            delete current;
+        }
         break;
     }
-    case PTP_EC_VITA_RequestSendObjectMetadataItems:
-    {
-        uint32_t ohfi;
-        if (VitaMTP_SendObjectMetadataItems(currDev, eventId, &ohfi) != PTP_RC_OK) {
-            LOG("Cannot get OHFI for retreving metadata");
+    case PTP_EC_VITA_RequestSendObjectStatus: {
+        object_status_t objectstatus;
+
+        if (VitaMTP_SendObjectStatus(currDev, eventId, &objectstatus) != PTP_RC_OK) {
+            LOG("Failed to get information for object status.");
             return;
+        }
+        LOG(QString("Checking for path %1 under ohfi %2").arg(objectstatus.title).arg(objectstatus.ohfiRoot));
+        bool found = false;
+        for (auto &p : metaMap) {
+            if (p.second.path == objectstatus.title) {
+                found = true;
+                metadata_t metadata;
+                copyMetadata(&metadata, &p.second);
+                LOG(QString("Sending metadata for OHFI %1").arg(p.second.ohfi));
+                if (VitaMTP_SendObjectMetadata(currDev, eventId, &metadata) != PTP_RC_OK) {
+                    LOG(QString("Error sending metadata for %1").arg(p.second.ohfi));
+                } else {
+                    VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);
+                }
+                freeMetadata(&metadata);
+                break;
+            }
+        }
+        free(objectstatus.title);
+        if (!found) {
+            LOG(QString("Object %1 not in database (OHFI: %2). Sending OK response for non-existence").arg(objectstatus.title).arg(objectstatus.ohfiRoot));
+            VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);
         }
         break;
     }
@@ -373,6 +441,41 @@ void VitaConn::processEvent(vita_event_t *evt) {
         VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);
         break;
     }
+    case PTP_EC_VITA_RequestSendPartOfObject: {
+        send_part_init_t part_init;
+        if (VitaMTP_SendPartOfObjectInit(currDev, eventId, &part_init) != PTP_RC_OK) {
+            LOG("Cannot get information on object to send");
+            return;
+        }
+        auto ite = metaMap.find(part_init.ohfi);
+        if (ite == metaMap.end()) {
+            LOG(QString("Cannot find object for OHFI %1").arg(part_init.ohfi));
+            VitaMTP_ReportResult(currDev, eventId, PTP_RC_VITA_Invalid_Context);
+            return;
+        }
+        QDir dir(appBaseDir);
+        dir.cd("h-encore");
+        QString fullPath = dir.path() + "/" + ite->second.path;
+        QFile file(fullPath);
+        if (!file.open(QIODevice::ReadOnly)) {
+            LOG(QString("Cannot read %1").arg(fullPath));
+            VitaMTP_ReportResult(currDev, eventId, PTP_RC_VITA_Not_Exist_Object);
+            return;
+        }
+        file.seek(part_init.offset);
+        QByteArray data = file.read(part_init.size);
+        LOG(QString("Sending %1 at file offset %2 for %3 bytes").arg(
+            fullPath, QString::number(part_init.offset), QString::number(part_init.size)
+        ));
+
+        if (VitaMTP_SendPartOfObject(currDev, eventId, (unsigned char *)data.data(), data.size()) != PTP_RC_OK) {
+            LOG(QString("Failed to send part of object OHFI %1").arg(part_init.ohfi));
+        } else {
+            LOG(QString("Succeeded to send part of object OHFI %1").arg(part_init.ohfi));
+            VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);
+        }
+        break;
+    }
     case PTP_EC_VITA_RequestSendStorageSize: {
         int ohfi = evt->Param2;
 
@@ -396,7 +499,33 @@ void VitaConn::processEvent(vita_event_t *evt) {
         }
         break;
     }
+    case PTP_EC_VITA_RequestSendObjectMetadataItems: {
+        uint32_t ohfi;
+        if (VitaMTP_SendObjectMetadataItems(currDev, eventId, &ohfi) != PTP_RC_OK) {
+            LOG("Cannot get OHFI for retreving metadata");
+            return;
+        }
+        metadata_t metadata;
+
+        auto ite = metaMap.find(ohfi);
+        if (ite == metaMap.end()) {
+            LOG(QString("Cannot find OHFI %1 in database").arg(ohfi));
+            VitaMTP_ReportResult(currDev, eventId, PTP_RC_VITA_Invalid_OHFI);
+            return;
+        }
+        copyMetadata(&metadata, &ite->second);
+        LOG(QString("Sending metadata for OHFI %1 (%2)").arg(ohfi).arg(metadata.path));
+
+        quint16 ret = VitaMTP_SendObjectMetadata(currDev, eventId, &metadata);
+        if (ret != PTP_RC_OK) {
+            LOG(QString("Error sending metadata. Code: 0x%1").arg(ret, 4, 16, QChar('0')));
+        } else {
+            VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);
+        }
+        break;
+    }
     default:
+        LOG(QString("Unimplemented event code: %1").arg(code, 0, 16));
         break;
     }
 }
@@ -406,4 +535,46 @@ void VitaConn::deviceDisconnect() {
     VitaMTP_USB_Reset(currDev);
     VitaMTP_Release_Device(currDev);
     currDev = nullptr;
+}
+
+VitaConn::MetaInfo *VitaConn::metaAddFile(const QString &basePath, const QString & relName, int ohfi, int ohfiParent, int ohfiRoot, bool isDir) {
+    QFileInfo info(basePath, relName);
+    MetaInfo &minfo = metaMap[ohfi];
+    minfo.ohfi = ohfi;
+    minfo.ohfiParent = ohfiParent;
+    minfo.ohfiRoot = ohfiRoot;
+    minfo.path = relName;
+    minfo.name = info.fileName();
+    minfo.type = VITA_DIR_TYPE_MASK_REGULAR;
+    minfo.dateTimeModified = info.lastModified().toUTC().toTime_t();
+    if (isDir) {
+        minfo.size = 0;
+        minfo.dataType = Folder;
+    } else {
+        minfo.dateTimeCreated = info.created().toUTC().toTime_t();
+        minfo.size = info.size();
+        minfo.dataType = App | File;
+    }
+    metaMap[ohfiParent].subMeta[ohfi] = &minfo;
+    return &minfo;
+}
+
+void VitaConn::buildMetaData(metadata_t **meta, int ohfiParent, uint32_t index, uint32_t num) {
+    auto ite = metaMap.find(ohfiParent);
+    if (ite == metaMap.end()) return;
+    metadata_t *last = nullptr;
+    for (auto &p : ite->second.subMeta) {
+        if (index > 0) { --index; continue; }
+        if (num == 0) break;
+        metadata_t *curr = new metadata_t;
+        copyMetadata(curr, p.second);
+        if (last == nullptr) {
+            last = curr;
+            *meta = curr;
+        } else {
+            last->next_metadata = curr;
+            last = curr;
+        }
+        --num;
+    }
 }

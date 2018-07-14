@@ -2,7 +2,7 @@
 
 #include <cstdio>
 
-Downloader::Downloader() {
+Downloader::Downloader(QObject *obj_parent): QObject(obj_parent) {
     manager.setRedirectPolicy(QNetworkRequest::RedirectPolicy::NoLessSafeRedirectPolicy);
     connect(&manager, SIGNAL(finished(QNetworkReply*)),
         SLOT(downloadFinished(QNetworkReply*)));

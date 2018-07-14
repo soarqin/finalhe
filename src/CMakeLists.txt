@@ -15,6 +15,7 @@ set(SRC_FILES
 	log.cc log.hh
 	package.cc package.hh
 	vita.cc vita.hh
+	worker.cc worker.hh
 )
 
 set(UI_FILES
@@ -22,7 +23,6 @@ set(UI_FILES
 )
 set(RES_FILES
     finalhe.rc resource.h finalhe.ico
-	finalhe.qrc
 	resources/xml/psp2-updatelist.xml
 )
 
@@ -30,20 +30,24 @@ set(TRANSLATION_FILES
     translations/zh_CN.ts
     translations/zh_TW.ts
 )
+qt5_add_resources(FINALHE_RCC_SRC finalhe.qrc)
 
 qt5_create_translation(TRANSLATION_MESSAGES main.cc ${UI_FILES} ${TRANSLATION_FILES})
 qt5_add_translation(TRANSLATION_QM ${TRANSLATION_FILES})
 
 source_group(src FILES ${SRC_FILES})
 source_group(ui FILES ${UI_FILES})
-source_group(res FILES ${RES_FILES})
+source_group(res FILES ${RES_FILES} ${FINALHE_RCC_SRC} finalhe.qrc)
 source_group(mocs mocs.*)
 source_group(translations FILES ${TRANSLATION_FILES} ${TRANSLATION_QM})
 
 qt5_wrap_ui(${CMAKE_CURRENT_BINARY_DIR}/ui_finalhe.h finalhe.ui)
 
 add_definitions(-DUSING_STATIC_LIBICONV -DLIBXML_STATIC)
-add_executable(FinalHE WIN32 ${SRC_FILES} ${UI_FILES} ${RES_FILES} ${TRANSLATION_FILES} ${TRANSLATION_QM})
+if (MSVC)
+	add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE)
+endif ()
+add_executable(FinalHE WIN32 ${SRC_FILES} ${UI_FILES} ${RES_FILES} ${FINALHE_RCC_SRC} ${TRANSLATION_FILES} ${TRANSLATION_QM})
 target_link_libraries(FinalHE Qt5::Widgets Qt5::Network vitamtp vitapkg psvimg miniz scrypto)
 if (WIN32)
 	target_link_libraries(FinalHE shlwapi)

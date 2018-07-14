@@ -977,8 +977,7 @@ ptp_usb_getresp(PTPParams *params, PTPContainer *resp)
 
 /* PTP Events wait for or check mode */
 #define PTP_EVENT_CHECK         0x0000  /* waits for */
-#define PTP_EVENT_CHECK_FAST    0x0001  /* checks */
-#define PTP_EVENT_CHECK_POLL    0x0002  /* poll */
+#define PTP_EVENT_CHECK_FAST        0x0001  /* checks */
 
 static inline uint16_t
 ptp_usb_event(PTPParams *params, PTPContainer *event, int wait)
@@ -1026,49 +1025,25 @@ ptp_usb_event(PTPParams *params, PTPContainer *event, int wait)
                                &xread,
                                ptp_usb->timeout);
 
-        if (result == LIBUSB_ERROR_TIMEOUT) {
-            ret = PTP_ERROR_TIMEOUT;
-            break;
-        }
-        if (xread == 0) {
+        if (xread == 0)
             result = USB_BULK_READ(ptp_usb->handle,
                                    ptp_usb->intep,
                                    (unsigned char *) &usbevent,
                                    sizeof(usbevent),
                                    &xread,
                                    ptp_usb->timeout);
-            if (result == LIBUSB_ERROR_TIMEOUT) {
-                ret = PTP_ERROR_TIMEOUT;
-                break;
-            }
-        }
-        if (result < 0) ret = PTP_ERROR_IO;
 
-        break;
-
-    case PTP_EVENT_CHECK_POLL:
-        result = USB_BULK_READ(ptp_usb->handle,
-            ptp_usb->intep,
-            (unsigned char *)&usbevent,
-            sizeof(usbevent),
-            &xread,
-            wait);
-        if (result == LIBUSB_ERROR_TIMEOUT) {
-            ret = PTP_ERROR_TIMEOUT;
-            break;
-        }
         if (result < 0) ret = PTP_ERROR_IO;
 
         break;
 
     default:
         ret = PTP_ERROR_BADPARAM;
+        break;
     }
 
     if (ret != PTP_RC_OK)
     {
-        if (ret == PTP_ERROR_TIMEOUT)
-            return ret;
         VitaMTP_Log(VitaMTP_ERROR,
                     "PTP: reading event an error 0x%04x occurred\n", ret);
         return PTP_ERROR_IO;
@@ -1092,11 +1067,6 @@ ptp_usb_event(PTPParams *params, PTPContainer *event, int wait)
     event->Param2=dtoh32(usbevent.param2);
     event->Param3=dtoh32(usbevent.param3);
     return ret;
-}
-
-uint16_t
-ptp_usb_event_poll(PTPParams *params, PTPContainer *event) {
-    return ptp_usb_event(params, event, PTP_EVENT_CHECK_POLL);
 }
 
 uint16_t
@@ -1254,7 +1224,6 @@ static int configure_usb_device(vita_raw_device_t *raw_device, vita_device_t *de
     params->cancelreq_func=ptp_usb_control_cancel_request;
     params->event_wait=ptp_usb_event_wait;
     params->event_check=ptp_usb_event_check;
-    params->event_poll=ptp_usb_event_poll;
     params->data=&dev->usb_device;
     params->transaction_id=0;
     dev->usb_device.timeout = USB_TIMEOUT_DEFAULT;
@@ -1475,7 +1444,8 @@ int VitaMTP_Get_USB_Vitas(vita_raw_device_t **p_raw_devices)
         if (libusb_open(dev, &handle) != LIBUSB_SUCCESS)
         {
             VitaMTP_Log(VitaMTP_ERROR, "cannot open usb\n");
-            continue;
+            free(vitas);
+            return -1;
         }
 
         if (libusb_get_string_descriptor_ascii(handle, desc.iSerialNumber, (unsigned char *)vitas[n].serial,

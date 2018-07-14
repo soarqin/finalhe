@@ -8,13 +8,14 @@
 class Package : public QObject {
     Q_OBJECT
 public:
-    Package(const QString &basePath);
+    Package(const QString &basePath, QObject *obj_parent = 0);
     virtual ~Package();
 
 signals:
     void startDownload();
     void unpackedDemo();
     void unpackedHencore();
+    void createdPsvImgs();
     void gotBackupKey();
 
 private:
@@ -38,5 +39,6 @@ private slots:
 private:
     QString pkgBasePath;
     Downloader downloader;
+    QString accountId;
     QString backupKey;
 };

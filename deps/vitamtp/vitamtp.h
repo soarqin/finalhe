@@ -775,7 +775,6 @@ typedef int (* VitaMTP_progressfunc_t)(uint64_t const sent, uint64_t const total
  */
 void VitaMTP_Release_Device(vita_device_t *device);
 int VitaMTP_Read_Event(vita_device_t *device, vita_event_t *event);
-int VitaMTP_Peek_Event(vita_device_t *device, vita_event_t *event);
 const char *VitaMTP_Get_Identification(vita_device_t *device);
 enum vita_device_type VitaMTP_Get_Device_Type(vita_device_t *device);
 uint16_t VitaMTP_SendData(vita_device_t *device, uint32_t event_id, uint32_t code, unsigned char *data,

@@ -240,44 +240,6 @@ int VitaMTP_Read_Event(vita_device_t *device, vita_event_t *event)
 }
 
 /**
-* To read events sent by the device, repeatedly call this function from a secondary
-* thread until the return value is < 0.
-*
-* @param device a pointer to the MTP device to poll for events.
-* @param event contains a pointer to be filled in with the event retrieved if the call
-* is successful.
-* @return 0 on success, any other value means the polling loop shall be
-* terminated immediately for this session.
-*/
-int VitaMTP_Peek_Event(vita_device_t *device, vita_event_t *event) {
-    /*
-    * FIXME: Potential race-condition here, if client deallocs device
-    * while we're *not* waiting for input. As we'll be waiting for
-    * input most of the time, it's unlikely but still worth considering
-    * for improvement. Also we cannot affect the state of the cache etc
-    * unless we know we are the sole user on the device. A spinlock or
-    * mutex in the LIBMTP_mtpdevice_t is needed for this to work.
-    */
-    PTPParams *params = (PTPParams *)device->params;
-    PTPContainer ptp_event;
-    memset(&ptp_event, 0, sizeof(PTPContainer)); // zero it so params are zeroed too
-    uint16_t ret = params->event_poll(params, &ptp_event);
-
-    memcpy(event, &ptp_event, sizeof(vita_event_t));
-
-    if (ret == PTP_ERROR_TIMEOUT) {
-        return 1;
-    }
-
-    if (ret != PTP_RC_OK) {
-        /* Device is closing down or other fatal stuff, exit thread */
-        return -1;
-    }
-
-    return 0;
-}
-
-/**
  * @brief Gets PTP params.
  *
  * @param device where to get PTP params from

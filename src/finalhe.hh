@@ -20,7 +20,6 @@ public:
 private slots:
     void langChange();
 	void onStart();
-	void eventTimerUpdate();
     void enableStart();
 
 signals:
@@ -32,7 +31,6 @@ private:
 private:
     Ui::FinalHEClass ui;
     QTranslator trans;
-    QTimer eventTimer;
     Package *pkg;
     VitaConn *vita;
 };

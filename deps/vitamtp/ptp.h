@@ -2334,8 +2334,7 @@ struct _PTPParams {
 	PTPIOGetData	getdata_func;
 	PTPIOGetResp	event_check;
 	PTPIOGetResp	event_wait;
-    PTPIOGetResp	event_poll;
-    PTPIOCancelReq	cancelreq_func;
+	PTPIOCancelReq	cancelreq_func;
 
 	/* Custom error and debug function */
 	PTPErrorFunc	error_func;

@@ -2,44 +2,14 @@
 
 #include "log.hh"
 
+#include "worker.hh"
+
 #include <sha256.h>
 #include <pkg.h>
 #include <psvimg-create.h>
 #include <miniz_zip.h>
 
 #include <QDir>
-#include <QThread>
-
-class Worker : public QObject {
-    Q_OBJECT
-public:
-    Worker(void *carryArg = nullptr): arg(carryArg) {
-    }
-    virtual ~Worker() {
-
-    }
-    static void start(QObject *host, const std::function<void(void*)> &thFunc, const std::function<void(void*)> &finFunc, void *carryArg = nullptr) {
-        QThread* thread = new QThread;
-        Worker* worker = new Worker(carryArg);
-        worker->moveToThread(thread);
-        connect(thread, &QThread::started, worker, [worker, carryArg, thFunc]() {
-            thFunc(carryArg);
-            emit worker->finished();
-        });
-        connect(worker, &Worker::finished, host, [carryArg, finFunc]() {
-            finFunc(carryArg);
-        });
-        connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
-        connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
-        connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-        thread->start();
-    }
-public:
-    void *arg;
-
-signals:
-    void finished();
-};
 
 const char *HENCORE_URL = "https://github.com/TheOfficialFloW/h-encore/releases/download/v1.0/h-encore.zip";
 const char *HENCORE_FILE = "h-encore.zip";
@@ -49,7 +19,7 @@ const char *BSPKG_URL = "http://ares.dl.playstation.net/cdn/JP0741/PCSG90096_00/
 const char *BSPKG_FILE = "BitterSmile.pkg";
 const char *BSPKG_SHA256 = "280a734a0b40eedac2b3aad36d506cd4ab1a38cd069407e514387a49d81b9302";
 
-Package::Package(const QString &basePath) {
+Package::Package(const QString &basePath, QObject *obj_parent): QObject(obj_parent) {
     pkgBasePath = basePath;
     connect(&downloader, SIGNAL(finishedFile(QFile*)), SLOT(downloadFinished(QFile*)));
     connect(&downloader, SIGNAL(finishedGet(void*)), SLOT(fetchFinished(void*)));
@@ -221,7 +191,10 @@ bool Package::verify(const QString & filepath, const char * sha256sum) {
 }
 
 void Package::getBackupKey(const QString &aid) {
-    get(QString("http://cma.henkaku.xyz/?aid=%1").arg(aid), backupKey);
+    if (accountId != aid) {
+        accountId = aid;
+        get(QString("http://cma.henkaku.xyz/?aid=%1").arg(aid), backupKey);
+    }
 }
 
 void Package::downloadDemo() {
@@ -246,6 +219,7 @@ void Package::createPsvImgs() {
         QDir::setCurrent(oldDir);
     }, [this](void*) {
         LOG(tr("Done."));
+        emit createdPsvImgs();
     });
 }
 
@@ -288,5 +262,3 @@ void Package::downloadFinished(QFile *f) {
         });
     }
 }
-
-#include "package.moc"

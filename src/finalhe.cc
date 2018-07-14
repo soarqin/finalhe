@@ -6,7 +6,7 @@
 #include <QDir>
 #include <QMessageBox>
 
-FinalHE::FinalHE(QWidget *parent): QMainWindow(parent), eventTimer(this) {
+FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
     ui.setupUi(this);
     logSetFunc([this](const QString &text) {
         emit appendLog(text);
@@ -33,14 +33,13 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent), eventTimer(this) {
             }
         }
     }
-    eventTimer.start(20);
-    connect(&eventTimer, SIGNAL(timeout()), this, SLOT(eventTimerUpdate()));
 	connect(ui.btnStart, SIGNAL(clicked()), this, SLOT(onStart()));
 	connect(ui.comboLang, SIGNAL(currentIndexChanged(int)), this, SLOT(langChange()));
     connect(vita, &VitaConn::gotAccountId, this, [this](QString &accountId) { pkg->getBackupKey(accountId); });
     connect(pkg, SIGNAL(gotBackupKey()), SLOT(enableStart()));
+    connect(pkg, SIGNAL(createdPsvImgs()), vita, SLOT(buildData()));
     connect(this, SIGNAL(appendLog(const QString&)), ui.logBrowser, SLOT(appendPlainText(const QString&)));
-    vita->buildData();
+    vita->process();
 }
 
 FinalHE::~FinalHE() {
@@ -56,10 +55,6 @@ void FinalHE::langChange() {
 
 void FinalHE::onStart() {
     emit pkg->startDownload();
-}
-
-void FinalHE::eventTimerUpdate() {
-    vita->process();
 }
 
 void FinalHE::enableStart() {

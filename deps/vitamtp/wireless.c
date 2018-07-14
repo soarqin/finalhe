@@ -768,8 +768,7 @@ ptp_ptpip_init_event_ack(PTPParams *params)
 
 /* PTP Events wait for or check mode */
 #define PTP_EVENT_CHECK         0x0000  /* waits for */
-#define PTP_EVENT_CHECK_FAST    0x0001  /* checks */
-#define PTP_EVENT_CHECK_POLL    0x0002  /* poll */
+#define PTP_EVENT_CHECK_FAST        0x0001  /* checks */
 
 #define ptpip_event_code    0
 #define ptpip_event_transid 2
@@ -788,7 +787,7 @@ ptp_ptpip_event(PTPParams *params, PTPContainer *event, int wait)
 
     while (1)
     {
-        if (wait == PTP_EVENT_CHECK_FAST || wait == PTP_EVENT_CHECK_POLL)
+        if (wait == PTP_EVENT_CHECK_FAST)
         {
             FD_ZERO(&infds);
             FD_SET(params->evtfd, &infds);
@@ -840,11 +839,6 @@ ptp_ptpip_event(PTPParams *params, PTPContainer *event, int wait)
 
     free(data);
     return PTP_RC_OK;
-}
-
-uint16_t
-ptp_ptpip_event_poll(PTPParams *params, PTPContainer *event) {
-    return ptp_ptpip_event(params, event, PTP_EVENT_CHECK_POLL);
 }
 
 uint16_t
@@ -1001,7 +995,6 @@ static int VitaMTP_Data_Connect(vita_device_t *device)
     device->params->getdata_func    = ptp_ptpip_getdata;
     device->params->event_wait  = ptp_ptpip_event_wait;
     device->params->event_check = ptp_ptpip_event_check;
-    device->params->event_poll  = ptp_ptpip_event_poll;
     device->params->cancelreq_func = ptp_ptpip_control_cancel_request;
 
     if (VitaMTP_PTPIP_Connect(device->params, &device->network_device.addr, device->network_device.data_port) < 0)

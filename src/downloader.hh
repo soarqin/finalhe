@@ -31,7 +31,7 @@ private:
     };
 
 public:
-    Downloader();
+    Downloader(QObject *obj_parent = 0);
     void doDownload(const QUrl &url, QFile *fileToWrite);
     void doGet(const QUrl &url, void *arg);
 
