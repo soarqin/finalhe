@@ -70,6 +70,14 @@ void FinalHE::setTextPkg(QString txt) {
     ui.textPkg->setText(txt);
 }
 
+void FinalHE::setProgressMax(int pmax) {
+    ui.progressBar->setMaximum(pmax);
+}
+
+void FinalHE::setProgress(int prog) {
+    ui.progressBar->setValue(prog);
+}
+
 void FinalHE::loadLanguage(const QString &s) {
     qApp->removeTranslator(&trans);
     if (trans.load(s)) {

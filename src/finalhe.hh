@@ -24,6 +24,8 @@ private slots:
     void trimState(int);
     void setTextMTP(QString);
     void setTextPkg(QString);
+    void setProgressMax(int);
+    void setProgress(int);
 
 private:
     void loadLanguage(const QString &s);
