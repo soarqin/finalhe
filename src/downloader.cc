@@ -1,6 +1,7 @@
 #include "downloader.hh"
 
 #include <cstdio>
+#include <QDebug>
 
 Downloader::Downloader(QObject *obj_parent): QObject(obj_parent) {
     manager.setRedirectPolicy(QNetworkRequest::RedirectPolicy::NoLessSafeRedirectPolicy);
@@ -41,7 +42,7 @@ void Downloader::doGet(const QUrl &url, void * arg) {
 #if QT_CONFIG(ssl)
 void Downloader::sslErrors(const QList<QSslError> &sslErrors) {
     for (const QSslError &error : sslErrors)
-        fprintf(stderr, "SSL error: %s\n", qPrintable(error.errorString()));
+        qWarning("SSL error: %s", error.errorString().toUtf8().constData());
     Q_UNUSED(sslErrors);
 }
 #endif
@@ -57,11 +58,11 @@ void Downloader::readyReadGetReply(RequestGet *rg) {
 void Downloader::downloadFinished(QNetworkReply *reply) {
     QUrl url = reply->url();
     if (reply->error()) {
-        fprintf(stderr, "Fetch from %s failed: %s\n",
+        qWarning("Fetch from %s failed: %s",
             url.toEncoded().constData(),
-            qPrintable(reply->errorString()));
+            reply->errorString().toUtf8().constData());
     } else {
-        printf("Fetch from %s succeeded\n",
+        qDebug("Fetch from %s succeeded",
             url.toEncoded().constData());
     }
 
@@ -81,5 +82,4 @@ void Downloader::downloadFinished(QNetworkReply *reply) {
         }
     }
     reply->deleteLater();
-
 }

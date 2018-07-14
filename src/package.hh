@@ -11,6 +11,8 @@ public:
     Package(const QString &basePath, QObject *obj_parent = 0);
     virtual ~Package();
 
+    inline void setTrim(bool t) { trimApp = t; }
+
 signals:
     void startDownload();
     void unpackedDemo();
@@ -37,6 +39,7 @@ private slots:
     void fetchFinished(void*);
 
 private:
+    bool trimApp = false;
     QString pkgBasePath;
     Downloader downloader;
     QString accountId;

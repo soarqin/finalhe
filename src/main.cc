@@ -43,6 +43,13 @@ bool findQCMA(WndInfo *wndInfo) {
 #endif
 
 int main(int argc, char *argv[]) {
+#ifdef _DEBUG
+    if (::AllocConsole()) {
+        freopen("CONIN$", "r", stdin);
+        freopen("CONOUT$", "w", stdout);
+        freopen("CONOUT$", "w", stderr);
+    }
+#endif
     QApplication a(argc, argv);
 
 #ifdef _WIN32

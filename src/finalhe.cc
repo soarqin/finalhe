@@ -1,16 +1,12 @@
 #include "finalhe.hh"
 
-#include "log.hh"
-
 #include <QLocale>
 #include <QDir>
 #include <QMessageBox>
+#include <QDebug>
 
 FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
     ui.setupUi(this);
-    logSetFunc([this](const QString &text) {
-        emit appendLog(text);
-    });
     QDir dir(qApp->applicationDirPath());
     QDir baseDir(dir);
     if (!baseDir.cd("data")) {
@@ -20,8 +16,8 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
             return;
         }
     }
-    vita = new VitaConn(baseDir.path());
-    pkg = new Package(baseDir.path());
+    vita = new VitaConn(baseDir.path(), this);
+    pkg = new Package(baseDir.path(), this);
     if (dir.cd("lang")) {
         QStringList ll = dir.entryList({"*.qm"}, QDir::Filter::Files, QDir::SortFlag::IgnoreCase);
         ui.comboLang->addItem(trans.isEmpty() ? "English" : trans.translate("base", "English"));
@@ -35,11 +31,12 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
     }
 	connect(ui.btnStart, SIGNAL(clicked()), this, SLOT(onStart()));
 	connect(ui.comboLang, SIGNAL(currentIndexChanged(int)), this, SLOT(langChange()));
+    connect(ui.checkTrim, SIGNAL(stateChanged(int)), this, SLOT(trimState(int)));
     connect(vita, &VitaConn::gotAccountId, this, [this](QString &accountId) { pkg->getBackupKey(accountId); });
     connect(pkg, SIGNAL(gotBackupKey()), SLOT(enableStart()));
     connect(pkg, SIGNAL(createdPsvImgs()), vita, SLOT(buildData()));
-    connect(this, SIGNAL(appendLog(const QString&)), ui.logBrowser, SLOT(appendPlainText(const QString&)));
     vita->process();
+    pkg->setTrim(ui.checkTrim->checkState() == Qt::Checked);
 }
 
 FinalHE::~FinalHE() {
@@ -59,6 +56,18 @@ void FinalHE::onStart() {
 
 void FinalHE::enableStart() {
     ui.btnStart->setEnabled(true);
+}
+
+void FinalHE::trimState(int state) {
+    pkg->setTrim(state == Qt::Checked);
+}
+
+void FinalHE::setTextMTP(QString txt) {
+    ui.textMTP->setText(txt);
+}
+
+void FinalHE::setTextPkg(QString txt) {
+    ui.textPkg->setText(txt);
 }
 
 void FinalHE::loadLanguage(const QString &s) {

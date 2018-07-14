@@ -12,7 +12,6 @@ set(SRC_FILES
     main.cc
 	downloader.cc downloader.hh
 	finalhe.cc finalhe.hh
-	log.cc log.hh
 	package.cc package.hh
 	vita.cc vita.hh
 	worker.cc worker.hh
@@ -32,7 +31,7 @@ set(TRANSLATION_FILES
 )
 qt5_add_resources(FINALHE_RCC_SRC finalhe.qrc)
 
-qt5_create_translation(TRANSLATION_MESSAGES main.cc ${UI_FILES} ${TRANSLATION_FILES})
+qt5_create_translation(TRANSLATION_MESSAGES main.cc package.cc vita.cc ${UI_FILES} ${TRANSLATION_FILES})
 qt5_add_translation(TRANSLATION_QM ${TRANSLATION_FILES})
 
 source_group(src FILES ${SRC_FILES})

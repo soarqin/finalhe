@@ -21,9 +21,9 @@ private slots:
     void langChange();
 	void onStart();
     void enableStart();
-
-signals:
-    void appendLog(const QString &text);
+    void trimState(int);
+    void setTextMTP(QString);
+    void setTextPkg(QString);
 
 private:
     void loadLanguage(const QString &s);

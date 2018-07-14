@@ -1,7 +1,5 @@
 #include "package.hh"
 
-#include "log.hh"
-
 #include "worker.hh"
 
 #include <sha256.h>
@@ -10,6 +8,7 @@
 #include <miniz_zip.h>
 
 #include <QDir>
+#include <QDebug>
 
 const char *HENCORE_URL = "https://github.com/TheOfficialFloW/h-encore/releases/download/v1.0/h-encore.zip";
 const char *HENCORE_FILE = "h-encore.zip";
@@ -46,7 +45,7 @@ void Package::download(const QString &url, const QString &localFilename, const c
                 *(int*)arg = 1;
                 return;
             }
-            LOG(tr("Removing old file."));
+            qDebug("Removing old file.");
             bool succ = false;
             for (int i = 0; i < 5; ++i) {
                 if (QFile::remove(filename)) {
@@ -58,7 +57,7 @@ void Package::download(const QString &url, const QString &localFilename, const c
                 }
             }
             if (!succ) {
-                LOG(tr("Failed to remove old file, operation aborted."));
+                qDebug("Failed to remove old file, operation aborted.");
                 *(int*)arg = 2;
                 return;
             }
@@ -81,7 +80,7 @@ void Package::download(const QString &url, const QString &localFilename, const c
 }
 
 void Package::startDownload(const QString &url, const QString & localFilename) {
-    LOG(tr("Start downloading from %1...").arg(url));
+    qDebug("Start downloading from %s...", url.toUtf8().constData());
     QFile *f = new QFile(localFilename);
     f->open(QFile::WriteOnly | QFile::Truncate);
     downloader.doDownload(url, f);
@@ -89,7 +88,7 @@ void Package::startDownload(const QString &url, const QString & localFilename) {
 
 bool Package::startUnpackDemo(const char *filename) {
     Worker::start(this, [this, filename](void*) {
-        LOG(tr("Unpacking %1...").arg(filename));
+        qDebug("Unpacking %s...", filename);
         pkg_disable_output();
         QString oldDir = QDir::currentPath();
         QDir curr(pkgBasePath);
@@ -105,7 +104,7 @@ bool Package::startUnpackDemo(const char *filename) {
         curr.rename("PCSG90096", "ux0_temp_game_PCSG90096_app_PCSG90096");
         QDir::setCurrent(oldDir);
     }, [this](void*) {
-        LOG(tr("Done."));
+        qDebug("Done.");
         emit unpackedDemo();
     });
     return true;
@@ -113,7 +112,7 @@ bool Package::startUnpackDemo(const char *filename) {
 
 bool Package::startUnpackHencore(const char *filename) {
     Worker::start(this, [this, filename](void*) {
-        LOG(tr("Unpacking %1...").arg(filename));
+        qDebug("Unpacking %s...", filename);
         QDir dir(pkgBasePath);
         QFile file(dir.filePath(filename));
         file.open(QFile::ReadOnly);
@@ -127,7 +126,7 @@ bool Package::startUnpackHencore(const char *filename) {
         };
         if (!mz_zip_reader_init(&arc, file.size(), 0)) {
             file.close();
-            LOG(tr("Unable to decompress %1").arg(filename));
+            qWarning("Unable to decompress %s!", filename);
         }
         uint32_t num = mz_zip_reader_get_num_files(&arc);
         for (uint32_t i = 0; i < num; ++i) {
@@ -145,23 +144,22 @@ bool Package::startUnpackHencore(const char *filename) {
                     }, &wfile, 0);
                 wfile.close();
             }
-            LOG(zfilename);
         }
         mz_zip_reader_end(&arc);
         file.close();
         QFile::copy(pkgBasePath + "/h-encore/app/ux0_temp_game_PCSG90096_app_PCSG90096/sce_sys/package/temp.bin",
             pkgBasePath + "/h-encore/license/ux0_temp_game_PCSG90096_license_app_PCSG90096/6488b73b912a753a492e2714e9b38bc7.rif");
     }, [this](void*) {
-        LOG(tr("Done."));
+        qDebug("Done.");
         emit unpackedHencore();
     });
     return true;
 }
 
-bool Package::verify(const QString & filepath, const char * sha256sum) {
+bool Package::verify(const QString &filepath, const char *sha256sum) {
     QFile file(filepath);
     if (file.open(QFile::ReadOnly)) {
-        LOG(tr("Verifying sha256sum for %1...").arg(filepath));
+        qDebug("Verifying sha256sum for %s...", filepath.toUtf8().constData());
         sha256_context ctx;
         sha256_init(&ctx);
         sha256_starts(&ctx);
@@ -181,10 +179,10 @@ bool Package::verify(const QString & filepath, const char * sha256sum) {
         sha256_final(&ctx, sum);
         QByteArray array((const char*)sum, 32);
         if (QString(array.toHex()) == sha256sum) {
-            LOG(tr("sha256sum correct."));
+            qDebug("sha256sum correct.");
             return true;
         } else {
-            LOG(tr("sha256sum mismatch."));
+            qWarning("sha256sum mismatch.");
         }
     }
     return false;
@@ -207,18 +205,51 @@ void Package::downloadHencore() {
 
 void Package::createPsvImgs() {
     Worker::start(this, [this](void*) {
-        LOG(tr("Creating psvimg's..."));
+        qDebug("Creating psvimg's...");
         QString oldDir = QDir::currentPath();
         QDir curr(pkgBasePath);
         curr.cd("h-encore");
         QDir::setCurrent(curr.path());
+        if (trimApp) {
+            qDebug("Trimming package...");
+            curr.cd("app");
+            curr.cd("ux0_temp_game_PCSG90096_app_PCSG90096");
+            curr.cd("resource");
+            curr.cd("movie");
+            curr.removeRecursively();
+            curr.cdUp();
+            curr.cd("sound");
+            curr.removeRecursively();
+            curr.cdUp();
+            curr.cd("text");
+            curr.cd("01");
+            curr.removeRecursively();
+            curr.cdUp();
+            curr.cdUp();
+            curr.cd("image");
+            curr.cd("bg");
+            curr.removeRecursively();
+            curr.cdUp();
+            curr.cd("ev");
+            curr.removeRecursively();
+            curr.cdUp();
+            curr.cd("icon");
+            curr.removeRecursively();
+            curr.cdUp();
+            curr.cd("stitle");
+            curr.removeRecursively();
+            curr.cdUp();
+            curr.cd("tachie");
+            curr.removeRecursively();
+            qDebug("Done trimming.");
+        }
         psvimg_create("app", "PCSG90096/app", backupKey.toUtf8().constData(), "app", 0);
         psvimg_create("appmeta", "PCSG90096/appmeta", backupKey.toUtf8().constData(), "appmeta", 0);
         psvimg_create("license", "PCSG90096/license", backupKey.toUtf8().constData(), "license", 0);
         psvimg_create("savedata", "PCSG90096/savedata", backupKey.toUtf8().constData(), "savedata", 0);
         QDir::setCurrent(oldDir);
     }, [this](void*) {
-        LOG(tr("Done."));
+        qDebug("Done.");
         emit createdPsvImgs();
     });
 }
@@ -228,7 +259,7 @@ void Package::fetchFinished(void *arg) {
     int index = str->indexOf("</b>: ");
     if (index < 0) {
         str->clear();
-        LOG(tr("Cannot get backup key from your AID, please check your network connection!"));
+        qWarning("Cannot get backup key from your AID, please check your network connection!");
         return;
     }
     *str = str->mid(index + 6, 64);

@@ -1,6 +1,5 @@
 #include "vita.hh"
 
-#include "log.hh"
 #include "worker.hh"
 
 #include <vitamtp.h>
@@ -9,6 +8,9 @@
 #include <QUrl>
 #include <QFileInfo>
 #include <QtNetwork/QHostInfo>
+#include <QDebug>
+
+#include <cinttypes>
 
 #ifdef Q_OS_WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -148,7 +150,7 @@ void VitaConn::process() {
             vita_event_t evt;
             int res = VitaMTP_Read_Event(currDev, &evt);
             if (res < 0) {
-                LOG(QString("Disconnected from %1").arg(VitaMTP_Get_Identification(currDev)));
+                qDebug("Disconnected from %s", VitaMTP_Get_Identification(currDev));
                 deviceDisconnect();
                 continue;
             }
@@ -184,10 +186,7 @@ int VitaConn::recursiveScanRootDirectory(const QString &base_path, const QString
         QString rel_name = rel_path.isNull() ? info.fileName() : rel_path + "/" + info.fileName();
 
         int ohfi = ohfiMax++;
-        // insertObjectEntryInternal(base_path, rel_name, parent_ohfi, root_ohfi);
-        LOG(QString("%1 %2 %3 %4").arg(base_path).arg(rel_name).arg(ohfi).arg(parent_ohfi));
 
-        // update progress dialog
         if (info.isDir()) {
             auto *thisMeta = metaAddFile(base_path, rel_name, ohfi, parent_ohfi, root_ohfi, true);
 
@@ -213,7 +212,7 @@ void VitaConn::doConnect() {
     if (currDev == nullptr) return;
     vita_info_t info;
     if (VitaMTP_GetVitaInfo(currDev, &info) != PTP_RC_OK) {
-        LOG("Cannot get Vita MTP information.");
+        qWarning("Cannot get Vita MTP information.");
         deviceDisconnect();
         return;
     }
@@ -221,7 +220,7 @@ void VitaConn::doConnect() {
     const initiator_info_t *iinfo = VitaMTP_Data_Initiator_New(QHostInfo::localHostName().toUtf8().data(), VITAMTP_PROTOCOL_FW_3_30);
     if (VitaMTP_SendInitiatorInfo(currDev, (initiator_info_t *)iinfo) != PTP_RC_OK) {
         VitaMTP_Data_Free_Initiator(iinfo);
-        LOG("Cannot send host information.");
+        qWarning("Cannot send host information.");
         deviceDisconnect();
         return;
     }
@@ -231,7 +230,7 @@ void VitaConn::doConnect() {
         capability_info_t *vita_capabilities;
 
         if (VitaMTP_GetVitaCapabilityInfo(currDev, &vita_capabilities) != PTP_RC_OK) {
-            LOG("Failed to get capability information from Vita.");
+            qWarning("Failed to get capability information from Vita.");
             deviceDisconnect();
             return;
         }
@@ -244,7 +243,7 @@ void VitaConn::doConnect() {
         capability_info_t *pc_capabilities = generate_pc_capability_info();
 
         if (VitaMTP_SendPCCapabilityInfo(currDev, pc_capabilities) != PTP_RC_OK) {
-            LOG("Failed to send capability information to Vita.");
+            qWarning("Failed to send capability information to Vita.");
             free_pc_capability_info(pc_capabilities);
             deviceDisconnect();
             return;
@@ -255,19 +254,19 @@ void VitaConn::doConnect() {
 
     // Finally, we tell the Vita we are connected
     if (VitaMTP_SendHostStatus(currDev, VITA_HOST_STATUS_Connected) != PTP_RC_OK) {
-        LOG("Cannot send host status.");
+        qWarning("Cannot send host status.");
         deviceDisconnect();
         return;
     }
 
-    LOG(QString("Connected to %1").arg(VitaMTP_Get_Identification(currDev)));
+    qDebug("Connected to %s", VitaMTP_Get_Identification(currDev));
 }
 
 void VitaConn::processEvent(vita_event_t *evt) {
     QMutexLocker locker(&metaMutex);
     uint16_t code = evt->Code;
     uint32_t eventId = evt->Param1;
-    LOG(QString("Event received, code: %2, id: %3").arg(code, 0, 16).arg(eventId));
+    qDebug("Event received, code: 0x%04x, id: %u", code, eventId);
     switch (code) {
     case PTP_EC_VITA_RequestSendNumOfObject: {
         int ohfi = evt->Param2;
@@ -275,9 +274,9 @@ void VitaConn::processEvent(vita_event_t *evt) {
         int items = ite == metaMap.end() ? -1 : (int)ite->second.subMeta.size();
 
         if (VitaMTP_SendNumOfObject(currDev, eventId, items) != PTP_RC_OK) {
-            LOG(QString("Error occurred receiving object count for OHFI parent %1").arg(ohfi));
+            qWarning("Error occurred receiving object count for OHFI parent %d", ohfi);
         } else {
-            LOG(QString("Returned count of %1 objects for OHFI parent %2").arg(items).arg(ohfi));
+            qDebug("Returned count of %d objects for OHFI parent %d", items, ohfi);
             VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);
         }
         break;
@@ -285,14 +284,14 @@ void VitaConn::processEvent(vita_event_t *evt) {
     case PTP_EC_VITA_RequestSendObjectMetadata: {
         browse_info_t browse;
         if (VitaMTP_GetBrowseInfo(currDev, eventId, &browse) != PTP_RC_OK) {
-            LOG("GetBrowseInfo failed");
+            qWarning("GetBrowseInfo failed");
             return;
         }
 
         metadata_t *meta = NULL;
         buildMetaData(&meta, browse.ohfiParent, browse.index, browse.numObjects);
         if (VitaMTP_SendObjectMetadata(currDev, eventId, meta) != PTP_RC_OK) {  // send all objects with OHFI parent
-            LOG(QString("Sending metadata for OHFI parent %1 failed").arg(browse.ohfiParent));
+            qWarning("Sending metadata for OHFI parent %d failed", browse.ohfiParent);
             VitaMTP_ReportResult(currDev, eventId, PTP_RC_VITA_Invalid_OHFI);
         } else {
             VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);
@@ -309,19 +308,19 @@ void VitaConn::processEvent(vita_event_t *evt) {
         object_status_t objectstatus;
 
         if (VitaMTP_SendObjectStatus(currDev, eventId, &objectstatus) != PTP_RC_OK) {
-            LOG("Failed to get information for object status.");
+            qWarning("Failed to get information for object status.");
             return;
         }
-        LOG(QString("Checking for path %1 under ohfi %2").arg(objectstatus.title).arg(objectstatus.ohfiRoot));
+        qDebug("Checking for path %s under ohfi %d", objectstatus.title, objectstatus.ohfiRoot);
         bool found = false;
         for (auto &p : metaMap) {
             if (p.second.path == objectstatus.title) {
                 found = true;
                 metadata_t metadata;
                 copyMetadata(&metadata, &p.second);
-                LOG(QString("Sending metadata for OHFI %1").arg(p.second.ohfi));
+                qDebug("Sending metadata for OHFI %d", p.second.ohfi);
                 if (VitaMTP_SendObjectMetadata(currDev, eventId, &metadata) != PTP_RC_OK) {
-                    LOG(QString("Error sending metadata for %1").arg(p.second.ohfi));
+                    qWarning("Error sending metadata for %d", p.second.ohfi);
                 } else {
                     VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);
                 }
@@ -331,7 +330,7 @@ void VitaConn::processEvent(vita_event_t *evt) {
         }
         free(objectstatus.title);
         if (!found) {
-            LOG(QString("Object %1 not in database (OHFI: %2). Sending OK response for non-existence").arg(objectstatus.title).arg(objectstatus.ohfiRoot));
+            qDebug("Object %s not in database (OHFI: %d). Sending OK response for non-existence", objectstatus.title, objectstatus.ohfiRoot);
             VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);
         }
         break;
@@ -341,7 +340,7 @@ void VitaConn::processEvent(vita_event_t *evt) {
     }
     case PTP_EC_VITA_RequestCancelTask: {
         quint32 eventIdToCancel = evt->Param2;
-        LOG(QString("Canceling event %1").arg(eventIdToCancel));
+        qDebug("Canceling event %d", eventIdToCancel);
         quint16 ret = VitaMTP_CancelTask(currDev, eventIdToCancel);
 
         if (ret == PTP_RC_OK) {
@@ -352,7 +351,7 @@ void VitaConn::processEvent(vita_event_t *evt) {
     case PTP_EC_VITA_RequestSendHttpObjectFromURL: {
         char *url;
         if (VitaMTP_GetUrl(currDev, eventId, &url) != PTP_RC_OK) {
-            LOG("Failed to receive URL");
+            qWarning("Failed to receive URL");
             return;
         }
 
@@ -362,7 +361,7 @@ void VitaConn::processEvent(vita_event_t *evt) {
 
         bool ignorefile = false;
         if (basename == "psp2-updatelist.xml") {
-            LOG("Found request for update list. Sending embedded xml file");
+            qDebug("Found request for update list. Sending embedded xml file");
             QFile res(":/main/resources/xml/psp2-updatelist.xml");
             res.open(QIODevice::ReadOnly);
             data = res.readAll();
@@ -373,14 +372,14 @@ void VitaConn::processEvent(vita_event_t *evt) {
             if (parts.size() >= 2) {
                 parts.removeLast();
                 countryCode = parts.last();
-                qDebug() << "Detected country code from URL: " << countryCode;
+                qDebug("Detected country code from URL: %s", countryCode.toUtf8().constData());
 
                 if (countryCode != "us") {
                     QString regionTag = QString("<region id=\"%1\">").arg(countryCode);
                     data.replace("<region id=\"us\">", qPrintable(regionTag));
                 }
             } else {
-                LOG("No country code found in URL, defaulting to \"us\"");
+                qDebug("No country code found in URL, defaulting to \"us\"");
             }
         } else {
             /*
@@ -415,7 +414,7 @@ void VitaConn::processEvent(vita_event_t *evt) {
             */
         }
 
-        LOG(QString("Sending %1 bytes of data for HTTP request %2").arg(data.size()).arg(url));
+        qDebug("Sending %d bytes of data for HTTP request %s", data.size(), url);
 
         if (VitaMTP_SendHttpObjectFromURL(currDev, eventId, data.data(), data.size()) != PTP_RC_OK) {
             qWarning("Failed to send HTTP object");
@@ -429,11 +428,11 @@ void VitaConn::processEvent(vita_event_t *evt) {
     case PTP_EC_VITA_RequestGetSettingInfo: {
         settings_info_t *settingsinfo;
         if (VitaMTP_GetSettingInfo(currDev, eventId, &settingsinfo) != PTP_RC_OK) {
-            LOG("Failed to get setting info from Vita.");
+            qWarning("Failed to get setting info from Vita.");
             return;
         }
 
-        LOG(QString("Current account id: %1").arg(settingsinfo->current_account.accountId));
+        qDebug("Current account id: %s", settingsinfo->current_account.accountId);
         accountId = settingsinfo->current_account.accountId;
         emit gotAccountId(accountId);
 
@@ -444,12 +443,12 @@ void VitaConn::processEvent(vita_event_t *evt) {
     case PTP_EC_VITA_RequestSendPartOfObject: {
         send_part_init_t part_init;
         if (VitaMTP_SendPartOfObjectInit(currDev, eventId, &part_init) != PTP_RC_OK) {
-            LOG("Cannot get information on object to send");
+            qWarning("Cannot get information on object to send");
             return;
         }
         auto ite = metaMap.find(part_init.ohfi);
         if (ite == metaMap.end()) {
-            LOG(QString("Cannot find object for OHFI %1").arg(part_init.ohfi));
+            qWarning("Cannot find object for OHFI %d", part_init.ohfi);
             VitaMTP_ReportResult(currDev, eventId, PTP_RC_VITA_Invalid_Context);
             return;
         }
@@ -458,20 +457,17 @@ void VitaConn::processEvent(vita_event_t *evt) {
         QString fullPath = dir.path() + "/" + ite->second.path;
         QFile file(fullPath);
         if (!file.open(QIODevice::ReadOnly)) {
-            LOG(QString("Cannot read %1").arg(fullPath));
+            qWarning("Cannot read %s", fullPath);
             VitaMTP_ReportResult(currDev, eventId, PTP_RC_VITA_Not_Exist_Object);
             return;
         }
         file.seek(part_init.offset);
         QByteArray data = file.read(part_init.size);
-        LOG(QString("Sending %1 at file offset %2 for %3 bytes").arg(
-            fullPath, QString::number(part_init.offset), QString::number(part_init.size)
-        ));
+        qDebug("Sending %s at file offset %" PRIu64 " for %" PRIu64 " bytes", fullPath.toUtf8().constData(), part_init.offset, part_init.size);
 
         if (VitaMTP_SendPartOfObject(currDev, eventId, (unsigned char *)data.data(), data.size()) != PTP_RC_OK) {
-            LOG(QString("Failed to send part of object OHFI %1").arg(part_init.ohfi));
+            qWarning("Failed to send part of object OHFI %d", part_init.ohfi);
         } else {
-            LOG(QString("Succeeded to send part of object OHFI %1").arg(part_init.ohfi));
             VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);
         }
         break;
@@ -482,18 +478,16 @@ void VitaConn::processEvent(vita_event_t *evt) {
         quint64 total;
         quint64 free;
 
-        QTemporaryDir tempDir("fhe");
-        tempDir.setAutoRemove(true);
-        if (!getDiskSpace(tempDir.path(), &free, &total)) {
-            LOG("Cannot get disk space");
+        if (!getDiskSpace(appBaseDir, &free, &total)) {
+            qWarning("Cannot get disk space");
             VitaMTP_ReportResult(currDev, eventId, PTP_RC_VITA_Invalid_Permission);
             return;
         }
 
-        LOG(QString("Storage stats for drive containing OHFI %1, free: %2, total: %3").arg(ohfi).arg(free).arg(total));
+        qDebug("Storage stats for drive containing OHFI %d, free: %" PRIu64 ", total: %" PRIu64, ohfi, free, total);
 
         if (VitaMTP_SendStorageSize(currDev, eventId, total, free) != PTP_RC_OK) {
-            LOG("Send storage size failed");
+            qWarning("Send storage size failed");
         } else {
             VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);
         }
@@ -502,30 +496,30 @@ void VitaConn::processEvent(vita_event_t *evt) {
     case PTP_EC_VITA_RequestSendObjectMetadataItems: {
         uint32_t ohfi;
         if (VitaMTP_SendObjectMetadataItems(currDev, eventId, &ohfi) != PTP_RC_OK) {
-            LOG("Cannot get OHFI for retreving metadata");
+            qWarning("Cannot get OHFI for retreving metadata");
             return;
         }
         metadata_t metadata;
 
         auto ite = metaMap.find(ohfi);
         if (ite == metaMap.end()) {
-            LOG(QString("Cannot find OHFI %1 in database").arg(ohfi));
+            qWarning("Cannot find OHFI %d in database", ohfi);
             VitaMTP_ReportResult(currDev, eventId, PTP_RC_VITA_Invalid_OHFI);
             return;
         }
         copyMetadata(&metadata, &ite->second);
-        LOG(QString("Sending metadata for OHFI %1 (%2)").arg(ohfi).arg(metadata.path));
+        qDebug("Sending metadata for OHFI %d (%s)", ohfi, metadata.path);
 
         quint16 ret = VitaMTP_SendObjectMetadata(currDev, eventId, &metadata);
         if (ret != PTP_RC_OK) {
-            LOG(QString("Error sending metadata. Code: 0x%1").arg(ret, 4, 16, QChar('0')));
+            qWarning("Error sending metadata. Code: 0x%04x", ret);
         } else {
             VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);
         }
         break;
     }
     default:
-        LOG(QString("Unimplemented event code: %1").arg(code, 0, 16));
+        qWarning("Unimplemented event code: 0x%04x", code);
         break;
     }
 }
