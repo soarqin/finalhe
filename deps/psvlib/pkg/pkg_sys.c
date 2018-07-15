@@ -1,5 +1,6 @@
 #include "pkg_sys.h"
 #include "pkg_utils.h"
+#include "pkg.h"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -14,6 +15,9 @@
 static HANDLE gStdout;
 static int gStdoutRedirected;
 static UINT gOldCP;
+
+extern pkg_output_func _output_func;
+extern pkg_error_func _error_func;
 
 void sys_output_init(void)
 {
@@ -30,7 +34,7 @@ void sys_output_done(void)
     SetConsoleOutputCP(gOldCP);
 }
 
-void sys_output(const char* msg, ...)
+void sys_output(void *a, const char* msg, ...)
 {
     char buffer[1024];
 
@@ -51,7 +55,7 @@ void sys_output(const char* msg, ...)
     fputs(buffer, stdout);
 }
 
-void sys_error(const char* msg, ...)
+void sys_error(void *a, const char* msg, ...)
 {
     char buffer[1024];
 
@@ -86,7 +90,7 @@ static void sys_mkdir_real(const char* path)
     {
         if (GetLastError() != ERROR_ALREADY_EXISTS)
         {
-            sys_error("ERROR: cannot create '%s' folder\n", path);
+            _error_func(NULL, "ERROR: cannot create '%s' folder\n", path);
         }
     }
 }
@@ -99,13 +103,13 @@ sys_file sys_open(const char* fname, uint64_t* size)
     HANDLE handle = CreateFileW(path, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
     if (handle == INVALID_HANDLE_VALUE)
     {
-        sys_error("ERROR: cannot open '%s' file\n", fname);
+        _error_func(NULL, "ERROR: cannot open '%s' file\n", fname);
     }
 
     LARGE_INTEGER sz;
     if (!GetFileSizeEx(handle, &sz))
     {
-        sys_error("ERROR: cannot get size of '%s' file\n", fname);
+        _error_func(NULL, "ERROR: cannot get size of '%s' file\n", fname);
     }
     *size = sz.QuadPart;
 
@@ -120,7 +124,7 @@ sys_file sys_create(const char* fname)
     HANDLE handle = CreateFileW(path, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
     if (handle == INVALID_HANDLE_VALUE)
     {
-        sys_error("ERROR: cannot create '%s' file\n", fname);
+        _error_func(NULL, "ERROR: cannot create '%s' file\n", fname);
     }
 
     return handle;
@@ -130,7 +134,7 @@ void sys_close(sys_file file)
 {
     if (!CloseHandle(file))
     {
-        sys_error("ERROR: failed to close file\n");
+        _error_func(NULL, "ERROR: failed to close file\n");
     }
 }
 
@@ -143,7 +147,7 @@ void sys_read(sys_file file, uint64_t offset, void* buffer, uint32_t size)
     ov.OffsetHigh = (uint32_t)(offset >> 32);
     if (!ReadFile(file, buffer, size, &read, &ov) || read != size)
     {
-        sys_error("ERROR: failed to read %u bytes from file\n", size);
+        _error_func(NULL, "ERROR: failed to read %u bytes from file\n", size);
     }
 }
 
@@ -156,7 +160,7 @@ void sys_write(sys_file file, uint64_t offset, const void* buffer, uint32_t size
     ov.OffsetHigh = (uint32_t)(offset >> 32);
     if (!WriteFile(file, buffer, size, &written, &ov) || written != size)
     {
-        sys_error("ERROR: failed to write %u bytes to file\n", size);
+        _error_func(NULL, "ERROR: failed to write %u bytes to file\n", size);
     }
 }
 
@@ -180,7 +184,7 @@ void sys_output_done(void)
 {
 }
 
-void sys_output(const char* msg, ...)
+void sys_output(void *a, const char* msg, ...)
 {
     va_list arg;
     va_start(arg, msg);
@@ -188,7 +192,7 @@ void sys_output(const char* msg, ...)
     va_end(arg);
 }
 
-void sys_error(const char* msg, ...)
+void sys_error(void *a, const char* msg, ...)
 {
     va_list arg;
     va_start(arg, msg);
@@ -204,7 +208,7 @@ static void sys_mkdir_real(const char* path)
     {
         if (errno != EEXIST)
         {
-            sys_error("ERROR: cannot create '%s' folder\n", path);
+            _error_func(NULL, "ERROR: cannot create '%s' folder\n", path);
         }
     }
 }
@@ -214,13 +218,13 @@ sys_file sys_open(const char* fname, uint64_t* size)
     int fd = open(fname, O_RDONLY);
     if (fd < 0)
     {
-        sys_error("ERROR: cannot open '%s' file\n", fname);
+        _error_func(NULL, "ERROR: cannot open '%s' file\n", fname);
     }
 
     struct stat st;
     if (fstat(fd, &st) != 0)
     {
-        sys_error("ERROR: cannot get size of '%s' file\n", fname);
+        _error_func(NULL, "ERROR: cannot get size of '%s' file\n", fname);
     }
     *size = st.st_size;
 
@@ -232,7 +236,7 @@ sys_file sys_create(const char* fname)
     int fd = open(fname, O_RDWR | O_CREAT | O_TRUNC, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
     if (fd < 0)
     {
-        sys_error("ERROR: cannot create '%s' file\n", fname);
+        _error_func(NULL, "ERROR: cannot create '%s' file\n", fname);
     }
 
     return (void*)(intptr_t)fd;
@@ -242,7 +246,7 @@ void sys_close(sys_file file)
 {
     if (close((int)(intptr_t)file) != 0)
     {
-        sys_error("ERROR: failed to close file\n");
+        _error_func(NULL, "ERROR: failed to close file\n");
     }
 }
 
@@ -251,7 +255,7 @@ void sys_read(sys_file file, uint64_t offset, void* buffer, uint32_t size)
     ssize_t read = pread((int)(intptr_t)file, buffer, size, offset);
     if (read < 0 || read != (ssize_t)size)
     {
-        sys_error("ERROR: failed to read %u bytes from file\n", size);
+        _error_func(NULL, "ERROR: failed to read %u bytes from file\n", size);
     }
 }
 
@@ -260,7 +264,7 @@ void sys_write(sys_file file, uint64_t offset, const void* buffer, uint32_t size
     ssize_t wrote = pwrite((int)(intptr_t)file, buffer, size, offset);
     if (wrote < 0 || wrote != (ssize_t)size)
     {
-        sys_error("ERROR: failed to read %u bytes from file\n", size);
+        _error_func(NULL, "ERROR: failed to read %u bytes from file\n", size);
     }
 }
 
@@ -296,12 +300,12 @@ void* sys_realloc(void* ptr, size_t size)
     }
     else
     {
-        sys_error("ERROR: internal error, wrong sys_realloc usage\n");
+        _error_func(NULL, "ERROR: internal error, wrong sys_realloc usage\n");
     }
 
     if (!result)
     {
-        sys_error("ERROR: out of memory\n");
+        _error_func(NULL, "ERROR: out of memory\n");
     }
 
     return result;
@@ -322,13 +326,13 @@ void sys_vstrncat(char* dst, size_t n, const char* format, ...)
 static uint64_t out_size;
 static uint32_t out_next;
 
-void sys_output_progress_init(uint64_t size)
+void sys_output_progress_init(void *arg, uint64_t size)
 {
     out_size = size;
     out_next = 0;
 }
 
-void sys_output_progress(uint64_t progress)
+void sys_output_progress(void *arg, uint64_t progress)
 {
     if (gStdoutRedirected)
     {
@@ -338,7 +342,7 @@ void sys_output_progress(uint64_t progress)
     uint32_t now = (uint32_t)(progress * 100 / out_size);
     if (now >= out_next)
     {
-        sys_output("[*] unpacking... %u%%\r", now);
+        _output_func(arg, "[*] unpacking... %u%%\r", now);
         out_next = now + 1;
     }
 }

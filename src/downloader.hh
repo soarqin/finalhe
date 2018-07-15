@@ -36,13 +36,15 @@ public:
     void doGet(const QUrl &url, void *arg);
 
 signals:
-    void finishedFile(QFile*);
+    void downloadProgress(uint64_t curr, uint64_t total);
+    void finishedFile(QFile *file);
     void finishedGet(void *arg);
 
-public slots:
+private slots:
     void downloadFinished(QNetworkReply *reply);
     void readyReadFileReply(RequestFile*);
     void readyReadGetReply(RequestGet*);
+    void downloadProg(qint64 curr, qint64 total);
 #if QT_CONFIG(ssl)
     void sslErrors(const QList<QSslError> &errors);
 #endif

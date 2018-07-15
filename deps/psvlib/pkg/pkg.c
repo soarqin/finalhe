@@ -23,11 +23,11 @@ static const uint8_t pkg_vita_2[] = { 0xe3, 0x1a, 0x70, 0xc9, 0xce, 0x1d, 0xd7, 
 static const uint8_t pkg_vita_3[] = { 0x42, 0x3a, 0xca, 0x3a, 0x2b, 0xd5, 0x64, 0x9f, 0x96, 0x86, 0xab, 0xad, 0x6f, 0xd8, 0x80, 0x1f };
 static const uint8_t pkg_vita_4[] = { 0xaf, 0x07, 0xfd, 0x59, 0x65, 0x25, 0x27, 0xba, 0xf1, 0x33, 0x89, 0x66, 0x8b, 0x17, 0xd9, 0xea };
 
-static pkg_output_func _output_func = sys_output;
-static pkg_error_func _error_func = sys_error;
+pkg_output_func _output_func = sys_output;
+pkg_error_func _error_func = sys_error;
 static pkg_output_progress_init_func _output_progress_init_func = sys_output_progress_init;
 static pkg_output_progress_func _output_progress_func = sys_output_progress;
-
+static void *_output_arg = NULL;
 
 // http://vitadevwiki.com/vita/System_File_Object_(SFO)_(PSF)#Internal_Structure
 // https://github.com/TheOfficialFloW/VitaShell/blob/1.74/sfo.h#L29
@@ -35,7 +35,7 @@ static int parse_sfo_content(const uint8_t* sfo, uint32_t sfo_size, char* catego
 {
     if (get32le(sfo) != 0x46535000)
     {
-        _error_func("ERROR: incorrect sfo signature\n");
+        _error_func(_output_arg, "ERROR: incorrect sfo signature\n");
         return -1;
     }
 
@@ -52,7 +52,7 @@ static int parse_sfo_content(const uint8_t* sfo, uint32_t sfo_size, char* catego
     {
         if (i * 16 + 20 + 2 > sfo_size)
         {
-            _error_func("ERROR: sfo information is too small\n");
+            _error_func(_output_arg, "ERROR: sfo information is too small\n");
             return -1;
         }
 
@@ -88,7 +88,7 @@ static int parse_sfo_content(const uint8_t* sfo, uint32_t sfo_size, char* catego
 
     if (title_index < 0)
     {
-        _error_func("ERROR: cannot find title from sfo file, pkg is probably corrupted\n");
+        _error_func(_output_arg, "ERROR: cannot find title from sfo file, pkg is probably corrupted\n");
         return -1;
     }
 
@@ -179,12 +179,12 @@ static int parse_sfo(sys_file f, uint64_t sfo_offset, uint32_t sfo_size, char* c
     uint8_t sfo[16 * 1024];
     if (sfo_size < 16)
     {
-        _error_func("ERROR: sfo information is too small\n");
+        _error_func(_output_arg, "ERROR: sfo information is too small\n");
         return -1;
     }
     if (sfo_size > sizeof(sfo))
     {
-        _error_func("ERROR: sfo information is too big, pkg file is probably corrupted\n");
+        _error_func(_output_arg, "ERROR: sfo information is too big, pkg file is probably corrupted\n");
         return -1;
     }
     sys_read(f, sfo_offset, sfo, sfo_size);
@@ -235,7 +235,7 @@ static int use_sys_output = 1;
 int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
 {
     if (use_sys_output) sys_output_init();
-    _output_func("[*] loading...\n");
+    _output_func(_output_arg, "[*] loading...\n");
 
     uint64_t pkg_size;
     sys_file pkg = sys_open(pkgname, &pkg_size);
@@ -245,7 +245,7 @@ int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
 
     if (get32be(pkg_header) != 0x7f504b47 || get32be(pkg_header + PKG_HEADER_SIZE) != 0x7F657874)
     {
-        _error_func("ERROR: not a pkg file\n");
+        _error_func(_output_arg, "ERROR: not a pkg file\n");
         return -1;
     }
 
@@ -261,12 +261,12 @@ int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
 
     if (pkg_size < total_size)
     {
-        _error_func("ERROR: pkg file is too small\n");
+        _error_func(_output_arg, "ERROR: pkg file is too small\n");
         return -1;
     }
     if (pkg_size < enc_offset + item_count * 32)
     {
-        _error_func("ERROR: pkg file is too small\n");
+        _error_func(_output_arg, "ERROR: pkg file is too small\n");
         return -1;
     }
 
@@ -318,7 +318,7 @@ int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
     }
     else
     {
-        _error_func("ERROR: unsupported content type 0x%x", content_type);
+        _error_func(_output_arg, "ERROR: unsupported content type 0x%x", content_type);
     }
 
     uint8_t main_key[16];
@@ -380,7 +380,7 @@ int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
         const char* rif_contentid = (char*)rif + (type == PKG_TYPE_VITA_PSM ? 0x50 : 0x10);
         if (strncmp(rif_contentid, content, 0x30) != 0)
         {
-            _error_func("ERROR: zRIF content id '%s' doesn't match pkg '%s'\n", rif_contentid, content);
+            _error_func(_output_arg, "ERROR: zRIF content id '%s' doesn't match pkg '%s'\n", rif_contentid, content);
         }
     }
 
@@ -388,27 +388,27 @@ int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
     if (type == PKG_TYPE_VITA_DLC)
     {
         snprintf(root, sizeof(root), "%s [%.9s] [%s] [DLC-%s]", title, id, get_region(id), id2);
-        _output_func("[*] unpacking Vita DLC\n");
+        _output_func(_output_arg, "[*] unpacking Vita DLC\n");
     }
     else if (type == PKG_TYPE_VITA_PATCH)
     {
         snprintf(root, sizeof(root), "%s [%.9s] [%s] [PATCH] [v%s]", title, id, get_region(id), pkg_version);
-        _output_func("[*] unpacking Vita PATCH\n");
+        _output_func(_output_arg, "[*] unpacking Vita PATCH\n");
     }
     else if (type == PKG_TYPE_VITA_PSM)
     {
         snprintf(root, sizeof(root), "%.9s [%s] [PSM]", id, get_region(id));
-        _output_func("[*] unpacking Vita PSM\n");
+        _output_func(_output_arg, "[*] unpacking Vita PSM\n");
     }
     else if (type == PKG_TYPE_VITA_APP)
     {
         snprintf(root, sizeof(root), "%s [%.9s] [%s]", title, id, get_region(id));
-        _output_func("[*] unpacking Vita APP\n");
+        _output_func(_output_arg, "[*] unpacking Vita APP\n");
     }
     else
     {
         assert(0);
-        _error_func("ERROR: unsupported type\n");
+        _error_func(_output_arg, "ERROR: unsupported type\n");
     }
 
     if (target_dir == NULL)
@@ -454,14 +454,14 @@ int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
     else
     {
         assert(0);
-        _error_func("ERROR: unsupported type\n");
+        _error_func(_output_arg, "ERROR: unsupported type\n");
     }
 
     char path[1024];
 
     int sce_sys_package_created = 0;
 
-    _output_progress_init_func(pkg_size);
+    _output_progress_init_func(_output_arg, pkg_size);
 
     for (uint32_t item_index = 0; item_index < item_count; item_index++)
     {
@@ -483,12 +483,12 @@ int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
         if (pkg_size < enc_offset + name_offset + name_size ||
             pkg_size < enc_offset + data_offset + data_size)
         {
-            _error_func("ERROR: pkg file is too short, possibly corrupted\n");
+            _error_func(_output_arg, "ERROR: pkg file is too short, possibly corrupted\n");
         }
 
         if (name_size >= ZIP_MAX_FILENAME)
         {
-            _error_func("ERROR: pkg file contains file with very long name\n");
+            _error_func(_output_arg, "ERROR: pkg file contains file with very long name\n");
         }
 
         const aes_context* item_key = &key;
@@ -498,7 +498,7 @@ int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
         aes_ctr_xor(item_key, iv, name_offset / 16, (uint8_t*)name, name_size);
         name[name_size] = 0;
 
-        // _output_func("[%u/%u] %s\n", item_index + 1, item_count, name);
+        // _output_func(_output_arg, "[%u/%u] %s\n", item_index + 1, item_count, name);
 
         if (flags == 4 || flags == 18)
         {
@@ -557,7 +557,7 @@ int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
             {
                 uint8_t PKG_ALIGN(16) buffer[1 << 16];
                 uint32_t size = (uint32_t)min64(data_size, sizeof(buffer));
-                _output_progress_func(enc_offset + offset);
+                _output_progress_func(_output_arg, enc_offset + offset);
                 sys_read(pkg, enc_offset + offset, buffer, size);
 
                 if (decrypt)
@@ -573,18 +573,18 @@ int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
         }
     }
 
-    _output_func("[*] unpacking completed\n");
+    _output_func(_output_arg, "[*] unpacking completed\n");
 
     if (type == PKG_TYPE_VITA_APP || type == PKG_TYPE_VITA_DLC || type == PKG_TYPE_VITA_PATCH)
     {
         if (!sce_sys_package_created)
         {
-            _output_func("[*] creating sce_sys/package\n");
+            _output_func(_output_arg, "[*] creating sce_sys/package\n");
             snprintf(path, sizeof(path), "%s/sce_sys/package", root);
             out_add_folder(path);
         }
 
-        _output_func("[*] creating sce_sys/package/head.bin\n");
+        _output_func(_output_arg, "[*] creating sce_sys/package/head.bin\n");
         snprintf(path, sizeof(path), "%s/sce_sys/package/head.bin", root);
 
         out_begin_file(path);
@@ -601,7 +601,7 @@ int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
         }
         out_end_file();
 
-        _output_func("[*] creating sce_sys/package/tail.bin\n");
+        _output_func(_output_arg, "[*] creating sce_sys/package/tail.bin\n");
         snprintf(path, sizeof(path), "%s/sce_sys/package/tail.bin", root);
 
         out_begin_file(path);
@@ -616,7 +616,7 @@ int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
         }
         out_end_file();
 
-        _output_func("[*] creating sce_sys/package/stat.bin\n");
+        _output_func(_output_arg, "[*] creating sce_sys/package/stat.bin\n");
         snprintf(path, sizeof(path), "%s/sce_sys/package/stat.bin", root);
 
         uint8_t stat[768] = { 0 };
@@ -629,16 +629,16 @@ int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
     {
         if (type == PKG_TYPE_VITA_PSM)
         {
-            _output_func("[*] creating RO/License\n");
+            _output_func(_output_arg, "[*] creating RO/License\n");
             snprintf(path, sizeof(path), "%s/RO/License", root);
             out_add_folder(path);
 
-            _output_func("[*] creating RO/License/FAKE.rif\n");
+            _output_func(_output_arg, "[*] creating RO/License/FAKE.rif\n");
             snprintf(path, sizeof(path), "%s/RO/License/FAKE.rif", root);
         }
         else
         {
-            _output_func("[*] creating sce_sys/package/work.bin\n");
+            _output_func(_output_arg, "[*] creating sce_sys/package/work.bin\n");
             snprintf(path, sizeof(path), "%s/sce_sys/package/work.bin", root);
         }
 
@@ -649,29 +649,29 @@ int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
 
     if (type == PKG_TYPE_VITA_PSM)
     {
-        _output_func("[*] creating RW\n");
+        _output_func(_output_arg, "[*] creating RW\n");
         snprintf(path, sizeof(path), "%s/RW", root);
         out_add_folder(path);
 
-        _output_func("[*] creating RW/Documents\n");
+        _output_func(_output_arg, "[*] creating RW/Documents\n");
         snprintf(path, sizeof(path), "%s/RW/Documents", root);
         out_add_folder(path);
 
-        _output_func("[*] creating RW/Temp\n");
+        _output_func(_output_arg, "[*] creating RW/Temp\n");
         snprintf(path, sizeof(path), "%s/RW/Temp", root);
         out_add_folder(path);
 
-        _output_func("[*] creating RW/System\n");
+        _output_func(_output_arg, "[*] creating RW/System\n");
         snprintf(path, sizeof(path), "%s/RW/System", root);
         out_add_folder(path);
 
-        _output_func("[*] creating RW/System/content_id\n");
+        _output_func(_output_arg, "[*] creating RW/System/content_id\n");
         snprintf(path, sizeof(path), "%s/RW/System/content_id", root);
         out_begin_file(path);
         out_write(pkg_header + 0x30, 0x30);
         out_end_file();
 
-        _output_func("[*] creating RW/System/pm.dat\n");
+        _output_func(_output_arg, "[*] creating RW/System/pm.dat\n");
         snprintf(path, sizeof(path), "%s/RW/System/pm.dat", root);
 
         uint8_t pm[1 << 16] = { 0 };
@@ -682,49 +682,46 @@ int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
 
     if (type == PKG_TYPE_VITA_APP || type == PKG_TYPE_VITA_PATCH)
     {
-        _output_func("[*] minimum fw version required: %s\n", min_version);
+        _output_func(_output_arg, "[*] minimum fw version required: %s\n", min_version);
     }
 
-    _output_func("[*] done!\n");
+    _output_func(_output_arg, "[*] done!\n");
     if (use_sys_output) sys_output_done();
     return 0;
 }
 
-void dummy_out(const char* msg, ...) {}
-void dummy_error(const char* msg, ...) {}
-void dummy_progress_init(uint64_t size) {}
-void dummy_progress(uint64_t progress) {}
+void dummy_out(void *arg, const char* msg, ...) {}
+void dummy_error(void *arg, const char* msg, ...) {}
+void dummy_progress_init(void *arg, uint64_t size) {}
+void dummy_progress(void *arg, uint64_t progress) {}
 
 void pkg_disable_output() {
-    pkg_set_func(dummy_out, dummy_error, dummy_progress_init, dummy_progress);
+    pkg_set_func(dummy_out, dummy_error, dummy_progress_init, dummy_progress, NULL);
+}
+
+void pkg_enable_sys_output() {
+    pkg_set_func(sys_output, sys_error, sys_output_progress_init, sys_output_progress, NULL);
 }
 
 void pkg_set_func(pkg_output_func out, pkg_error_func err,
     pkg_output_progress_init_func proginit,
-    pkg_output_progress_func prog) {
+    pkg_output_progress_func prog, void *arg) {
     use_sys_output = 0;
+    _output_arg = arg;
     if (out != NULL)
         _output_func = out;
-    else {
-        _output_func = sys_output;
-        use_sys_output = 1;
-    }
+    else
+        _output_func = dummy_out;
     if (err != NULL)
         _error_func = err;
-    else {
-        _error_func = sys_error;
-        use_sys_output = 1;
-    }
+    else
+        _error_func = dummy_error;
     if (proginit != NULL)
         _output_progress_init_func = proginit;
-    else {
-        _output_progress_init_func = sys_output_progress_init;
-        use_sys_output = 1;
-    }
+    else
+        _output_progress_init_func = dummy_progress_init;
     if (prog != NULL)
         _output_progress_func = prog;
-    else {
-        _output_progress_func = sys_output_progress;
-        use_sys_output = 1;
-    }
+    else
+        _output_progress_func = dummy_progress;
 }

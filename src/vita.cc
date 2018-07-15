@@ -42,28 +42,6 @@ static bool getDiskSpace(const QString &dir, quint64 *free, quint64 *total) {
     return false;
 }
 
-#define PTP_EC_VITA_RequestSendNumOfObject 0xC104
-#define PTP_EC_VITA_RequestSendObjectMetadata 0xC105
-#define PTP_EC_VITA_RequestSendObject 0xC107
-#define PTP_EC_VITA_RequestCancelTask 0xC108
-#define PTP_EC_VITA_RequestSendHttpObjectFromURL 0xC10B
-#define PTP_EC_VITA_Unknown1 0xC10D
-#define PTP_EC_VITA_RequestSendObjectStatus 0xC10F
-#define PTP_EC_VITA_RequestSendObjectThumb 0xC110
-#define PTP_EC_VITA_RequestDeleteObject 0xC111
-#define PTP_EC_VITA_RequestGetSettingInfo 0xC112
-#define PTP_EC_VITA_RequestSendHttpObjectPropFromURL 0xC113
-#define PTP_EC_VITA_RequestSendPartOfObject 0xC115
-#define PTP_EC_VITA_RequestOperateObject 0xC117
-#define PTP_EC_VITA_RequestGetPartOfObject 0xC118
-#define PTP_EC_VITA_RequestSendStorageSize 0xC119
-#define PTP_EC_VITA_RequestCheckExistance 0xC120
-#define PTP_EC_VITA_RequestGetTreatObject 0xC122
-#define PTP_EC_VITA_RequestSendCopyConfirmationInfo 0xC123
-#define PTP_EC_VITA_RequestSendObjectMetadataItems 0xC124
-#define PTP_EC_VITA_RequestSendNPAccountInfo 0xC125
-#define PTP_EC_VITA_RequestTerminate 0xC126
-
 static capability_info_t *generate_pc_capability_info() {
     typedef capability_info::capability_info_function tfunction;
     typedef tfunction::capability_info_format tformat;
@@ -141,11 +119,12 @@ void VitaConn::process() {
     Worker::start(this, [this](void*) {
         while (running) {
             if (currDev == nullptr) {
+                emit setStatusText(tr("Waiting for connection to PS Vita..."));
                 doConnect();
                 if (currDev == nullptr) {
                     QThread::sleep(2);
+                    continue;
                 }
-                continue;
             }
             vita_event_t evt;
             int res = VitaMTP_Read_Event(currDev, &evt);
@@ -173,6 +152,7 @@ void VitaConn::buildData() {
     auto *thisMeta = metaAddFile(dir.path(), "PCSG90096", ohfi, VITA_OHFI_VITAAPP, VITA_OHFI_VITAAPP, true);
     recursiveScanRootDirectory(dir.path(), "PCSG90096", ohfi, VITA_OHFI_VITAAPP);
     thisMeta->updateSize();
+    emit builtData();
 }
 
 int VitaConn::recursiveScanRootDirectory(const QString &base_path, const QString &rel_path, int parent_ohfi, int root_ohfi) {
@@ -217,6 +197,7 @@ void VitaConn::doConnect() {
         return;
     }
     onlineId = info.onlineId;
+    emit setStatusText(tr("Connected to PS Vita [%1], Waiting for account ID").arg(onlineId));
     const initiator_info_t *iinfo = VitaMTP_Data_Initiator_New(QHostInfo::localHostName().toUtf8().data(), VITAMTP_PROTOCOL_FW_3_30);
     if (VitaMTP_SendInitiatorInfo(currDev, (initiator_info_t *)iinfo) != PTP_RC_OK) {
         VitaMTP_Data_Free_Initiator(iinfo);
@@ -387,7 +368,7 @@ void VitaConn::processEvent(vita_event_t *evt) {
             data = file.readAll();
 
             if (basename == "psp2-updatelist.xml" && !ignorefile) {
-                messageSent(tr("The PSVita has requested an update check, sending local xml file and ignoring version settings"));
+                messageSent(tr("The PS Vita has requested an update check, sending local xml file and ignoring version settings"));
             } else {
                 QString versiontype = settings.value("versiontype", "zero").toString();
                 QString customVersion = settings.value("customversion", "00.000.000").toString();
@@ -434,6 +415,7 @@ void VitaConn::processEvent(vita_event_t *evt) {
 
         qDebug("Current account id: %s", settingsinfo->current_account.accountId);
         accountId = settingsinfo->current_account.accountId;
+        emit setStatusText(tr("Connected to PS Vita [%1] (%2)").arg(onlineId).arg(accountId));
         emit gotAccountId(accountId);
 
         VitaMTP_Data_Free_Settings(settingsinfo);

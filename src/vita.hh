@@ -42,6 +42,8 @@ public slots:
 
 signals:
     void gotAccountId(QString);
+    void setStatusText(QString);
+    void builtData();
 
 private:
     int recursiveScanRootDirectory(const QString &base_path, const QString &rel_path, int parent_ohfi, int root_ohfi);

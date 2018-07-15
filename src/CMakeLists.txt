@@ -31,7 +31,7 @@ set(TRANSLATION_FILES
 )
 qt5_add_resources(FINALHE_RCC_SRC finalhe.qrc)
 
-qt5_create_translation(TRANSLATION_MESSAGES main.cc package.cc vita.cc ${UI_FILES} ${TRANSLATION_FILES})
+qt5_create_translation(TRANSLATION_MESSAGES main.cc finalhe.cc package.cc vita.cc ${UI_FILES} ${TRANSLATION_FILES})
 qt5_add_translation(TRANSLATION_QM ${TRANSLATION_FILES})
 
 source_group(src FILES ${SRC_FILES})
@@ -54,7 +54,7 @@ endif ()
 
 add_custom_command(TARGET FinalHE POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::Core> $<TARGET_FILE:Qt5::Gui> $<TARGET_FILE:Qt5::Widgets> $<TARGET_FILE:Qt5::Network> $<TARGET_FILE_DIR:FinalHE>
-	COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:FinalHE>/lang
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${TRANSLATION_QM} $<TARGET_FILE_DIR:FinalHE>/lang
+	COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:FinalHE>/language
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${TRANSLATION_QM} $<TARGET_FILE_DIR:FinalHE>/language
 	DEPENDS ${TRANSLATION_QM}
 )

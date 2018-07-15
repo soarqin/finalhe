@@ -6,18 +6,23 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>414</width>
-    <height>321</height>
+    <width>464</width>
+    <height>329</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="font">
    <font>
-    <family>Segoe UI</family>
     <pointsize>12</pointsize>
    </font>
   </property>
   <property name="windowTitle">
-   <string>Final h-encore</string>
+   <string>Final h-encore v1.0</string>
   </property>
   <property name="locale">
    <locale language="C" country="AnyCountry"/>
@@ -115,10 +120,12 @@
          <property name="font">
           <font>
            <pointsize>25</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
           </font>
          </property>
          <property name="text">
-          <string>Let's GO!</string>
+          <string> Let's GO! </string>
          </property>
         </widget>
        </item>
@@ -130,6 +137,12 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
          <property name="text">
           <string>Trim h-encore to ~13MB</string>
          </property>
@@ -139,6 +152,13 @@
      </widget>
     </item>
     <item>
+     <widget class="Line" name="line">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
      <widget class="QLabel" name="textMTP">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -146,12 +166,25 @@
         <verstretch>0</verstretch>
        </sizepolicy>
       </property>
+      <property name="font">
+       <font>
+        <weight>75</weight>
+        <bold>true</bold>
+       </font>
+      </property>
       <property name="text">
        <string/>
       </property>
      </widget>
     </item>
     <item>
+     <widget class="Line" name="line_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item alignment="Qt::AlignHCenter">
      <widget class="QLabel" name="textPkg">
       <property name="text">
        <string/>
@@ -177,6 +210,8 @@
    <zorder>progressBar</zorder>
    <zorder>textPkg</zorder>
    <zorder>textMTP</zorder>
+   <zorder>line</zorder>
+   <zorder>line_2</zorder>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>

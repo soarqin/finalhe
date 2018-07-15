@@ -5,11 +5,11 @@
 // correctly outputs utf8 string
 void sys_output_init(void);
 void sys_output_done(void);
-void sys_output(const char* msg, ...);
-void sys_error(const char* msg, ...);
+void sys_output(void *arg, const char* msg, ...);
+void sys_error(void *arg, const char* msg, ...);
 
-void sys_output_progress_init(uint64_t size);
-void sys_output_progress(uint64_t progress);
+void sys_output_progress_init(void *arg, uint64_t size);
+void sys_output_progress(void *arg, uint64_t progress);
 
 typedef void* sys_file;
 

@@ -1,16 +1,14 @@
 #include "pkg_zrif.h"
 #include "pkg_utils.h"
 #include "pkg_sys.h"
+#include "pkg.h"
 #include <base64.h>
 #include <zlib.h>
 
 #include <assert.h>
 #include <string.h>
 
-#define ADLER32_MOD 65521
-
-#define ZLIB_DEFLATE_METHOD 8
-#define ZLIB_DICTIONARY_ID_ZRIF 0x627d1d5d
+extern pkg_error_func _error_func;
 
 static const uint8_t zrif_dict[] =
 {
@@ -57,7 +55,7 @@ static uint32_t zlib_inflate(const uint8_t* in, uint32_t inlen, uint8_t* out, ui
 
     err = inflateInit(&d_stream);
     if (err != Z_OK) {
-        sys_error("ERROR: zRIF header is corrupted");
+        _error_func(NULL, "ERROR: zRIF header is corrupted");
     }
 
     d_stream.next_out = out;
@@ -71,13 +69,13 @@ static uint32_t zlib_inflate(const uint8_t* in, uint32_t inlen, uint8_t* out, ui
                 (int)sizeof(zrif_dict));
         }
         if (err != Z_OK) {
-            sys_error("ERROR: failed to uncompress zRIF");
+            _error_func(NULL, "ERROR: failed to uncompress zRIF");
         }
     }
 
     err = inflateEnd(&d_stream);
     if (err != Z_OK) {
-        sys_error("ERROR: failed to uncompress zRIF\n");
+        _error_func(NULL, "ERROR: failed to uncompress zRIF\n");
     }
     return d_stream.total_out;
 }
@@ -87,14 +85,14 @@ void zrif_decode(const char* str, uint8_t* rif, uint32_t rif_size)
     uint8_t raw[1024];
     size_t len;
     if (base64_decode(raw, 1024, &len, (const uint8_t*)str, strlen(str)) < 0) {
-        sys_error("ERROR: invalid zRIF!\n");
+        _error_func(NULL, "ERROR: invalid zRIF!\n");
     }
 
     uint8_t out[sizeof(zrif_dict) + 1024];
     len = zlib_inflate(raw, len, out, sizeof(out));
     if (len != rif_size)
     {
-        sys_error("ERROR: wrong size of zRIF, is it corrupted?\n");
+        _error_func(NULL, "ERROR: wrong size of zRIF, is it corrupted?\n");
     }
 
     memcpy(rif, out, rif_size);

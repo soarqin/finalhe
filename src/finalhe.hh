@@ -1,14 +1,15 @@
 #pragma once
 
 #include "ui_finalhe.h"
-#include "package.hh"
-#include "vita.hh"
 
 #include <QtWidgets/QMainWindow>
 #include <QString>
 #include <QTranslator>
 #include <QTimer>
 #include <QDir>
+
+class Package;
+class VitaConn;
 
 class FinalHE: public QMainWindow {
     Q_OBJECT
@@ -24,8 +25,6 @@ private slots:
     void trimState(int);
     void setTextMTP(QString);
     void setTextPkg(QString);
-    void setProgressMax(int);
-    void setProgress(int);
 
 private:
     void loadLanguage(const QString &s);

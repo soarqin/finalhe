@@ -18,6 +18,7 @@ void Downloader::doDownload(const QUrl &url, QFile *fileToWrite) {
     requests.push_back(rf);
 
     connect(reply, &QNetworkReply::readyRead, this, [this, rf] { readyReadFileReply(rf); });
+    connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(downloadProg(qint64, qint64)));
 #if QT_CONFIG(ssl)
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)),
         SLOT(sslErrors(QList<QSslError>)));
@@ -53,6 +54,10 @@ void Downloader::readyReadFileReply(RequestFile *rf) {
 
 void Downloader::readyReadGetReply(RequestGet *rg) {
     ((QString*)rg->getArg)->append(rg->reply->readAll());
+}
+
+void Downloader::downloadProg(qint64 curr, qint64 total) {
+    emit downloadProgress(curr, total);
 }
 
 void Downloader::downloadFinished(QNetworkReply *reply) {

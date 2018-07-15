@@ -12,6 +12,7 @@ public:
     virtual ~Package();
 
     inline void setTrim(bool t) { trimApp = t; }
+    void tips();
 
 signals:
     void startDownload();
@@ -19,6 +20,8 @@ signals:
     void unpackedHencore();
     void createdPsvImgs();
     void gotBackupKey();
+    void setStatusText(QString);
+    void setPercent(int);
 
 private:
     void get(const QString &url, QString &result);
@@ -30,11 +33,13 @@ private:
 
 public slots:
     void getBackupKey(const QString &aid);
+    void finishBuildData();
 
 private slots:
     void downloadDemo();
     void downloadHencore();
     void createPsvImgs();
+    void downloadProg(uint64_t, uint64_t);
     void downloadFinished(QFile*);
     void fetchFinished(void*);
 
