@@ -680,6 +680,8 @@ int pkg_dec(const char *pkgname, const char *target_dir, const char *zrif)
         out_end_file();
     }
 
+    sys_close(pkg);
+
     if (type == PKG_TYPE_VITA_APP || type == PKG_TYPE_VITA_PATCH)
     {
         _output_func(_output_arg, "[*] minimum fw version required: %s\n", min_version);

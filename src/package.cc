@@ -10,6 +10,9 @@
 #include <QDir>
 #include <QDebug>
 
+const char *HENCORE_FULL_FILE = "h-encore-full.zip";
+const char *HENCORE_FULL_SHA256 = "3ea59bdf6e7d8f5aa96cabd4f0577fcf78822970f463680b0758a5aaa332452d";
+
 const char *HENCORE_URL = "https://github.com/TheOfficialFloW/h-encore/releases/download/v1.0/h-encore.zip";
 const char *HENCORE_FILE = "h-encore.zip";
 const char *HENCORE_SHA256 = "65a5eee6654bb7889e4c0543d09fa4e9eced53c76b25d23e12d23e7a28846b0a";
@@ -23,7 +26,8 @@ Package::Package(const QString &basePath, QObject *obj_parent): QObject(obj_pare
     connect(&downloader, SIGNAL(finishedFile(QFile*)), this, SLOT(downloadFinished(QFile*)));
     connect(&downloader, SIGNAL(finishedGet(void*)), this, SLOT(fetchFinished(void*)));
     connect(&downloader, SIGNAL(downloadProgress(uint64_t, uint64_t)), this, SLOT(downloadProg(uint64_t, uint64_t)));
-    connect(this, SIGNAL(startDownload()), SLOT(downloadDemo()));
+    connect(this, SIGNAL(startDownload()), SLOT(checkHencoreFull()));
+    connect(this, SIGNAL(noHencoreFull()), SLOT(downloadDemo()));
     connect(this, SIGNAL(unpackedDemo()), SLOT(downloadHencore()));
     connect(this, SIGNAL(unpackedHencore()), SLOT(createPsvImgs()));
 }
@@ -105,7 +109,7 @@ void _output_progress(void *arg, uint64_t progress) {
     emit ((Package*)arg)->setPercent((int)(progress * 100ULL / demoSize));
 }
 
-bool Package::startUnpackDemo(const char *filename) {
+void Package::startUnpackDemo(const char *filename) {
     static bool succ = false;
     Worker::start(this, [this, filename](void *arg) {
         *(bool*)arg = false;
@@ -138,10 +142,9 @@ bool Package::startUnpackDemo(const char *filename) {
             emit unpackedDemo();
         }
     }, &succ);
-    return true;
 }
 
-bool Package::startUnpackHencore(const char *filename) {
+void Package::startUnpackHencore(const char *filename) {
     static bool succ = false;
     Worker::start(this, [this, filename](void *arg) {
         emit setPercent(0);
@@ -195,7 +198,6 @@ bool Package::startUnpackHencore(const char *filename) {
             emit unpackedHencore();
         }
     }, &succ);
-    return true;
 }
 
 bool Package::verify(const QString &filepath, const char *sha256sum) {
@@ -236,6 +238,15 @@ bool Package::verify(const QString &filepath, const char *sha256sum) {
     return false;
 }
 
+void Package::getBackupKey(const QString &aid) {
+    if (accountId != aid) {
+        accountId = aid;
+        get(QString("http://cma.henkaku.xyz/?aid=%1").arg(aid), backupKey);
+        qDebug("Fetching backup key from cma.henkaku.xyz...");
+        emit setStatusText(tr("Fetching backup key from cma.henkaku.xyz"));
+    }
+}
+
 void Package::finishBuildData() {
     emit setPercent(100);
     emit setStatusText(tr("Everything is ready, now follow below steps on your PS Vita:\n"
@@ -245,13 +256,19 @@ void Package::finishBuildData() {
     "4. Run \"h-encore\" and... Yay, that's it!"));
 }
 
-void Package::getBackupKey(const QString &aid) {
-    if (accountId != aid) {
-        accountId = aid;
-        get(QString("http://cma.henkaku.xyz/?aid=%1").arg(aid), backupKey);
-        qDebug("Fetching backup key from cma.henkaku.xyz...");
-        emit setStatusText(tr("Fetching backup key from cma.henkaku.xyz"));
-    }
+void Package::checkHencoreFull() {
+    static bool succ = false;
+    Worker::start(this, [this](void *arg) {
+        QDir dir(pkgBasePath);
+        QString filename = dir.filePath(HENCORE_FULL_FILE);
+        *(bool*)arg = verify(filename, HENCORE_FULL_SHA256);
+    }, [this](void *arg) {
+        if (*(bool*)arg) {
+            startUnpackHencore(HENCORE_FULL_FILE);
+        } else {
+            emit noHencoreFull();
+        }
+    }, &succ);
 }
 
 void Package::downloadDemo() {
@@ -271,35 +288,32 @@ void Package::createPsvImgs() {
         if (trimApp) {
             qDebug("Trimming package...");
             emit setStatusText(tr("Trimming package"));
-            curr.cd("app");
-            curr.cd("ux0_temp_game_PCSG90096_app_PCSG90096");
-            curr.cd("resource");
-            curr.cd("movie");
-            curr.removeRecursively();
-            curr.cdUp();
-            curr.cd("sound");
-            curr.removeRecursively();
-            curr.cdUp();
-            curr.cd("text");
-            curr.cd("01");
-            curr.removeRecursively();
-            curr.cdUp();
-            curr.cdUp();
-            curr.cd("image");
-            curr.cd("bg");
-            curr.removeRecursively();
-            curr.cdUp();
-            curr.cd("ev");
-            curr.removeRecursively();
-            curr.cdUp();
-            curr.cd("icon");
-            curr.removeRecursively();
-            curr.cdUp();
-            curr.cd("stitle");
-            curr.removeRecursively();
-            curr.cdUp();
-            curr.cd("tachie");
-            curr.removeRecursively();
+            if (curr.cd("app") && curr.cd("ux0_temp_game_PCSG90096_app_PCSG90096")) {
+                QDir cdir = curr;
+                if (cdir.cd("resource") && cdir.cd("movie"))
+                    cdir.removeRecursively();
+                cdir = curr;
+                if (cdir.cd("resource") && cdir.cd("sound"))
+                    cdir.removeRecursively();
+                cdir = curr;
+                if (cdir.cd("resource") && cdir.cd("text") && cdir.cd("01"))
+                    cdir.removeRecursively();
+                cdir = curr;
+                if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("bg"))
+                    cdir.removeRecursively();
+                cdir = curr;
+                if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("ev"))
+                    cdir.removeRecursively();
+                cdir = curr;
+                if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("icon"))
+                    cdir.removeRecursively();
+                cdir = curr;
+                if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("stitle"))
+                    cdir.removeRecursively();
+                cdir = curr;
+                if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("tachie"))
+                    cdir.removeRecursively();
+            }
             qDebug("Done trimming.");
         }
         qDebug("Creating psvimg's...");

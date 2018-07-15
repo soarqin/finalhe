@@ -34,7 +34,7 @@
     <name>FinalHEClass</name>
     <message>
         <location filename="../finalhe.ui" line="25"/>
-        <source>Final h-encore v1.0</source>
+        <source>Final h-encore v1.1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -51,37 +51,37 @@
 <context>
     <name>Package</name>
     <message>
-        <location filename="../package.cc" line="92"/>
+        <location filename="../package.cc" line="96"/>
         <source>Downloading %1</source>
         <translation>正在下载 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="113"/>
+        <location filename="../package.cc" line="117"/>
         <source>Unpacking %1</source>
         <translation>正在解包 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="127"/>
+        <location filename="../package.cc" line="131"/>
         <source>Failed to unpack %1</source>
         <translation>无法解包 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="150"/>
+        <location filename="../package.cc" line="153"/>
         <source>Decompressing %1</source>
         <translation>正在解压 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="165"/>
+        <location filename="../package.cc" line="168"/>
         <source>Failed to decompress %1</source>
         <translation>无法解压 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="205"/>
+        <location filename="../package.cc" line="207"/>
         <source>Verifying %1</source>
         <translation>正在校验 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="241"/>
+        <location filename="../package.cc" line="252"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -94,34 +94,34 @@
 4. 在PSV上运行 &quot;h-encore&quot;，大功告成！</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="253"/>
+        <location filename="../package.cc" line="246"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
         <translation>正在从cma.henkaku.xyz获得备份密钥</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="336"/>
+        <location filename="../package.cc" line="350"/>
         <source>Fetched backup key.
 Click button to START!</source>
         <translation>已获得备份密钥
 现在点击按钮开始！</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="273"/>
+        <location filename="../package.cc" line="290"/>
         <source>Trimming package</source>
         <translation>正在瘦身</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="36"/>
+        <location filename="../package.cc" line="40"/>
         <source>Launch Content Manager on PS Vita and connect to computer.</source>
         <translation>在PSV上运行内容管理器并连接到计算机</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="306"/>
+        <location filename="../package.cc" line="320"/>
         <source>Createing psvimg&apos;s</source>
         <translation>正在创建psvimg</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="333"/>
+        <location filename="../package.cc" line="347"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
         <translation>无法从用户ID获取备份密钥，请检查计算机的网络连接</translation>
