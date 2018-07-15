@@ -49,7 +49,7 @@ endif ()
 add_executable(FinalHE WIN32 ${SRC_FILES} ${UI_FILES} ${RES_FILES} ${FINALHE_RCC_SRC} ${TRANSLATION_FILES} ${TRANSLATION_QM})
 target_link_libraries(FinalHE Qt5::Widgets Qt5::Network vitamtp vitapkg psvimg miniz scrypto)
 if (WIN32)
-	target_link_libraries(FinalHE shlwapi)
+	target_link_libraries(FinalHE shlwapi psapi)
 endif ()
 
 add_custom_command(TARGET FinalHE POST_BUILD

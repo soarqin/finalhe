@@ -17,15 +17,14 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
     ui.progressBar->setMaximum(100);
     QDir dir(qApp->applicationDirPath());
     QDir baseDir(dir);
-    if (!baseDir.cd("data")) {
-        if (!baseDir.mkdir("data") || !baseDir.cd("data")) {
-            QMessageBox::critical(this, tr("ERROR"), tr("You don't have write permission to this folder! Exit now."));
-            QCoreApplication::quit();
-            return;
-        }
+    if (!baseDir.mkpath("data") || !(baseDir.cd("data"), baseDir.exists())) {
+        QMessageBox::critical(this, tr("ERROR"), tr("You don't have write permission to this folder! Exit now."));
+        QCoreApplication::quit();
+        return;
     }
     vita = new VitaConn(baseDir.path(), this);
     pkg = new Package(baseDir.path(), this);
+    int useSysLang = 0;
     if (dir.cd("language")) {
         QStringList ll = dir.entryList({"*.qm"}, QDir::Filter::Files, QDir::SortFlag::IgnoreCase);
         ui.comboLang->addItem(trans.isEmpty() ? "English" : trans.translate("base", "English"));
@@ -33,7 +32,11 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
             QString compPath = dir.filePath(p);
             QTranslator transl;
             if (transl.load(compPath)) {
+                int index = ui.comboLang->count();
                 ui.comboLang->addItem(transl.translate("base", "LANGUAGE"), compPath);
+                if (QFileInfo(p).baseName() == QLocale::system().name()) {
+                    useSysLang = index;
+                }
             }
         }
     }
@@ -54,6 +57,11 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
 
     vita->process();
     pkg->tips();
+
+    if (useSysLang) {
+        ui.comboLang->setCurrentIndex(useSysLang);
+        langChange();
+    }
 }
 
 FinalHE::~FinalHE() {
@@ -65,6 +73,8 @@ void FinalHE::langChange() {
     QVariant var = ui.comboLang->currentData();
     QString compPath = var.toString();
     loadLanguage(compPath);
+    pkg->tips();
+    vita->updateStatus();
 }
 
 void FinalHE::onStart() {

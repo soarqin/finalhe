@@ -19,13 +19,13 @@
         <translation>無法強制關閉Qcma，請手動關閉後再重新執行本工具</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="22"/>
+        <location filename="../finalhe.cc" line="21"/>
         <location filename="../main.cc" line="62"/>
         <source>ERROR</source>
         <translation>錯誤</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="22"/>
+        <location filename="../finalhe.cc" line="21"/>
         <source>You don&apos;t have write permission to this folder! Exit now.</source>
         <translation>沒有檔案寫入權限，關閉工具中 </translation>
     </message>
@@ -51,37 +51,37 @@
 <context>
     <name>Package</name>
     <message>
-        <location filename="../package.cc" line="89"/>
+        <location filename="../package.cc" line="92"/>
         <source>Downloading %1</source>
         <translation>正在下載 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="110"/>
+        <location filename="../package.cc" line="113"/>
         <source>Unpacking %1</source>
         <translation>正在解開 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="124"/>
+        <location filename="../package.cc" line="127"/>
         <source>Failed to unpack %1</source>
         <translation>無法解開 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="147"/>
+        <location filename="../package.cc" line="150"/>
         <source>Decompressing %1</source>
         <translation>正在解開壓縮檔案 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="162"/>
+        <location filename="../package.cc" line="165"/>
         <source>Failed to decompress %1</source>
         <translation>無法解開壓縮檔案 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="202"/>
+        <location filename="../package.cc" line="205"/>
         <source>Verifying %1</source>
         <translation>正在校驗 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="238"/>
+        <location filename="../package.cc" line="241"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -94,34 +94,34 @@
 4. 在PSV上執行 &quot;h-encore&quot;，大功告成！</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="250"/>
+        <location filename="../package.cc" line="253"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
         <translation>正在從cma.henkaku.xyz獲得備份密鑰</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="333"/>
+        <location filename="../package.cc" line="336"/>
         <source>Fetched backup key.
 Click button to START!</source>
         <translation>已獲得備份密鑰
 現在點擊按鈕開始！</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="270"/>
+        <location filename="../package.cc" line="273"/>
         <source>Trimming package</source>
         <translation>正在縮減容量</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="35"/>
+        <location filename="../package.cc" line="36"/>
         <source>Launch Content Manager on PS Vita and connect to computer.</source>
         <translation>在PS Vita上執行內容管理器並連接到個人電腦</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="303"/>
+        <location filename="../package.cc" line="306"/>
         <source>Createing psvimg&apos;s</source>
         <translation>正在製作psvimg</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="330"/>
+        <location filename="../package.cc" line="333"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
         <translation>無法從用戶ID獲取備份密鑰，請檢查個人電腦的網絡連接</translation>
@@ -130,17 +130,17 @@ Please check your network connection!</source>
 <context>
     <name>VitaConn</name>
     <message>
-        <location filename="../vita.cc" line="122"/>
+        <location filename="../vita.cc" line="160"/>
         <source>Waiting for connection to PS Vita...</source>
         <translation>等待連接到PSV……</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="200"/>
+        <location filename="../vita.cc" line="163"/>
         <source>Connected to PS Vita [%1], Waiting for account ID</source>
         <translation>已經連接到PSV [%1], 等待用戶ID</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="418"/>
+        <location filename="../vita.cc" line="165"/>
         <source>Connected to PS Vita [%1] (%2)</source>
         <translation>已經連接到PSV [%1] (%2)</translation>
     </message>
@@ -148,8 +148,8 @@ Please check your network connection!</source>
 <context>
     <name>base</name>
     <message>
-        <location filename="../finalhe.cc" line="31"/>
-        <location filename="../finalhe.cc" line="97"/>
+        <location filename="../finalhe.cc" line="30"/>
+        <location filename="../finalhe.cc" line="107"/>
         <source>English</source>
         <translation>英文</translation>
     </message>

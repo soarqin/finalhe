@@ -119,7 +119,7 @@ void VitaConn::process() {
     Worker::start(this, [this](void*) {
         while (running) {
             if (currDev == nullptr) {
-                emit setStatusText(tr("Waiting for connection to PS Vita..."));
+                updateStatus();
                 doConnect();
                 if (currDev == nullptr) {
                     QThread::sleep(2);
@@ -153,6 +153,18 @@ void VitaConn::buildData() {
     recursiveScanRootDirectory(dir.path(), "PCSG90096", ohfi, VITA_OHFI_VITAAPP);
     thisMeta->updateSize();
     emit builtData();
+}
+
+void VitaConn::updateStatus() {
+    if (currDev == nullptr) {
+        emit setStatusText(tr("Waiting for connection to PS Vita..."));
+    } else {
+        if (accountId.isEmpty()) {
+            emit setStatusText(tr("Connected to PS Vita [%1], Waiting for account ID").arg(onlineId));
+        } else {
+            emit setStatusText(tr("Connected to PS Vita [%1] (%2)").arg(onlineId).arg(accountId));
+        }
+    }
 }
 
 int VitaConn::recursiveScanRootDirectory(const QString &base_path, const QString &rel_path, int parent_ohfi, int root_ohfi) {
@@ -197,7 +209,7 @@ void VitaConn::doConnect() {
         return;
     }
     onlineId = info.onlineId;
-    emit setStatusText(tr("Connected to PS Vita [%1], Waiting for account ID").arg(onlineId));
+    updateStatus();
     const initiator_info_t *iinfo = VitaMTP_Data_Initiator_New(QHostInfo::localHostName().toUtf8().data(), VITAMTP_PROTOCOL_FW_3_30);
     if (VitaMTP_SendInitiatorInfo(currDev, (initiator_info_t *)iinfo) != PTP_RC_OK) {
         VitaMTP_Data_Free_Initiator(iinfo);
@@ -415,7 +427,7 @@ void VitaConn::processEvent(vita_event_t *evt) {
 
         qDebug("Current account id: %s", settingsinfo->current_account.accountId);
         accountId = settingsinfo->current_account.accountId;
-        emit setStatusText(tr("Connected to PS Vita [%1] (%2)").arg(onlineId).arg(accountId));
+        updateStatus();
         emit gotAccountId(accountId);
 
         VitaMTP_Data_Free_Settings(settingsinfo);
@@ -511,6 +523,8 @@ void VitaConn::deviceDisconnect() {
     VitaMTP_USB_Reset(currDev);
     VitaMTP_Release_Device(currDev);
     currDev = nullptr;
+    onlineId.clear();
+    accountId.clear();
 }
 
 VitaConn::MetaInfo *VitaConn::metaAddFile(const QString &basePath, const QString & relName, int ohfi, int ohfiParent, int ohfiRoot, bool isDir) {

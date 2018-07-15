@@ -39,6 +39,7 @@ public:
 public slots:
     void process();
     void buildData();
+    void updateStatus();
 
 signals:
     void gotAccountId(QString);

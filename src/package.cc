@@ -32,7 +32,8 @@ Package::~Package() {
 }
 
 void Package::tips() {
-    emit setStatusText(tr("Launch Content Manager on PS Vita and connect to computer."));
+    if (accountId.isEmpty())
+        emit setStatusText(tr("Launch Content Manager on PS Vita and connect to computer."));
 }
 
 void Package::get(const QString &url, QString &result) {
@@ -81,6 +82,8 @@ void Package::download(const QString &url, const QString &localFilename, const c
             }
             }
         }, &n);
+    } else {
+        startDownload(url, filename);
     }
 }
 
@@ -350,7 +353,7 @@ void Package::downloadFinished(QFile *f) {
         }, [this](void *arg) {
             if (*(int*)arg)
                 startUnpackHencore(HENCORE_FILE);
-        });
+        }, &n);
     } else if (fi.fileName() == BSPKG_FILE) {
         Worker::start(this, [this, filepath](void *arg) {
             if (verify(filepath, BSPKG_SHA256))
@@ -360,6 +363,6 @@ void Package::downloadFinished(QFile *f) {
         }, [this](void *arg) {
             if (*(int*)arg)
                 startUnpackDemo(BSPKG_FILE);
-        });
+        }, &n);
     }
 }
