@@ -4,23 +4,23 @@
 <context>
     <name>FinalHE</name>
     <message>
-        <location filename="../main.cc" line="64"/>
+        <location filename="../main.cc" line="71"/>
         <source>WARNING</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="64"/>
+        <location filename="../main.cc" line="71"/>
         <source>Qcma is running, force close it now?</source>
         <translation>Qcma正在运行，要强制关闭吗？</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="68"/>
+        <location filename="../main.cc" line="75"/>
         <source>Unable to close Qcma, please close it manually and then restart this tool.</source>
         <translation>无法强制关闭Qcma，请手动关闭后再重启本工具</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="21"/>
-        <location filename="../main.cc" line="68"/>
+        <location filename="../main.cc" line="75"/>
         <source>ERROR</source>
         <translation>错误</translation>
     </message>
@@ -130,17 +130,17 @@ Please check your network connection!</source>
 <context>
     <name>VitaConn</name>
     <message>
-        <location filename="../vita.cc" line="160"/>
+        <location filename="../vita.cc" line="354"/>
         <source>Waiting for connection to PS Vita...</source>
         <translation>等待连接到PSV……</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="163"/>
+        <location filename="../vita.cc" line="357"/>
         <source>Connected to PS Vita [%1], Waiting for account ID</source>
         <translation>已经连接到PSV [%1], 等待用户ID</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="165"/>
+        <location filename="../vita.cc" line="359"/>
         <source>Connected to PS Vita [%1] (%2)</source>
         <translation>已经连接到PSV [%1] (%2)</translation>
     </message>

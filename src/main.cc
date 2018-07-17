@@ -1,5 +1,7 @@
 #include "finalhe.hh"
+
 #include <QtWidgets/QApplication>
+#include <QSettings>
 #include <QMessageBox>
 #ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
@@ -57,6 +59,11 @@ int main(int argc, char *argv[]) {
     }
 #endif
     QApplication a(argc, argv);
+
+    QCoreApplication::setOrganizationName("Soar Qin");
+    QCoreApplication::setOrganizationDomain("soardev.com");
+    QCoreApplication::setApplicationName("FinalHE");
+    QSettings::setDefaultFormat(QSettings::IniFormat);
 
 #ifdef _WIN32
     WndInfo wndInfo;

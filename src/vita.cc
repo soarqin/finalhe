@@ -3,12 +3,17 @@
 #include "worker.hh"
 
 #include <vitamtp.h>
-#include <QDateTime>
-#include <QTemporaryDir>
-#include <QUrl>
-#include <QFileInfo>
-#include <QtNetwork/QHostInfo>
+
+#include <QSettings>
+#include <QUuid>
 #include <QDebug>
+#include <QTemporaryDir>
+#include <QFileInfo>
+#include <QDateTime>
+#include <QMutex>
+#include <QUrl>
+#include <QUdpSocket>
+#include <QtNetwork/QHostInfo>
 
 #include <cinttypes>
 
@@ -22,6 +27,10 @@
 #include <sys/statvfs.h>
 #endif
 
+static inline int getVitaProtocolVersion() {
+    return VITAMTP_PROTOCOL_FW_3_30;
+}
+
 static bool getDiskSpace(const QString &dir, quint64 *free, quint64 *total) {
 #ifdef Q_OS_WIN32
 
@@ -30,6 +39,7 @@ static bool getDiskSpace(const QString &dir, quint64 *free, quint64 *total) {
     }
 
 #else
+
     struct statvfs stat;
 
     if (statvfs(dir.toUtf8().data(), &stat) == 0) {
@@ -76,6 +86,107 @@ static void free_pc_capability_info(capability_info_t *info) {
     delete info;
 }
 
+#define CMA_REQUEST_PORT 9309
+static const QString broadcast_reply =
+"%1\r\n"
+"host-id:%2\r\n"
+"host-type:%3\r\n"
+"host-name:%4\r\n"
+"host-mtp-protocol-version:%5\r\n"
+"host-request-port:%6\r\n"
+"host-wireless-protocol-version:%7\r\n"
+"host-supported-device:PS Vita, PS Vita TV\r\n";
+static const char *broadcast_query_start = "SRCH";
+static const char *broadcast_query_end = " * HTTP/1.1\r\n";
+static const char *broadcast_ok = "HTTP/1.1 200 OK";
+static const char *broadcast_unavailable = "HTTP/1.1 503 NG";
+
+class UdpBroadcast : public QObject {
+    Q_OBJECT
+public:
+    explicit UdpBroadcast(QObject *parent = 0): QObject(parent) {
+        QSettings settings;
+        // generate a GUID if doesn't exist yet in settings
+        uuid = settings.value("guid").toString();
+        if (uuid.isEmpty()) {
+            uuid = QUuid::createUuid().toString().mid(1, 36);
+            settings.setValue("guid", uuid);
+        }
+
+        hostname = settings.value("hostName", QHostInfo::localHostName()).toString();
+        setAvailable();
+
+        socket = new QUdpSocket(this);
+        connect(socket, SIGNAL(readyRead()), this, SLOT(readPendingDatagrams()));
+
+#if QT_VERSION < QT_VERSION_CHECK(5, 0, 0)
+        QHostAddress host_address(QHostAddress::Any);
+#else
+        QHostAddress host_address(QHostAddress::AnyIPv4);
+#endif
+
+        if (!socket->bind(host_address, CMA_REQUEST_PORT, QUdpSocket::ShareAddress | QUdpSocket::ReuseAddressHint)) {
+            qCritical() << "Failed to bind address for UDP broadcast";
+        }
+    }
+
+private:
+    void replyBroadcast(const QByteArray &datagram);
+
+    QMutex mutex;
+    QString uuid;
+    QByteArray reply;
+    QString hostname;
+    QUdpSocket *socket;
+
+public slots:
+    void setAvailable() {
+        QMutexLocker locker(&mutex);
+        int protocol_version = ::getVitaProtocolVersion();
+
+        reply.clear();
+        reply.insert(0, broadcast_reply
+            .arg(broadcast_ok, uuid, "win", hostname)
+            .arg(protocol_version, 8, 10, QChar('0'))
+            .arg(CMA_REQUEST_PORT)
+            .arg(VITAMTP_WIRELESS_MAX_VERSION, 8, 10, QChar('0')));
+        reply.append('\0');
+    }
+    void setUnavailable() {
+        QMutexLocker locker(&mutex);
+        int protocol_version = ::getVitaProtocolVersion();
+
+        reply.clear();
+        reply.insert(0, broadcast_reply
+            .arg(broadcast_unavailable, uuid, "win", hostname)
+            .arg(protocol_version, 8, 10, QChar('0'))
+            .arg(CMA_REQUEST_PORT)
+            .arg(VITAMTP_WIRELESS_MAX_VERSION, 8, 10, QChar('0')));
+        reply.append('\0');
+    }
+
+private slots:
+    void readPendingDatagrams() {
+        if (socket->hasPendingDatagrams()) {
+            QByteArray datagram;
+            datagram.resize(socket->pendingDatagramSize());
+
+            QHostAddress cma_sender;
+            quint16 senderPort;
+
+            socket->readDatagram(datagram.data(), datagram.size(), &cma_sender, &senderPort);
+
+            if (datagram.startsWith(broadcast_query_start) && datagram.contains(broadcast_query_end)) {
+                QMutexLocker locker(&mutex);
+                socket->writeDatagram(reply, cma_sender, senderPort);
+            } else {
+                qWarning("Unknown request: %.*s\n", datagram.length(), datagram.constData());
+            }
+        }
+    }
+};
+
+
 static void copyMetadata(metadata_t *meta, VitaConn::MetaInfo *mi) {
     memset(meta, 0, sizeof(metadata_t));
     meta->ohfiParent = mi->ohfiParent;
@@ -100,32 +211,94 @@ void VitaConn::MetaInfo::updateSize() {
     }
 }
 
+static VitaConn *this_object = nullptr;
+
 VitaConn::VitaConn(const QString& baseDir, QObject *obj_parent): QObject(obj_parent) {
     appBaseDir = baseDir;
     VitaMTP_Init();
     VitaMTP_USB_Init();
+    this_object = this;
 }
 
 VitaConn::~VitaConn() {
-    if (clientThread != nullptr) {
-        running = false;
-        clientThread->wait();
-        clientThread = nullptr;
+    running = false;
+    if (wirelessThread != nullptr) {
+        VitaMTP_Cancel_Get_Wireless_Vita();
+        semaWireless.acquire();
     }
+    semaClient.acquire();
+    VitaMTP_USB_Exit();
+    VitaMTP_Cleanup();
+}
+
+void registrationComplete() {
+    QSettings settings;
+    qDebug("Registration completed");
+    emit this_object->completedPin();
+}
+
+int deviceRegistered(const char *deviceid) {
+    qDebug("Got connection request from %s", deviceid);
+    return 1;
+}
+
+int generatePin(wireless_vita_info_t *info, int *p_err) {
+    qDebug("Registration request from %s (MAC: %s)", info->name, info->mac_addr);
+
+    QString staticPin = QSettings().value("staticPin").toString();
+
+    int pin;
+
+    if (!staticPin.isNull() && staticPin.length() == 8) {
+        bool ok;
+        pin = staticPin.toInt(&ok);
+
+        if (!ok) {
+            pin = rand() % 10000 * 10000 | rand() % 10000;
+        }
+    } else {
+        pin = rand() % 10000 * 10000 | rand() % 10000;
+    }
+
+    QTextStream out(stdout);
+    out << "Your registration PIN for " << info->name << " is: ";
+    out.setFieldWidth(8);
+    out.setPadChar('0');
+    out << pin << endl;
+
+    qDebug("PIN: %08i", pin);
+
+    *p_err = 0;
+    emit this_object->receivedPin(info->name, pin);
+    return pin;
 }
 
 void VitaConn::process() {
+    QTime now = QTime::currentTime();
+    qsrand(now.msec());
     running = true;
-    Worker::start(this, [this](void*) {
+    UdpBroadcast *broadcast = new UdpBroadcast(parent());
+    clientThread = Worker::start(this, [this, broadcast](void*) {
         while (running) {
+            connMutex.lock();
             if (currDev == nullptr) {
                 updateStatus();
-                doConnect();
+                if (wirelessDev != nullptr) {
+                    currDev = wirelessDev;
+                    wirelessDev = nullptr;
+                } else
+                    currDev = VitaMTP_Get_First_USB_Vita();
                 if (currDev == nullptr) {
-                    QThread::sleep(2);
+                    connMutex.unlock();
+                    if (running) QThread::sleep(2);
                     continue;
                 }
-            }
+                connMutex.unlock();
+                broadcast->setUnavailable();
+                doConnect();
+                broadcast->setAvailable();
+            } else
+                connMutex.unlock();
             vita_event_t evt;
             int res = VitaMTP_Read_Event(currDev, &evt);
             if (res < 0) {
@@ -136,11 +309,32 @@ void VitaConn::process() {
             processEvent(&evt);
         }
         deviceDisconnect();
-        VitaMTP_USB_Exit();
-        VitaMTP_Cleanup();
-    }, [this](void*) {
-        running = false;
-        clientThread = nullptr;
+        semaClient.release();
+    });
+    wirelessThread = Worker::start(this, [this, broadcast](void*) {
+        static wireless_host_info_t host = { NULL, NULL, NULL, CMA_REQUEST_PORT };
+        while (running) {
+            connMutex.lock();
+            if (currDev != nullptr) {
+                if (wirelessDev != nullptr && wirelessDev != currDev) {
+                    VitaMTP_Release_Device(wirelessDev);
+                    wirelessDev = nullptr;
+                }
+                connMutex.unlock();
+                QThread::sleep(2);
+                continue;
+            }
+            connMutex.unlock();
+            vita_device_t *newDev = VitaMTP_Get_First_Wireless_Vita(&host, 0, deviceRegistered, generatePin, registrationComplete);
+            if (newDev == nullptr) {
+                if (running) QThread::sleep(2);
+                continue;
+            }
+            QMutexLocker locker(&connMutex);
+            wirelessDev = newDev;
+        }
+        broadcast->deleteLater();
+        semaWireless.release();
     });
 }
 
@@ -199,9 +393,6 @@ int VitaConn::recursiveScanRootDirectory(const QString &base_path, const QString
 }
 
 void VitaConn::doConnect() {
-    if (currDev != nullptr) return;
-    currDev = VitaMTP_Get_First_USB_Vita();
-    if (currDev == nullptr) return;
     vita_info_t info;
     if (VitaMTP_GetVitaInfo(currDev, &info) != PTP_RC_OK) {
         qWarning("Cannot get Vita MTP information.");
@@ -210,11 +401,11 @@ void VitaConn::doConnect() {
     }
     onlineId = info.onlineId;
     updateStatus();
-    const initiator_info_t *iinfo = VitaMTP_Data_Initiator_New(QHostInfo::localHostName().toUtf8().data(), VITAMTP_PROTOCOL_FW_3_30);
+    const initiator_info_t *iinfo = VitaMTP_Data_Initiator_New(QHostInfo::localHostName().toUtf8().data(), ::getVitaProtocolVersion());
     if (VitaMTP_SendInitiatorInfo(currDev, (initiator_info_t *)iinfo) != PTP_RC_OK) {
         VitaMTP_Data_Free_Initiator(iinfo);
         qWarning("Cannot send host information.");
-        deviceDisconnect();
+        VitaMTP_USB_Reset(currDev);
         return;
     }
     VitaMTP_Data_Free_Initiator(iinfo);
@@ -224,7 +415,7 @@ void VitaConn::doConnect() {
 
         if (VitaMTP_GetVitaCapabilityInfo(currDev, &vita_capabilities) != PTP_RC_OK) {
             qWarning("Failed to get capability information from Vita.");
-            deviceDisconnect();
+            VitaMTP_USB_Reset(currDev);
             return;
         }
 
@@ -238,7 +429,7 @@ void VitaConn::doConnect() {
         if (VitaMTP_SendPCCapabilityInfo(currDev, pc_capabilities) != PTP_RC_OK) {
             qWarning("Failed to send capability information to Vita.");
             free_pc_capability_info(pc_capabilities);
-            deviceDisconnect();
+            VitaMTP_USB_Reset(currDev);
             return;
         }
 
@@ -248,7 +439,7 @@ void VitaConn::doConnect() {
     // Finally, we tell the Vita we are connected
     if (VitaMTP_SendHostStatus(currDev, VITA_HOST_STATUS_Connected) != PTP_RC_OK) {
         qWarning("Cannot send host status.");
-        deviceDisconnect();
+        VitaMTP_USB_Reset(currDev);
         return;
     }
 
@@ -261,6 +452,9 @@ void VitaConn::processEvent(vita_event_t *evt) {
     uint32_t eventId = evt->Param1;
     qDebug("Event received, code: 0x%04x, id: %u", code, eventId);
     switch (code) {
+    case PTP_EC_VITA_RequestTerminate: {
+        break;
+    }
     case PTP_EC_VITA_RequestSendNumOfObject: {
         int ohfi = evt->Param2;
         auto ite = metaMap.find(ohfi);
@@ -520,9 +714,11 @@ void VitaConn::processEvent(vita_event_t *evt) {
 
 void VitaConn::deviceDisconnect() {
     if (currDev == nullptr) return;
-    VitaMTP_USB_Reset(currDev);
+    VitaMTP_SendHostStatus(currDev, VITA_HOST_STATUS_EndConnection);
     VitaMTP_Release_Device(currDev);
+    connMutex.lock();
     currDev = nullptr;
+    connMutex.unlock();
     onlineId.clear();
     accountId.clear();
 }
@@ -568,3 +764,5 @@ void VitaConn::buildMetaData(metadata_t **meta, int ohfiParent, uint32_t index, 
         --num;
     }
 }
+
+#include "vita.moc"
