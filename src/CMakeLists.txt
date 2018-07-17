@@ -55,7 +55,6 @@ target_link_libraries(FinalHE Qt5::Widgets Qt5::Network)
 if (MSVC)
     get_target_property(qt5_target_type Qt5::Core TYPE)
     if (qt5_target_type STREQUAL "STATIC_LIBRARY")
-        target_link_libraries(FinalHE Qt5::QWindowsIntegrationPlugin Imm32)
         get_target_property(qt5_target_path Qt5::Core LOCATION)
         get_filename_component(qt5_target_dir "${qt5_target_path}" DIRECTORY)
         target_link_libraries(FinalHE debug ${qt5_target_dir}/Qt5PlatformSupportd.lib
@@ -67,7 +66,7 @@ if (MSVC)
                                       optimized ${qt5_target_dir}/qtharfbuzzng.lib
                                       optimized ${qt5_target_dir}/qtpcre.lib)
         target_link_libraries(FinalHE ${qt5_target_dir}/ssleay32.lib ${qt5_target_dir}/libeay32.lib)
-        target_link_libraries(FinalHE Winmm Iphlpapi Crypt32 OpenGL32)
+        target_link_libraries(FinalHE Qt5::QWindowsIntegrationPlugin Imm32 Winmm Iphlpapi Crypt32 OpenGL32)
     else ()
         add_custom_command(TARGET FinalHE POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::Core> $<TARGET_FILE:Qt5::Gui> $<TARGET_FILE:Qt5::Widgets> $<TARGET_FILE:Qt5::Network> $<TARGET_FILE_DIR:FinalHE>

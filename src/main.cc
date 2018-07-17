@@ -7,8 +7,12 @@
 #include <psapi.h>
 #include <shlwapi.h>
 #endif
+
+#if defined(QT_STATIC)
 #include <QtPlugin>
 Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
+#endif
+
 #ifdef _WIN32
 
 struct WndInfo {
