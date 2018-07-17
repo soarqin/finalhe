@@ -7,8 +7,10 @@
 #include <psapi.h>
 #include <shlwapi.h>
 #endif
-
+#include <QtPlugin>
+Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
 #ifdef _WIN32
+
 struct WndInfo {
     DWORD procId;
     HWND hwnd;

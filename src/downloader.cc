@@ -4,13 +4,14 @@
 #include <QDebug>
 
 Downloader::Downloader(QObject *obj_parent): QObject(obj_parent) {
-    manager.setRedirectPolicy(QNetworkRequest::RedirectPolicy::NoLessSafeRedirectPolicy);
+//    manager.setRedirectPolicy(QNetworkRequest::RedirectPolicy::NoLessSafeRedirectPolicy);
     connect(&manager, SIGNAL(finished(QNetworkReply*)),
         SLOT(downloadFinished(QNetworkReply*)));
 }
 
 void Downloader::doDownload(const QUrl &url, QFile *fileToWrite) {
     QNetworkRequest request(url);
+    request.setAttribute(QNetworkRequest::FollowRedirectsAttribute, QVariant(true));
     QNetworkReply *reply = manager.get(request);
     RequestFile *rf = new RequestFile;
     rf->reply = reply;
@@ -19,7 +20,7 @@ void Downloader::doDownload(const QUrl &url, QFile *fileToWrite) {
 
     connect(reply, &QNetworkReply::readyRead, this, [this, rf] { readyReadFileReply(rf); });
     connect(reply, SIGNAL(downloadProgress(qint64, qint64)), this, SLOT(downloadProg(qint64, qint64)));
-#if QT_CONFIG(ssl)
+#ifndef QT_NO_SSL
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)),
         SLOT(sslErrors(QList<QSslError>)));
 #endif
@@ -34,13 +35,13 @@ void Downloader::doGet(const QUrl &url, void * arg) {
     requests.push_back(rg);
 
     connect(reply, &QNetworkReply::readyRead, this, [this, rg] { readyReadGetReply(rg); });
-#if QT_CONFIG(ssl)
+#ifndef QT_NO_SSL
     connect(reply, SIGNAL(sslErrors(QList<QSslError>)),
         SLOT(sslErrors(QList<QSslError>)));
 #endif
 }
 
-#if QT_CONFIG(ssl)
+#ifndef QT_NO_SSL
 void Downloader::sslErrors(const QList<QSslError> &sslErrors) {
     for (const QSslError &error : sslErrors)
         qWarning("SSL error: %s", error.errorString().toUtf8().constData());

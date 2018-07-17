@@ -45,7 +45,7 @@ private slots:
     void readyReadFileReply(RequestFile*);
     void readyReadGetReply(RequestGet*);
     void downloadProg(qint64 curr, qint64 total);
-#if QT_CONFIG(ssl)
+#ifndef QT_NO_SSL
     void sslErrors(const QList<QSslError> &errors);
 #endif
 
