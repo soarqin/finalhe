@@ -47,6 +47,8 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
 	connect(ui.comboLang, SIGNAL(currentIndexChanged(int)), this, SLOT(langChange()));
     connect(ui.checkTrim, SIGNAL(stateChanged(int)), this, SLOT(trimState(int)));
     connect(vita, &VitaConn::gotAccountId, this, [this](QString &accountId) { pkg->getBackupKey(accountId); });
+    connect(vita, SIGNAL(receivedPin(QString, int)), this, SLOT(displayPin(QString, int)));
+    connect(vita, SIGNAL(completedPin()), this, SLOT(clearPin()));
     connect(pkg, SIGNAL(gotBackupKey()), this, SLOT(enableStart()));
     connect(pkg, SIGNAL(createdPsvImgs()), vita, SLOT(buildData()));
     connect(vita, SIGNAL(builtData()), pkg, SLOT(finishBuildData()));
@@ -96,6 +98,14 @@ void FinalHE::setTextMTP(QString txt) {
 
 void FinalHE::setTextPkg(QString txt) {
     ui.textPkg->setText(txt);
+}
+
+void FinalHE::displayPin(QString onlineId, int pin) {
+    ui.textPkg->setText(tr("Registering device: %1\nAInput this PIN on PS Vita: %2").arg(onlineId).arg(pin, 8, 10, QChar('0')));
+}
+
+void FinalHE::clearPin() {
+    ui.textPkg->setText(tr("Registered device."));
 }
 
 void FinalHE::loadLanguage(const QString &s) {

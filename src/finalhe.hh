@@ -25,6 +25,8 @@ private slots:
     void trimState(int);
     void setTextMTP(QString);
     void setTextPkg(QString);
+    void displayPin(QString, int);
+    void clearPin();
 
 private:
     void loadLanguage(const QString &s);

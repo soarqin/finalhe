@@ -29,6 +29,17 @@
         <source>You don&apos;t have write permission to this folder! Exit now.</source>
         <translation>沒有檔案寫入權限，關閉工具中 </translation>
     </message>
+    <message>
+        <location filename="../finalhe.cc" line="104"/>
+        <source>Registering device: %1
+AInput this PIN on PS Vita: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="108"/>
+        <source>Registered device.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>FinalHEClass</name>
@@ -130,17 +141,17 @@ Please check your network connection!</source>
 <context>
     <name>VitaConn</name>
     <message>
-        <location filename="../vita.cc" line="354"/>
+        <location filename="../vita.cc" line="357"/>
         <source>Waiting for connection to PS Vita...</source>
         <translation>等待連接到PSV……</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="357"/>
+        <location filename="../vita.cc" line="360"/>
         <source>Connected to PS Vita [%1], Waiting for account ID</source>
         <translation>已經連接到PSV [%1], 等待用戶ID</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="359"/>
+        <location filename="../vita.cc" line="362"/>
         <source>Connected to PS Vita [%1] (%2)</source>
         <translation>已經連接到PSV [%1] (%2)</translation>
     </message>
@@ -149,7 +160,7 @@ Please check your network connection!</source>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="30"/>
-        <location filename="../finalhe.cc" line="107"/>
+        <location filename="../finalhe.cc" line="117"/>
         <source>English</source>
         <translation>英文</translation>
     </message>

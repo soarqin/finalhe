@@ -212,6 +212,7 @@ void VitaConn::MetaInfo::updateSize() {
 }
 
 static VitaConn *this_object = nullptr;
+static QString tempOnlineId;
 
 VitaConn::VitaConn(const QString& baseDir, QObject *obj_parent): QObject(obj_parent) {
     appBaseDir = baseDir;
@@ -245,6 +246,8 @@ int deviceRegistered(const char *deviceid) {
 int generatePin(wireless_vita_info_t *info, int *p_err) {
     qDebug("Registration request from %s (MAC: %s)", info->name, info->mac_addr);
 
+    tempOnlineId = info->name;
+
     QString staticPin = QSettings().value("staticPin").toString();
 
     int pin;
@@ -274,11 +277,11 @@ int generatePin(wireless_vita_info_t *info, int *p_err) {
 }
 
 void VitaConn::process() {
-    QTime now = QTime::currentTime();
-    qsrand(now.msec());
     running = true;
     UdpBroadcast *broadcast = new UdpBroadcast(parent());
     clientThread = Worker::start(this, [this, broadcast](void*) {
+        QTime now = QTime::currentTime();
+        qsrand(now.msec());
         while (running) {
             connMutex.lock();
             if (currDev == nullptr) {
@@ -399,7 +402,10 @@ void VitaConn::doConnect() {
         deviceDisconnect();
         return;
     }
-    onlineId = info.onlineId;
+    if (VitaMTP_Get_Device_Type(currDev) == VitaDeviceUSB)
+        onlineId = info.onlineId;
+    else
+        onlineId = tempOnlineId;
     updateStatus();
     const initiator_info_t *iinfo = VitaMTP_Data_Initiator_New(QHostInfo::localHostName().toUtf8().data(), ::getVitaProtocolVersion());
     if (VitaMTP_SendInitiatorInfo(currDev, (initiator_info_t *)iinfo) != PTP_RC_OK) {

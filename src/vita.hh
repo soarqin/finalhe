@@ -46,7 +46,7 @@ signals:
     void gotAccountId(QString);
     void setStatusText(QString);
     void builtData();
-    void receivedPin(const char*, int);
+    void receivedPin(QString, int);
     void completedPin();
 
 private:
