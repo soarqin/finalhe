@@ -4,23 +4,23 @@
 <context>
     <name>FinalHE</name>
     <message>
-        <location filename="../main.cc" line="71"/>
+        <location filename="../main.cc" line="76"/>
         <source>WARNING</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="71"/>
+        <location filename="../main.cc" line="76"/>
         <source>Qcma is running, force close it now?</source>
         <translation>Qcma正在執行，要強制關閉嗎？</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="75"/>
+        <location filename="../main.cc" line="80"/>
         <source>Unable to close Qcma, please close it manually and then restart this tool.</source>
         <translation>無法強制關閉Qcma，請手動關閉後再重新執行本工具</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="21"/>
-        <location filename="../main.cc" line="75"/>
+        <location filename="../main.cc" line="80"/>
         <source>ERROR</source>
         <translation>錯誤</translation>
     </message>

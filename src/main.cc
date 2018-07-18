@@ -12,7 +12,12 @@
 
 #if defined(QT_STATIC)
 #include <QtPlugin>
+#if defined(_WIN32)
 Q_IMPORT_PLUGIN(QWindowsIntegrationPlugin);
+#endif
+#if defined(__APPLE__)
+Q_IMPORT_PLUGIN(QCocoaIntegrationPlugin);
+#endif
 #endif
 
 #ifdef _WIN32
@@ -51,7 +56,7 @@ bool findQCMA(WndInfo *wndInfo) {
 #endif
 
 int main(int argc, char *argv[]) {
-#ifdef _DEBUG
+#if defined(_DEBUG) && defined(_WIN32)
     if (::AllocConsole()) {
         freopen("CONIN$", "r", stdin);
         freopen("CONOUT$", "w", stdout);

@@ -11,6 +11,7 @@ set(CMAKE_AUTOMOC ON)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Network REQUIRED)
 find_package(Qt5LinguistTools REQUIRED)
+find_package(Qt5PrintSupport)
 
 set(SRC_FILES
     main.cc
@@ -52,8 +53,8 @@ if (MSVC)
 endif ()
 add_executable(FinalHE WIN32 ${SRC_FILES} ${UI_FILES} ${RES_FILES} ${FINALHE_RCC_SRC} ${TRANSLATION_FILES} ${TRANSLATION_QM})
 target_link_libraries(FinalHE Qt5::Widgets Qt5::Network)
+get_target_property(qt5_target_type Qt5::Core TYPE)
 if (MSVC)
-    get_target_property(qt5_target_type Qt5::Core TYPE)
     if (qt5_target_type STREQUAL "STATIC_LIBRARY")
         get_target_property(qt5_target_path Qt5::Core LOCATION)
         get_filename_component(qt5_target_dir "${qt5_target_path}" DIRECTORY)
@@ -77,6 +78,25 @@ if (MSVC)
     endif ()
 endif ()
 target_link_libraries(FinalHE vitamtp vitapkg psvimg miniz scrypto)
+if (APPLE)
+    if (qt5_target_type STREQUAL "STATIC_LIBRARY")
+        get_target_property(qt5_target_path Qt5::Core LOCATION)
+        get_filename_component(qt5_target_dir "${qt5_target_path}" DIRECTORY)
+        link_directories(${qt5_target_dir})
+        target_link_libraries(FinalHE Qt5::QCocoaIntegrationPlugin Qt5::PrintSupport
+                                      ${qt5_target_dir}/libQt5AccessibilitySupport.a
+                                      ${qt5_target_dir}/libQt5ThemeSupport.a
+                                      ${qt5_target_dir}/libQt5ClipboardSupport.a
+                                      ${qt5_target_dir}/libQt5GraphicsSupport.a
+                                      ${qt5_target_dir}/libQt5FontDatabaseSupport.a
+                                      ${qt5_target_dir}/libqtfreetype.a
+                                      ${qt5_target_dir}/libqtharfbuzz.a
+                                      ${qt5_target_dir}/libqtlibpng.a
+                                      ${qt5_target_dir}/libqtpcre2.a
+                                      cups)
+        target_link_libraries(FinalHE "-framework DiskArbitration -framework IOKit -framework Foundation -framework CoreServices -framework AppKit -framework Security -framework ApplicationServices -framework CoreFoundation -framework CoreGraphics -framework OpenGL -framework AGL -framework Carbon -framework QuartzCore -framework SystemConfiguration")
+    endif ()
+endif ()
 if (WIN32)
     target_link_libraries(FinalHE shlwapi psapi)
 endif ()

@@ -651,7 +651,7 @@ void VitaConn::processEvent(vita_event_t *evt) {
         QString fullPath = dir.path() + "/" + ite->second.path;
         QFile file(fullPath);
         if (!file.open(QIODevice::ReadOnly)) {
-            qWarning("Cannot read %s", fullPath);
+            qWarning() << "Cannot read " << fullPath;
             VitaMTP_ReportResult(currDev, eventId, PTP_RC_VITA_Not_Exist_Object);
             return;
         }
