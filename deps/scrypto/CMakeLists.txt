@@ -1,4 +1,6 @@
-add_definitions(-maes -mssse3 -mpclmul -msse4)
+if (NOT MSVC)
+    add_definitions(-maes -mssse3 -mpclmul -msse4)
+endif ()
 add_library(scrypto
     aes.c aes.h aes_x86.c
     base64.c base64.h
