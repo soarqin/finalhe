@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <stddef.h>
 #if defined(_MSC_VER)
 #  define _ALIGNED(x) __declspec(align(x))
 #else

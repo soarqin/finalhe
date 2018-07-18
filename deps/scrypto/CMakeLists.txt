@@ -1,3 +1,4 @@
+add_definitions(-maes -mssse3 -mpclmul -msse4)
 add_library(scrypto
     aes.c aes.h aes_x86.c
     base64.c base64.h

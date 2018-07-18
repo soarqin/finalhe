@@ -19,7 +19,6 @@
 
 #ifdef PTP_IP_SUPPORT
 #define _GNU_SOURCE
-#include "config.h"
 #include <errno.h>
 #include <fcntl.h>
 #include <iconv.h>

@@ -46,7 +46,7 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
     connect(ui.btnStart, SIGNAL(clicked()), this, SLOT(onStart()));
 	connect(ui.comboLang, SIGNAL(currentIndexChanged(int)), this, SLOT(langChange()));
     connect(ui.checkTrim, SIGNAL(stateChanged(int)), this, SLOT(trimState(int)));
-    connect(vita, &VitaConn::gotAccountId, this, [this](QString &accountId) { pkg->getBackupKey(accountId); });
+    connect(vita, &VitaConn::gotAccountId, this, [this](QString accountId) { pkg->getBackupKey(accountId); });
     connect(vita, SIGNAL(receivedPin(QString, int)), this, SLOT(displayPin(QString, int)));
     connect(vita, SIGNAL(completedPin()), this, SLOT(clearPin()));
     connect(pkg, SIGNAL(gotBackupKey()), this, SLOT(enableStart()));

@@ -6,7 +6,9 @@
 #ifndef UTILS_H__
 #define UTILS_H__
 
+#include <stdio.h>
 #include <stdint.h>
+#include <stddef.h>
 
 #ifdef __GNUC__
 #define ATTR_PACKED __attribute__((packed))
@@ -26,6 +28,10 @@ typedef int ssize_t;
 #endif /* _WIN64 */
 #endif /* _SSIZE_T_DEFINED */
 #endif /* _MSC_VER */
+
+#ifndef O_BINARY
+#define O_BINARY 0
+#endif
 
 ssize_t read_block(int fd, void *buf, size_t nbyte);
 ssize_t write_block(int fd, const void *buf, size_t nbyte);

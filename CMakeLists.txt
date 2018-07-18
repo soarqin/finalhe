@@ -26,21 +26,33 @@ endif ()
 if (WIN32)
     add_subdirectory(deps/iconv)
     add_subdirectory(deps/zlib)
-    add_subdirectory(deps/miniz)
-    add_subdirectory(deps/scrypto)
     add_subdirectory(deps/libusb)
     add_subdirectory(deps/libxml2)
     set_target_properties(iconv PROPERTIES FOLDER deps)
     set_target_properties(zlibstatic PROPERTIES FOLDER deps)
-    set_target_properties(miniz PROPERTIES FOLDER deps)
-    set_target_properties(scrypto PROPERTIES FOLDER deps)
     set_target_properties(libusb PROPERTIES FOLDER deps)
     set_target_properties(xml2 PROPERTIES FOLDER deps)
+else ()
+    find_package(Iconv REQUIRED)
+    find_package(ZLIB REQUIRED)
+    find_package(LibXml2 REQUIRED)
+    find_path(LIBUSB_INCLUDE_DIR
+      NAMES libusb.h
+      PATH_SUFFIXES "include" "libusb" "libusb-1.0"
+      REQUIRED)
+    find_library(LIBUSB_LIBRARY
+      NAMES usb-1.0
+      PATH_SUFFIXES "lib" "lib32" "lib64"
+      REQUIRED)
 endif ()
 
+add_subdirectory(deps/miniz)
+add_subdirectory(deps/scrypto)
 add_subdirectory(deps/vitamtp)
 add_subdirectory(deps/psvlib/pkg)
 add_subdirectory(deps/psvlib/img)
+set_target_properties(miniz PROPERTIES FOLDER deps)
+set_target_properties(scrypto PROPERTIES FOLDER deps)
 set_target_properties(vitamtp PROPERTIES FOLDER vitalibs)
 set_target_properties(vitapkg PROPERTIES FOLDER vitalibs)
 set_target_properties(psvimg PROPERTIES FOLDER vitalibs)

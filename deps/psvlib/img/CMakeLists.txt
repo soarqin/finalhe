@@ -10,4 +10,9 @@ add_library(psvimg
 	psvimg.h)
 
 target_include_directories(psvimg PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(psvimg scrypto zlibstatic)
+target_link_libraries(psvimg scrypto)
+if (WIN32)
+    target_link_libraries(psvimg zlibstatic)
+else ()
+    target_link_libraries(psvimg ZLIB::ZLIB)
+endif ()

@@ -440,19 +440,19 @@ __attribute__((packed))
  */
 struct capability_info
 {
-    char *version;
+    const char *version;
     struct capability_info_function
     {
-        char *type;
+        const char *type;
         struct capability_info_format
         {
-            char *contentType;
-            char *codec;
+            const char *contentType;
+            const char *codec;
             struct capability_info_format *next_item;
         } formats;
         struct capability_info_option
         {
-            char *name;
+            const char *name;
             struct capability_info_option *next_item;
         } options;
         struct capability_info_function *next_item;
@@ -757,6 +757,19 @@ typedef int (* VitaMTP_progressfunc_t)(uint64_t const sent, uint64_t const total
 #define VitaMTP_INFO        3
 #define VitaMTP_ERROR       1
 #define VitaMTP_NONE        0
+
+#ifdef __GNUC__
+#define VitaMTP_Log(mask, format, args...) \
+    do { \
+        if (MASK_SET (g_VitaMTP_logmask, mask)) { \
+            if (mask == VitaMTP_DEBUG) { \
+                fprintf(stderr, "VitaMTP %s[%d]: " format, __FUNCTION__, __LINE__, ##args); \
+            } else { \
+                fprintf(stderr, "VitaMTP: " format, ##args); \
+            } \
+        } \
+    } while (0)
+#else
 #define VitaMTP_Log(mask, format, ...) \
     do { \
         if (MASK_SET (g_VitaMTP_logmask, mask)) { \
@@ -767,7 +780,7 @@ typedef int (* VitaMTP_progressfunc_t)(uint64_t const sent, uint64_t const total
             } \
         } \
     } while (0)
-
+#endif
 // TODO: Const correctness
 
 /**

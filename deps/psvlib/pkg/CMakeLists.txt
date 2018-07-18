@@ -8,4 +8,9 @@ add_library(vitapkg
     pkg_utils.h
     pkg_zrif.c pkg_zrif.h)
 target_include_directories(vitapkg PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(vitapkg zlibstatic scrypto)
+target_link_libraries(vitapkg scrypto)
+if (WIN32)
+    target_link_libraries(vitapkg zlibstatic)
+else ()
+    target_link_libraries(vitapkg ZLIB::ZLIB)
+endif ()
