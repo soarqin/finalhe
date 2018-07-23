@@ -10,23 +10,12 @@ option(AMD64 "Enable building amd64 assembly implementation")
 
 include(CheckTypeSize)
 include(CheckFunctionExists)
-include(CheckIncludeFile)
-include(CheckCSourceCompiles)
-
-check_include_file(sys/types.h HAVE_SYS_TYPES_H)
-check_include_file(stdint.h    HAVE_STDINT_H)
-check_include_file(stddef.h    HAVE_STDDEF_H)
 
 set(CMAKE_REQUIRED_DEFINITIONS -D_LARGEFILE64_SOURCE=1)
-if(HAVE_SYS_TYPES_H)
-    list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_SYS_TYPES_H)
-endif()
-if(HAVE_STDINT_H)
-    list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_STDINT_H)
-endif()
-if(HAVE_STDDEF_H)
-    list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_STDDEF_H)
-endif()
+list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_SYS_TYPES_H)
+list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_STDINT_H)
+list(APPEND CMAKE_REQUIRED_DEFINITIONS -DHAVE_STDDEF_H)
+
 check_type_size(off64_t OFF64_T)
 if(HAVE_OFF64_T)
    add_definitions(-D_LARGEFILE64_SOURCE=1)
@@ -38,8 +27,6 @@ if(NOT HAVE_FSEEKO)
     add_definitions(-DNO_FSEEKO)
 endif()
 
-check_include_file(unistd.h Z_HAVE_UNISTD_H)
-
 if(MSVC)
     set(CMAKE_DEBUG_POSTFIX "d")
     add_definitions(-D_CRT_SECURE_NO_DEPRECATE)
@@ -47,23 +34,8 @@ if(MSVC)
     include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 endif()
 
-if(NOT CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_CURRENT_BINARY_DIR)
-    # If we're doing an out of source build and the user has a zconf.h
-    # in their source tree...
-    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/zconf.h)
-        message(STATUS "Renaming")
-        message(STATUS "    ${CMAKE_CURRENT_SOURCE_DIR}/zconf.h")
-        message(STATUS "to 'zconf.h.included' because this file is included with zlib")
-        message(STATUS "but CMake generates it automatically in the build directory.")
-        file(RENAME ${CMAKE_CURRENT_SOURCE_DIR}/zconf.h ${CMAKE_CURRENT_SOURCE_DIR}/zconf.h.included)
-  endif()
-endif()
-
-configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/zconf.h.cmakein
-		${CMAKE_CURRENT_BINARY_DIR}/zconf.h @ONLY)
-
 set(ZLIB_PUBLIC_HDRS
-    ${CMAKE_CURRENT_BINARY_DIR}/zconf.h
+    zconf.h
     zlib.h
 )
 set(ZLIB_PRIVATE_HDRS
@@ -133,7 +105,7 @@ string(REGEX REPLACE ".*#define[ \t]+ZLIB_VERSION[ \t]+\"([-0-9A-Za-z.]+)\".*"
     "\\1" ZLIB_FULL_VERSION ${_zlib_h_contents})
 
 add_library(zlibstatic STATIC ${ZLIB_SRCS} ${ZLIB_ASMS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS})
-target_include_directories(zlibstatic PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(zlibstatic PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 if(UNIX)
    set_target_properties(zlibstatic PROPERTIES OUTPUT_NAME z)
