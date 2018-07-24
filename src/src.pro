@@ -45,9 +45,8 @@ win32-msvc* {
 }
 
 win32 {
-    LIBS += -lshlwapi -lpsapi
     RC_FILE += finalhe.rc
-    OTHER_FILES += finalhe.rc resource.h
+    HEADERS += resource.h
 }
 
 FORMS += finalhe.ui
