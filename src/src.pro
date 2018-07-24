@@ -40,7 +40,7 @@ win32-msvc* {
         PKGCONFIG += zlib
     }
     !linux {
-        PKGCONFIG += libiconv
+        LIBS += -liconv
     }
 }
 
