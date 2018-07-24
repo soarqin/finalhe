@@ -30,3 +30,16 @@
 *.exe
 *.out
 *.app
+
+# QMake files
+Makefile*
+.qmake*
+qcma.pro.user*
+*.qm
+*.bundle
+*_plugin_import.cpp
+*.moc
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h

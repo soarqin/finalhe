@@ -1,4 +1,5 @@
 TEMPLATE = lib
+CONFIG -= debug_and_release
 CONFIG += staticlib
 TARGET = vitamtp
 
@@ -17,6 +18,9 @@ win32-msvc* {
         LIBS += -liconv
     }
     QMAKE_CXXFLAGS += -Wall -Wextra -Wno-unused-parameter -Wno-parentheses
+}
+unix:!macx {
+    DEFINES += _FILE_OFFSET_BITS=64 _LARGEFILE_SOURCE
 }
 DEFINES += HAVE_ICONV HAVE_LIMITS_H PTP_USB_SUPPORT PTP_IP_SUPPORT
 SOURCES = datautils.c device.c ptp.c usb.c vitamtp.c wireless.c
