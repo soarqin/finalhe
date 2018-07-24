@@ -19,42 +19,38 @@
         <translation>無法強制關閉Qcma，請手動關閉後再重新執行本工具</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="21"/>
+        <location filename="../finalhe.cc" line="23"/>
         <location filename="../main.cc" line="80"/>
         <source>ERROR</source>
         <translation>錯誤</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="21"/>
+        <location filename="../finalhe.cc" line="23"/>
         <source>You don&apos;t have write permission to this folder! Exit now.</source>
         <translation>沒有檔案寫入權限，關閉工具中 </translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="104"/>
+        <location filename="../finalhe.cc" line="106"/>
         <source>Registering device: %1
-AInput this PIN on PS Vita: %2</source>
-        <translation type="unfinished"></translation>
+Input this PIN on PS Vita: %2</source>
+        <translation>正在登記裝置: %1
+請在PSVita上輸入PIN: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="108"/>
+        <location filename="../finalhe.cc" line="110"/>
         <source>Registered device.</source>
-        <translation type="unfinished"></translation>
+        <translation>裝置登記成功</translation>
     </message>
 </context>
 <context>
     <name>FinalHEClass</name>
     <message>
-        <location filename="../finalhe.ui" line="25"/>
-        <source>Final h-encore v1.1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../finalhe.ui" line="128"/>
+        <location filename="../finalhe.ui" line="125"/>
         <source> Let&apos;s GO! </source>
         <translation> 開始！</translation>
     </message>
     <message>
-        <location filename="../finalhe.ui" line="147"/>
+        <location filename="../finalhe.ui" line="144"/>
         <source>Trim h-encore to ~13MB</source>
         <translation>將h-encore縮減至約13MB</translation>
     </message>
@@ -159,13 +155,13 @@ Please check your network connection!</source>
 <context>
     <name>base</name>
     <message>
-        <location filename="../finalhe.cc" line="30"/>
-        <location filename="../finalhe.cc" line="117"/>
+        <location filename="../finalhe.cc" line="32"/>
+        <location filename="../finalhe.cc" line="119"/>
         <source>English</source>
         <translation>英文</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="36"/>
+        <location filename="../finalhe.cc" line="38"/>
         <source>LANGUAGE</source>
         <translation>繁體中文</translation>
     </message>

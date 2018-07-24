@@ -21,9 +21,6 @@
     <pointsize>12</pointsize>
    </font>
   </property>
-  <property name="windowTitle">
-   <string>Final h-encore v1.1</string>
-  </property>
   <property name="locale">
    <locale language="C" country="AnyCountry"/>
   </property>

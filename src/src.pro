@@ -3,11 +3,16 @@ CONFIG -= debug_and_release
 QT += gui widgets network
 TARGET = FinalHE
 
+VER_MAJOR = 1
+VER_MINOR = 2
+VER_STR = \\\"$${VER_MAJOR}.$${VER_MINOR}\\\"
+
 CODECFORSRC = UTF-8
 
 win32-msvc* {
     DEFINES += _CRT_SECURE_NO_WARNINGS _CRT_NONSTDC_NO_DEPRECATE
 }
+DEFINES += FINALHE_VERSION_STR=$${VER_STR}
 DEFINES += USING_STATIC_LIBICONV LIBXML_STATIC
 INCLUDEPATH = ../deps/vitamtp ../deps/psvlib/img ../deps/psvlib/pkg ../deps/miniz ../deps/scrypto
 SOURCES += main.cc downloader.cc finalhe.cc package.cc vita.cc worker.cc
@@ -49,3 +54,10 @@ FORMS += finalhe.ui
 OTHER_FILES += finalhe.ico resources/xml/psp2-updatelist.xml
 RESOURCES += finalhe.qrc
 TRANSLATIONS += translations/zh_CN.ts translations/zh_TW.ts
+
+lupdate.commands = lupdate $$_PRO_FILE_
+lrelease.commands = lrelease $$_PRO_FILE_
+lrelease.depends = lupdate
+lcopy.commands = $(COPY_DIR) $$shell_path($$_PRO_FILE_PWD_/translations) language && $(DEL_FILE) $$shell_path(language/*.ts)
+lcopy.depends = lrelease
+QMAKE_EXTRA_TARGETS += lupdate lrelease lcopy

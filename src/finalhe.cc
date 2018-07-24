@@ -10,6 +10,8 @@
 
 FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
     ui.setupUi(this);
+    setWindowTitle("Final h-encore " FINALHE_VERSION_STR);
+    setWindowIcon(QIcon(":/main/resources/images/finalhe.png"));
     setFixedSize(600, 400);
 
     ui.textMTP->setStyleSheet("QLabel { color : blue; }");
@@ -101,7 +103,7 @@ void FinalHE::setTextPkg(QString txt) {
 }
 
 void FinalHE::displayPin(QString onlineId, int pin) {
-    ui.textPkg->setText(tr("Registering device: %1\nAInput this PIN on PS Vita: %2").arg(onlineId).arg(pin, 8, 10, QChar('0')));
+    ui.textPkg->setText(tr("Registering device: %1\nInput this PIN on PS Vita: %2").arg(onlineId).arg(pin, 8, 10, QChar('0')));
 }
 
 void FinalHE::clearPin() {
