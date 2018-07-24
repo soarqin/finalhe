@@ -4,7 +4,7 @@ CONFIG += staticlib
 TARGET = vitamtp
 
 win32-g++ {
-    QMAKE_CXXFLAGS += -mno-ms-bitfields
+    QMAKE_CFLAGS += -mno-ms-bitfields
 }
 win32-msvc* {
     DEFINES += _CRT_SECURE_NO_WARNINGS _CRT_NONSTDC_NO_DEPRECATE _WINSOCK_DEPRECATED_NO_WARNINGS
@@ -17,7 +17,7 @@ win32-msvc* {
     !linux {
         LIBS += -liconv
     }
-    QMAKE_CXXFLAGS += -Wall -Wextra -Wno-unused-parameter -Wno-parentheses
+    QMAKE_CFLAGS += -Wall -Wextra -Wno-unused-parameter -Wno-parentheses
 }
 unix:!macx {
     DEFINES += _FILE_OFFSET_BITS=64 _LARGEFILE_SOURCE
