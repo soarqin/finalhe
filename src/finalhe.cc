@@ -6,6 +6,7 @@
 #include <QLocale>
 #include <QDir>
 #include <QMessageBox>
+#include <QStandardPaths>
 #include <QDebug>
 
 FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
@@ -17,12 +18,15 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
     ui.textMTP->setStyleSheet("QLabel { color : blue; }");
 
     ui.progressBar->setMaximum(100);
-    QDir dir(qApp->applicationDirPath());
-    QDir baseDir(dir);
-    if (!baseDir.mkpath("data") || !(baseDir.cd("data"), baseDir.exists())) {
-        QMessageBox::critical(this, tr("ERROR"), tr("You don't have write permission to this folder! Exit now."));
-        QCoreApplication::quit();
-        return;
+    QDir baseDir, dir(qApp->applicationDirPath());
+#ifdef _WIN32
+    baseDir = dir;
+    if (!baseDir.mkpath("data") || !(baseDir.cd("data"), baseDir.exists()))
+#endif
+    {
+        baseDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+        baseDir.mkpath("data");
+	baseDir.cd("data");
     }
     vita = new VitaConn(baseDir.path(), this);
     pkg = new Package(baseDir.path(), this);
