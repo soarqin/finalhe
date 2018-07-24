@@ -71,12 +71,16 @@ if (MSVC)
     else ()
         add_custom_command(TARGET FinalHE POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::Core> $<TARGET_FILE:Qt5::Gui> $<TARGET_FILE:Qt5::Widgets> $<TARGET_FILE:Qt5::Network> $<TARGET_FILE_DIR:FinalHE>
-            COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:FinalHE>/language
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${TRANSLATION_QM} $<TARGET_FILE_DIR:FinalHE>/language
             DEPENDS ${TRANSLATION_QM}
         )
     endif ()
 endif ()
+add_custom_command(TARGET FinalHE POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:FinalHE>/language
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${TRANSLATION_QM} $<TARGET_FILE_DIR:FinalHE>/language
+    DEPENDS ${TRANSLATION_QM}
+)
+
 target_link_libraries(FinalHE vitamtp vitapkg psvimg miniz scrypto)
 if (APPLE)
     if (qt5_target_type STREQUAL "STATIC_LIBRARY")
