@@ -6,6 +6,7 @@
 *.lo
 *.o
 *.obj
+*.res
 
 # Precompiled Headers
 *.gch
@@ -34,7 +35,7 @@
 # QMake files
 Makefile*
 .qmake*
-qcma.pro.user*
+*.pro.user*
 *.qm
 *.bundle
 *_plugin_import.cpp

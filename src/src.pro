@@ -41,9 +41,11 @@ win32-msvc* {
 
 win32 {
     LIBS += -lshlwapi -lpsapi
+    RC_FILE += finalhe.rc
+    OTHER_FILES += finalhe.rc resource.h
 }
 
 FORMS += finalhe.ui
-OTHER_FILES += finalhe.rc resource.h finalhe.ico resources/xml/psp2-updatelist.xml
+OTHER_FILES += finalhe.ico resources/xml/psp2-updatelist.xml
 RESOURCES += finalhe.qrc
 TRANSLATIONS += translations/zh_CN.ts translations/zh_TW.ts
