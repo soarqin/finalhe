@@ -4,40 +4,38 @@
 <context>
     <name>FinalHE</name>
     <message>
-        <location filename="../main.cc" line="76"/>
+        <location filename="../main.cc" line="74"/>
         <source>WARNING</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="76"/>
+        <location filename="../main.cc" line="74"/>
         <source>Qcma is running, force close it now?</source>
         <translation>Qcma正在執行，要強制關閉嗎？</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="80"/>
+        <location filename="../main.cc" line="78"/>
         <source>Unable to close Qcma, please close it manually and then restart this tool.</source>
         <translation>無法強制關閉Qcma，請手動關閉後再重新執行本工具</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="23"/>
-        <location filename="../main.cc" line="80"/>
+        <location filename="../main.cc" line="78"/>
         <source>ERROR</source>
         <translation>錯誤</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="23"/>
         <source>You don&apos;t have write permission to this folder! Exit now.</source>
-        <translation>沒有檔案寫入權限，關閉工具中 </translation>
+        <translation type="vanished">沒有檔案寫入權限，關閉工具中 </translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="106"/>
+        <location filename="../finalhe.cc" line="119"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>正在登記裝置: %1
 請在PSVita上輸入PIN: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="110"/>
+        <location filename="../finalhe.cc" line="123"/>
         <source>Registered device.</source>
         <translation>裝置登記成功</translation>
     </message>
@@ -137,17 +135,17 @@ Please check your network connection!</source>
 <context>
     <name>VitaConn</name>
     <message>
-        <location filename="../vita.cc" line="357"/>
+        <location filename="../vita.cc" line="356"/>
         <source>Waiting for connection to PS Vita...</source>
         <translation>等待連接到PSV……</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="360"/>
+        <location filename="../vita.cc" line="359"/>
         <source>Connected to PS Vita [%1], Waiting for account ID</source>
         <translation>已經連接到PSV [%1], 等待用戶ID</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="362"/>
+        <location filename="../vita.cc" line="361"/>
         <source>Connected to PS Vita [%1] (%2)</source>
         <translation>已經連接到PSV [%1] (%2)</translation>
     </message>
@@ -155,13 +153,13 @@ Please check your network connection!</source>
 <context>
     <name>base</name>
     <message>
-        <location filename="../finalhe.cc" line="32"/>
-        <location filename="../finalhe.cc" line="119"/>
+        <location filename="../finalhe.cc" line="37"/>
+        <location filename="../finalhe.cc" line="132"/>
         <source>English</source>
         <translation>英文</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="38"/>
+        <location filename="../finalhe.cc" line="45"/>
         <source>LANGUAGE</source>
         <translation>繁體中文</translation>
     </message>

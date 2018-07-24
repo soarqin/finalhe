@@ -233,7 +233,6 @@ VitaConn::~VitaConn() {
 }
 
 void registrationComplete() {
-    QSettings settings;
     qDebug("Registration completed");
     emit this_object->completedPin();
 }

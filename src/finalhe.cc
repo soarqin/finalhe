@@ -8,6 +8,7 @@
 #include <QMessageBox>
 #include <QStandardPaths>
 #include <QDebug>
+#include <QSettings>
 
 FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
     ui.setupUi(this);
@@ -31,16 +32,23 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
     vita = new VitaConn(baseDir.path(), this);
     pkg = new Package(baseDir.path(), this);
     int useSysLang = 0;
+    QSettings settings;
+    QString langLoad = settings.value("language").toString();
+    ui.comboLang->addItem(trans.isEmpty() ? "English" : trans.translate("base", "English"));
     if (dir.cd("language")) {
         QStringList ll = dir.entryList({"*.qm"}, QDir::Filter::Files, QDir::SortFlag::IgnoreCase);
-        ui.comboLang->addItem(trans.isEmpty() ? "English" : trans.translate("base", "English"));
         for (auto &p: ll) {
             QString compPath = dir.filePath(p);
             QTranslator transl;
             if (transl.load(compPath)) {
                 int index = ui.comboLang->count();
                 ui.comboLang->addItem(transl.translate("base", "LANGUAGE"), compPath);
-                if (QFileInfo(p).baseName() == QLocale::system().name()) {
+                if (useSysLang != 0) continue;
+                if (langLoad.isNull()) {
+                    if (QFileInfo(p).baseName() == QLocale::system().name()) {
+                        useSysLang = index;
+                    }
+                } else if (compPath == langLoad) {
                     useSysLang = index;
                 }
             }
@@ -83,6 +91,7 @@ void FinalHE::langChange() {
     loadLanguage(compPath);
     pkg->tips();
     vita->updateStatus();
+    QSettings().setValue("language", compPath);
 }
 
 void FinalHE::onStart() {
