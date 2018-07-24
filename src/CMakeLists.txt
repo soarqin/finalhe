@@ -53,54 +53,18 @@ if (MSVC)
 endif ()
 add_executable(FinalHE WIN32 ${SRC_FILES} ${UI_FILES} ${RES_FILES} ${FINALHE_RCC_SRC} ${TRANSLATION_FILES} ${TRANSLATION_QM})
 target_link_libraries(FinalHE Qt5::Widgets Qt5::Network)
-get_target_property(qt5_target_type Qt5::Core TYPE)
 if (MSVC)
-    if (qt5_target_type STREQUAL "STATIC_LIBRARY")
-        get_target_property(qt5_target_path Qt5::Core LOCATION)
-        get_filename_component(qt5_target_dir "${qt5_target_path}" DIRECTORY)
-        target_link_libraries(FinalHE debug ${qt5_target_dir}/Qt5PlatformSupportd.lib
-                                      debug ${qt5_target_dir}/qtfreetyped.lib
-                                      debug ${qt5_target_dir}/qtharfbuzzngd.lib
-                                      debug ${qt5_target_dir}/qtpcred.lib
-                                      optimized ${qt5_target_dir}/Qt5PlatformSupport.lib
-                                      optimized ${qt5_target_dir}/qtfreetype.lib
-                                      optimized ${qt5_target_dir}/qtharfbuzzng.lib
-                                      optimized ${qt5_target_dir}/qtpcre.lib)
-        target_link_libraries(FinalHE ${qt5_target_dir}/ssleay32.lib ${qt5_target_dir}/libeay32.lib)
-        target_link_libraries(FinalHE Qt5::QWindowsIntegrationPlugin Imm32 Winmm Iphlpapi Crypt32 OpenGL32)
-    else ()
-        add_custom_command(TARGET FinalHE POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::Core> $<TARGET_FILE:Qt5::Gui> $<TARGET_FILE:Qt5::Widgets> $<TARGET_FILE:Qt5::Network> $<TARGET_FILE_DIR:FinalHE>
-            DEPENDS ${TRANSLATION_QM}
-        )
-    endif ()
+    add_custom_command(TARGET FinalHE POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different $<TARGET_FILE:Qt5::Core> $<TARGET_FILE:Qt5::Gui> $<TARGET_FILE:Qt5::Widgets> $<TARGET_FILE:Qt5::Network> $<TARGET_FILE_DIR:FinalHE>
+        DEPENDS ${TRANSLATION_QM}
+    )
 endif ()
 add_custom_command(TARGET FinalHE POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E make_directory $<TARGET_FILE_DIR:FinalHE>/language
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${TRANSLATION_QM} $<TARGET_FILE_DIR:FinalHE>/language
     DEPENDS ${TRANSLATION_QM}
 )
-
 target_link_libraries(FinalHE vitamtp vitapkg psvimg miniz scrypto)
-if (APPLE)
-    if (qt5_target_type STREQUAL "STATIC_LIBRARY")
-        get_target_property(qt5_target_path Qt5::Core LOCATION)
-        get_filename_component(qt5_target_dir "${qt5_target_path}" DIRECTORY)
-        link_directories(${qt5_target_dir})
-        target_link_libraries(FinalHE Qt5::QCocoaIntegrationPlugin Qt5::PrintSupport
-                                      ${qt5_target_dir}/libQt5AccessibilitySupport.a
-                                      ${qt5_target_dir}/libQt5ThemeSupport.a
-                                      ${qt5_target_dir}/libQt5ClipboardSupport.a
-                                      ${qt5_target_dir}/libQt5GraphicsSupport.a
-                                      ${qt5_target_dir}/libQt5FontDatabaseSupport.a
-                                      ${qt5_target_dir}/libqtfreetype.a
-                                      ${qt5_target_dir}/libqtharfbuzz.a
-                                      ${qt5_target_dir}/libqtlibpng.a
-                                      ${qt5_target_dir}/libqtpcre2.a
-                                      cups)
-        target_link_libraries(FinalHE "-framework DiskArbitration -framework IOKit -framework Foundation -framework CoreServices -framework AppKit -framework Security -framework ApplicationServices -framework CoreFoundation -framework CoreGraphics -framework OpenGL -framework AGL -framework Carbon -framework QuartzCore -framework SystemConfiguration")
-    endif ()
-endif ()
 if (WIN32)
     target_link_libraries(FinalHE shlwapi psapi)
 endif ()
