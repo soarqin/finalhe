@@ -52,7 +52,10 @@ win32 {
 FORMS += finalhe.ui
 OTHER_FILES += finalhe.ico resources/xml/psp2-updatelist.xml
 RESOURCES += finalhe.qrc
-TRANSLATIONS += translations/zh_CN.ts translations/zh_TW.ts
+TRANSLATIONS += \
+    translations/cs_CZ.ts \
+    translations/zh_CN.ts \
+    translations/zh_TW.ts
 
 lupdate.commands = lupdate $$_PRO_FILE_
 lrelease.commands = lrelease $$_PRO_FILE_
