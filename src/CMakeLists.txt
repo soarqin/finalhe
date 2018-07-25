@@ -31,6 +31,7 @@ set(RES_FILES
 )
 
 set(TRANSLATION_FILES
+    translations/it_IT.ts
     translations/cs_CZ.ts
     translations/zh_CN.ts
     translations/zh_TW.ts
