@@ -95,9 +95,10 @@ Bu PIN&apos;i PS Vita cihazınızda girin: %2</translation>
 4. Run &quot;h-encore&quot; and... Yay, that&apos;s it!</source>
         <translation>Her şey hazır, aşağıdaki anlatılanları PS Vita&apos;nızda yapın:
 1. İçerik Yöneticisi&apos;ni açın ve cihazı bilgisayarınıza bağlayın.
-2. Sırasıyla şu seçenekleri seçin: &quot;Bilgisayar -&gt; PS Vita Sistemi&quot; -&gt; &quot;Uygulamalar&quot; -&gt; &quot;PS Vita&quot;.
-3. &quot;h-encore&quot;&apos;u PS Vita&apos;nıza aktarın.
-4. PS Vita&apos;nızda &quot;h-encore&quot;&apos;u çalıştırın vee... İşte bu kadar!</translation>
+2. Sırasıyla şu seçenekleri seçin: 
+&quot;Bilgisayar&quot; - &quot;PS Vita Sistemi&quot; - &quot;Uygulamalar&quot; - &quot;PS Vita&quot;
+3. &quot;h-encore&quot;u PS Vita&apos;nıza aktarın.
+4. PS Vita&apos;nızda &quot;h-encore&quot;u çalıştırın vee... İşte bu kadar!</translation>
     </message>
     <message>
         <location filename="../package.cc" line="246"/>
