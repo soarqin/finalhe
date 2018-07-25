@@ -158,12 +158,12 @@ Lütfen internet bağlantınızı kontrol edin.</translation>
         <location filename="../finalhe.cc" line="37"/>
         <location filename="../finalhe.cc" line="132"/>
         <source>English</source>
-        <translation>Türkçe</translation>
+        <translation>İngilizce</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="45"/>
         <source>LANGUAGE</source>
-        <translation>DİL</translation>
+        <translation>Türkçe</translation>
     </message>
 </context>
 </TS>
