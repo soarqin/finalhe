@@ -119,7 +119,7 @@ Başlamak için düğmeye basın.</translation>
     <message>
         <location filename="../package.cc" line="40"/>
         <source>Launch Content Manager on PS Vita and connect to computer.</source>
-        <translation>PS Vita&apos;nzıda İçerik Yöneticisi&apos;ni açın ve bilgisayara bağlayın.</translation>
+        <translation>PS Vita&apos;nızda İçerik Yöneticisi&apos;ni açın ve bilgisayara bağlayın.</translation>
     </message>
     <message>
         <location filename="../package.cc" line="320"/>
