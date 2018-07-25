@@ -25,7 +25,7 @@
     </message>
     <message>
         <source>You don&apos;t have write permission to this folder! Exit now.</source>
-        <translation type="vanished">没有目录写入权限，关闭工具中 </translation>
+        <translation type="vanished">K zapisování do této složky nemáte práva! Ukončuji.</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="119"/>
