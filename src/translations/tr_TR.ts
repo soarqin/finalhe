@@ -37,7 +37,7 @@ Bu PIN&apos;i PS Vita cihazınızda girin: %2</translation>
     <message>
         <location filename="../finalhe.cc" line="123"/>
         <source>Registered device.</source>
-        <translation>Kayıtlı cihaz.</translation>
+        <translation>Cihaz kaydedildi.</translation>
     </message>
 </context>
 <context>
