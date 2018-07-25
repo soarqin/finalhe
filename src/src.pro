@@ -53,6 +53,7 @@ FORMS += finalhe.ui
 OTHER_FILES += finalhe.ico resources/xml/psp2-updatelist.xml
 RESOURCES += finalhe.qrc
 TRANSLATIONS += \
+    translations/it_IT.ts \
     translations/cs_CZ.ts \
     translations/zh_CN.ts \
     translations/zh_TW.ts
