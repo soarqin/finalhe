@@ -55,6 +55,7 @@ RESOURCES += finalhe.qrc
 TRANSLATIONS += \
     translations/it_IT.ts \
     translations/cs_CZ.ts \
+    translations/tr_TR.ts \
     translations/zh_CN.ts \
     translations/zh_TW.ts
 
