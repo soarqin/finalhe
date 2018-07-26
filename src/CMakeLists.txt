@@ -6,7 +6,7 @@ if (POLICY CMP0071)
 endif ()
 
 set (VER_MAJOR 1)
-set (VER_MINOR 2)
+set (VER_MINOR 3)
 set (VER_STR \"${VER_MAJOR}.${VER_MINOR}\")
 
 # Instruct CMake to run moc automatically when needed.

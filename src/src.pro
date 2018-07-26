@@ -4,7 +4,7 @@ QT += gui widgets network
 TARGET = FinalHE
 
 VER_MAJOR = 1
-VER_MINOR = 2
+VER_MINOR = 3
 VER_STR = \\\"$${VER_MAJOR}.$${VER_MINOR}\\\"
 
 CODECFORSRC = UTF-8
