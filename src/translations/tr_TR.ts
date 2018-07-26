@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="zh_TW">
+<TS version="2.1" language="zh_TW">
 <context>
     <name>FinalHE</name>
     <message>
@@ -25,7 +25,7 @@
     </message>
     <message>
         <source>You don&apos;t have write permission to this folder! Exit now.</source>
-        <translation type="unfinished">Bu klasöre yazma izniniz yok! Başka bir klasör seçin.</translation>
+        <translation type="obsolete">Bu klasöre yazma izniniz yok! Başka bir klasör seçin.</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="119"/>
@@ -72,22 +72,27 @@ Bu PIN&apos;i PS Vita cihazınızda girin: %2</translation>
         <translation>%1 arşivden çıkarılamadı</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="153"/>
+        <location filename="../package.cc" line="154"/>
         <source>Decompressing %1</source>
         <translation>%1 decompress ediliyor</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="168"/>
+        <location filename="../package.cc" line="169"/>
         <source>Failed to decompress %1</source>
         <translation>%1 decompress edilemedi</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="207"/>
+        <location filename="../package.cc" line="208"/>
         <source>Verifying %1</source>
         <translation>%1 doğrulanıyor</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="252"/>
+        <location filename="../package.cc" line="237"/>
+        <source>sha256sum mismatch! Please check your network.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../package.cc" line="254"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -101,19 +106,19 @@ Bu PIN&apos;i PS Vita cihazınızda girin: %2</translation>
 4. PS Vita&apos;nızda &quot;h-encore&quot;u çalıştırın vee... İşte bu kadar!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="246"/>
+        <location filename="../package.cc" line="248"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
         <translation type="unfinished">cma.henkaku.xyz adresinden yedek anahtarı alınıyor</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="350"/>
+        <location filename="../package.cc" line="353"/>
         <source>Fetched backup key.
 Click button to START!</source>
         <translation>Yedek anahtarı alındı.
 Başlamak için düğmeye basın.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="290"/>
+        <location filename="../package.cc" line="292"/>
         <source>Trimming package</source>
         <translation>Paketten gereksiz dosyalar siliniyor.</translation>
     </message>
@@ -123,12 +128,12 @@ Başlamak için düğmeye basın.</translation>
         <translation>PS Vita&apos;nızda İçerik Yöneticisi&apos;ni açın ve bilgisayara bağlayın.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="320"/>
+        <location filename="../package.cc" line="322"/>
         <source>Createing psvimg&apos;s</source>
         <translation>psvimg oluşturuluyor.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="347"/>
+        <location filename="../package.cc" line="350"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
         <translation>AID&apos;iniz kullanılarak yedek anahtarı alınamadı.

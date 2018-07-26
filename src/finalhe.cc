@@ -27,7 +27,7 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
     {
         baseDir = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
         baseDir.mkpath("data");
-	baseDir.cd("data");
+        baseDir.cd("data");
     }
     vita = new VitaConn(baseDir.path(), this);
     pkg = new Package(baseDir.path(), this);

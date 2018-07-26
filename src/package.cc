@@ -139,6 +139,7 @@ void Package::startUnpackDemo(const char *filename) {
     }, [this](void *arg) {
         if (*(bool*)arg) {
             qDebug("Done.");
+            emit setPercent(100);
             emit unpackedDemo();
         }
     }, &succ);
@@ -233,6 +234,7 @@ bool Package::verify(const QString &filepath, const char *sha256sum) {
             return true;
         } else {
             qWarning("sha256sum mismatch.");
+            emit setStatusText(tr("sha256sum mismatch! Please check your network."));
         }
     }
     return false;
@@ -335,7 +337,8 @@ void Package::createPsvImgs() {
 }
 
 void Package::downloadProg(uint64_t curr, uint64_t total) {
-    emit setPercent((int)(curr * 100ULL / total));
+    if (total > 0)
+        emit setPercent((int)(curr * 100ULL / total));
 }
 
 void Package::fetchFinished(void *arg) {

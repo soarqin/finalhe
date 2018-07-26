@@ -71,22 +71,27 @@ Zadejte na Vaší Vitě následující PIN: %2</translation>
         <translation type="unfinished">Rozbalování selhalo %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="153"/>
+        <location filename="../package.cc" line="154"/>
         <source>Decompressing %1</source>
         <translation type="unfinished">Dekomprimuji %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="168"/>
+        <location filename="../package.cc" line="169"/>
         <source>Failed to decompress %1</source>
         <translation type="unfinished">Dekomprimace selhala %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="207"/>
+        <location filename="../package.cc" line="208"/>
         <source>Verifying %1</source>
         <translation type="unfinished">Ověřuji %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="252"/>
+        <location filename="../package.cc" line="237"/>
+        <source>sha256sum mismatch! Please check your network.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../package.cc" line="254"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -99,19 +104,19 @@ Zadejte na Vaší Vitě následující PIN: %2</translation>
 4. Spusťte &quot;h-encore&quot; a... hurá, je hotovo!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="246"/>
+        <location filename="../package.cc" line="248"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
         <translation type="unfinished">Načítám záložní klíč z cma.henkaku.xyz</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="350"/>
+        <location filename="../package.cc" line="353"/>
         <source>Fetched backup key.
 Click button to START!</source>
         <translation type="unfinished">Záložní klíč načten.
 Stiskněte tlačítko pro START!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="290"/>
+        <location filename="../package.cc" line="292"/>
         <source>Trimming package</source>
         <translation type="unfinished">Zmenšuji balíček</translation>
     </message>
@@ -121,12 +126,12 @@ Stiskněte tlačítko pro START!</translation>
         <translation type="unfinished">Spusťte na Vaší Vitě &quot;Content Manager&quot; a připojte Vitu k počítači.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="320"/>
+        <location filename="../package.cc" line="322"/>
         <source>Createing psvimg&apos;s</source>
         <translation type="unfinished">Vytvářím psvimg</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="347"/>
+        <location filename="../package.cc" line="350"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
         <translation type="unfinished">Nepodařilo se získat záložní klíč z vašeho AID.
