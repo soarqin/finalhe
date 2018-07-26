@@ -1,0 +1,15 @@
+v1.3
+1. Added translations: Czech, Italian, Spanish & Turkish
+2. Fixed crash on downloading h-encore.zip
+3. Made prebuilt OS X binary compatible with Mavericks 10.9+
+4. Other minor fixes
+
+v1.2
+1. Supported WiFi connection for Content Manager
+2. Ported to OS X/macOS and Linux
+
+v1.1
+1. Fixed incorrect installation process
+
+v1.0
+1. Finished all basic functions

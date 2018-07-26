@@ -53,6 +53,8 @@ FORMS += finalhe.ui
 OTHER_FILES += finalhe.ico resources/xml/psp2-updatelist.xml
 RESOURCES += finalhe.qrc
 TRANSLATIONS += \
+    # only used as translation template, no need to be included in release
+    translations/en_US.ts \
     translations/cs_CZ.ts \
     translations/es_ES.ts \
     translations/it_IT.ts \
@@ -63,6 +65,6 @@ TRANSLATIONS += \
 lupdate.commands = lupdate $$_PRO_FILE_
 lrelease.commands = lrelease $$_PRO_FILE_
 lrelease.depends = lupdate
-lcopy.commands = $(COPY_DIR) $$shell_path($$_PRO_FILE_PWD_/translations) language && $(DEL_FILE) $$shell_path(language/*.ts)
+lcopy.commands = $(COPY_DIR) $$shell_path($$_PRO_FILE_PWD_/translations) language && $(DEL_FILE) $$shell_path(language/*.ts) $$shell_path(language/en_US.qm)
 lcopy.depends = lrelease
 QMAKE_EXTRA_TARGETS += lupdate lrelease lcopy
