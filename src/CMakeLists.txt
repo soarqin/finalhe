@@ -4,6 +4,11 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 if (POLICY CMP0071)
     cmake_policy(SET CMP0071 NEW)
 endif ()
+
+set (VER_MAJOR 1)
+set (VER_MINOR 2)
+set (VER_STR \"${VER_MAJOR}.${VER_MINOR}\")
+
 # Instruct CMake to run moc automatically when needed.
 set(CMAKE_AUTOMOC ON)
 
@@ -50,7 +55,7 @@ source_group(translations FILES ${TRANSLATION_FILES} ${TRANSLATION_QM})
 
 qt5_wrap_ui(${CMAKE_CURRENT_BINARY_DIR}/ui_finalhe.h finalhe.ui)
 
-add_definitions(-DUSING_STATIC_LIBICONV -DLIBXML_STATIC)
+add_definitions(-DFINALHE_VERSION_STR=${VER_STR} -DUSING_STATIC_LIBICONV -DLIBXML_STATIC)
 if (MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_CRT_NONSTDC_NO_DEPRECATE)
 endif ()
