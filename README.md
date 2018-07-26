@@ -4,6 +4,12 @@ a tool to push h-encore exploit for PS VITA/PS TV automatically
 # CREDITS
 see [CREDITS.md](CREDITS.md)
 
+# Prebuilt binaries for windows/macOS
+Check [latest release](https://github.com/soarqin/finalhe/releases/latest)
+
+# Notes on windows
+Please install QcmaDriver_winusb.exe(can be downloaded from releases) if you have not installed USB driver for PS Vita
+
 # Prerequisites for build
 1. For OSX/macOS: install [brew](https://brew.sh), install libusb & qt through brew (```brew install libusb qt```)
 2. For Linux:
