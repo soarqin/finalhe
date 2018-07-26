@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh_TW">
+<TS version="2.1" language="tr_TR">
 <context>
     <name>FinalHE</name>
     <message>
@@ -22,10 +22,6 @@
         <location filename="../main.cc" line="78"/>
         <source>ERROR</source>
         <translation>HATA</translation>
-    </message>
-    <message>
-        <source>You don&apos;t have write permission to this folder! Exit now.</source>
-        <translation type="obsolete">Bu klasöre yazma izniniz yok! Başka bir klasör seçin.</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="119"/>
@@ -108,7 +104,7 @@ Bu PIN&apos;i PS Vita cihazınızda girin: %2</translation>
     <message>
         <location filename="../package.cc" line="248"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
-        <translation type="unfinished">cma.henkaku.xyz adresinden yedek anahtarı alınıyor</translation>
+        <translation>cma.henkaku.xyz adresinden yedek anahtarı alınıyor</translation>
     </message>
     <message>
         <location filename="../package.cc" line="353"/>
