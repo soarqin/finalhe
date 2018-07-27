@@ -4,22 +4,22 @@
 <context>
     <name>FinalHE</name>
     <message>
-        <location filename="../main.cc" line="74"/>
+        <location filename="../main.cc" line="76"/>
         <source>WARNING</source>
         <translation>DİKKAT</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="74"/>
+        <location filename="../main.cc" line="76"/>
         <source>Qcma is running, force close it now?</source>
         <translation>Qcma arkaplanda çalışıyor, zorla kapatılsın mı?</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="78"/>
+        <location filename="../main.cc" line="80"/>
         <source>Unable to close Qcma, please close it manually and then restart this tool.</source>
         <translation>Qcma kapatılamadı, lütfen elle kapatın ve bu programı yeniden başlatın.</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="78"/>
+        <location filename="../main.cc" line="80"/>
         <source>ERROR</source>
         <translation>HATA</translation>
     </message>
@@ -53,42 +53,42 @@ Bu PIN&apos;i PS Vita cihazınızda girin: %2</translation>
 <context>
     <name>Package</name>
     <message>
-        <location filename="../package.cc" line="96"/>
+        <location filename="../package.cc" line="91"/>
         <source>Downloading %1</source>
         <translation>%1 indiriliyor</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="117"/>
+        <location filename="../package.cc" line="112"/>
         <source>Unpacking %1</source>
         <translation>%1 arşivden çıkarılıyor</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="131"/>
+        <location filename="../package.cc" line="126"/>
         <source>Failed to unpack %1</source>
         <translation>%1 arşivden çıkarılamadı</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="154"/>
+        <location filename="../package.cc" line="149"/>
         <source>Decompressing %1</source>
         <translation>%1 decompress ediliyor</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="169"/>
+        <location filename="../package.cc" line="164"/>
         <source>Failed to decompress %1</source>
         <translation>%1 decompress edilemedi</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="208"/>
+        <location filename="../package.cc" line="211"/>
         <source>Verifying %1</source>
         <translation>%1 doğrulanıyor</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="237"/>
+        <location filename="../package.cc" line="240"/>
         <source>sha256sum mismatch! Please check your network.</source>
         <translation>sha256sum uyuşmadı. Lütfen internet bağlantınızı kontrol edin.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="254"/>
+        <location filename="../package.cc" line="266"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -102,34 +102,35 @@ Bu PIN&apos;i PS Vita cihazınızda girin: %2</translation>
 4. PS Vita&apos;nızda &quot;h-encore&quot;u çalıştırın vee... İşte bu kadar!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="248"/>
+        <location filename="../package.cc" line="256"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
         <translation>cma.henkaku.xyz adresinden yedek anahtarı alınıyor</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="353"/>
+        <location filename="../package.cc" line="258"/>
+        <location filename="../package.cc" line="361"/>
         <source>Fetched backup key.
 Click button to START!</source>
         <translation>Yedek anahtarı alındı.
 Başlamak için düğmeye basın.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="292"/>
+        <location filename="../package.cc" line="300"/>
         <source>Trimming package</source>
         <translation>Paketten gereksiz dosyalar siliniyor.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="40"/>
+        <location filename="../package.cc" line="37"/>
         <source>Launch Content Manager on PS Vita and connect to computer.</source>
         <translation>PS Vita&apos;nızda İçerik Yöneticisi&apos;ni açın ve bilgisayara bağlayın.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="322"/>
+        <location filename="../package.cc" line="330"/>
         <source>Createing psvimg&apos;s</source>
         <translation>psvimg oluşturuluyor.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="350"/>
+        <location filename="../package.cc" line="358"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
         <translation>AID&apos;iniz kullanılarak yedek anahtarı alınamadı.

@@ -4,22 +4,22 @@
 <context>
     <name>FinalHE</name>
     <message>
-        <location filename="../main.cc" line="74"/>
+        <location filename="../main.cc" line="76"/>
         <source>WARNING</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="74"/>
+        <location filename="../main.cc" line="76"/>
         <source>Qcma is running, force close it now?</source>
         <translation>Qcma正在執行，要強制關閉嗎？</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="78"/>
+        <location filename="../main.cc" line="80"/>
         <source>Unable to close Qcma, please close it manually and then restart this tool.</source>
         <translation>無法強制關閉Qcma，請手動關閉後再重新執行本工具</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="78"/>
+        <location filename="../main.cc" line="80"/>
         <source>ERROR</source>
         <translation>錯誤</translation>
     </message>
@@ -56,42 +56,42 @@ Input this PIN on PS Vita: %2</source>
 <context>
     <name>Package</name>
     <message>
-        <location filename="../package.cc" line="96"/>
+        <location filename="../package.cc" line="91"/>
         <source>Downloading %1</source>
         <translation>正在下載 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="117"/>
+        <location filename="../package.cc" line="112"/>
         <source>Unpacking %1</source>
         <translation>正在解開 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="131"/>
+        <location filename="../package.cc" line="126"/>
         <source>Failed to unpack %1</source>
         <translation>無法解開 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="154"/>
+        <location filename="../package.cc" line="149"/>
         <source>Decompressing %1</source>
         <translation>正在解開壓縮檔案 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="169"/>
+        <location filename="../package.cc" line="164"/>
         <source>Failed to decompress %1</source>
         <translation>無法解開壓縮檔案 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="208"/>
+        <location filename="../package.cc" line="211"/>
         <source>Verifying %1</source>
         <translation>正在校驗 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="237"/>
+        <location filename="../package.cc" line="240"/>
         <source>sha256sum mismatch! Please check your network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../package.cc" line="254"/>
+        <location filename="../package.cc" line="266"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -104,34 +104,35 @@ Input this PIN on PS Vita: %2</source>
 4. 在PSV上執行 &quot;h-encore&quot;，大功告成！</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="248"/>
+        <location filename="../package.cc" line="256"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
         <translation>正在從cma.henkaku.xyz獲得備份密鑰</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="353"/>
+        <location filename="../package.cc" line="258"/>
+        <location filename="../package.cc" line="361"/>
         <source>Fetched backup key.
 Click button to START!</source>
         <translation>已獲得備份密鑰
 現在點擊按鈕開始！</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="292"/>
+        <location filename="../package.cc" line="300"/>
         <source>Trimming package</source>
         <translation>正在縮減容量</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="40"/>
+        <location filename="../package.cc" line="37"/>
         <source>Launch Content Manager on PS Vita and connect to computer.</source>
         <translation>在PS Vita上執行內容管理器並連接到個人電腦</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="322"/>
+        <location filename="../package.cc" line="330"/>
         <source>Createing psvimg&apos;s</source>
         <translation>正在製作psvimg</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="350"/>
+        <location filename="../package.cc" line="358"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
         <translation>無法從用戶ID獲取備份密鑰，請檢查個人電腦的網絡連接</translation>

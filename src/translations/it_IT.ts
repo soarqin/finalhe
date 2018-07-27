@@ -4,22 +4,22 @@
 <context>
     <name>FinalHE</name>
     <message>
-        <location filename="../main.cc" line="74"/>
+        <location filename="../main.cc" line="76"/>
         <source>WARNING</source>
         <translation>AVVERTIMENTO</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="74"/>
+        <location filename="../main.cc" line="76"/>
         <source>Qcma is running, force close it now?</source>
         <translation>Qcma è attualmente in esecuzione, si desidera chiuderlo?</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="78"/>
+        <location filename="../main.cc" line="80"/>
         <source>Unable to close Qcma, please close it manually and then restart this tool.</source>
         <translation>Impossibile arrestare il Qcma, per favore chiudilo manualmente e riavvia l&apos;applicazione.</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="78"/>
+        <location filename="../main.cc" line="80"/>
         <source>ERROR</source>
         <translation>ERRORE</translation>
     </message>
@@ -56,42 +56,42 @@ Inserire questo PIN su PS Vita: %2</translation>
 <context>
     <name>Package</name>
     <message>
-        <location filename="../package.cc" line="96"/>
+        <location filename="../package.cc" line="91"/>
         <source>Downloading %1</source>
         <translation>Sto scaricando %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="117"/>
+        <location filename="../package.cc" line="112"/>
         <source>Unpacking %1</source>
         <translation>Spacchettamento %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="131"/>
+        <location filename="../package.cc" line="126"/>
         <source>Failed to unpack %1</source>
         <translation>Impossibile decomprimere %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="154"/>
+        <location filename="../package.cc" line="149"/>
         <source>Decompressing %1</source>
         <translation>Decompressione di %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="169"/>
+        <location filename="../package.cc" line="164"/>
         <source>Failed to decompress %1</source>
         <translation>Non è riuscito a decomprimere %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="208"/>
+        <location filename="../package.cc" line="211"/>
         <source>Verifying %1</source>
         <translation>Verifica in corso di %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="237"/>
+        <location filename="../package.cc" line="240"/>
         <source>sha256sum mismatch! Please check your network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../package.cc" line="254"/>
+        <location filename="../package.cc" line="266"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -104,34 +104,35 @@ Inserire questo PIN su PS Vita: %2</translation>
 4. Avvia &quot;h-encore&quot; e... Si, questo è tutto!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="248"/>
+        <location filename="../package.cc" line="256"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
         <translation>Recupero della chiave di backup da cma.henkaku.xyz</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="353"/>
+        <location filename="../package.cc" line="258"/>
+        <location filename="../package.cc" line="361"/>
         <source>Fetched backup key.
 Click button to START!</source>
         <translation>Chiave di backup recuperata.
 Fai clic sul pulsante START per iniziare!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="292"/>
+        <location filename="../package.cc" line="300"/>
         <source>Trimming package</source>
         <translation>Sto riducendo il pacchetto</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="40"/>
+        <location filename="../package.cc" line="37"/>
         <source>Launch Content Manager on PS Vita and connect to computer.</source>
         <translation>Avvia Gestione Contenuto su PS Vita e connettiti al computer.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="322"/>
+        <location filename="../package.cc" line="330"/>
         <source>Createing psvimg&apos;s</source>
         <translation>Sto creando i file psvimg</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="350"/>
+        <location filename="../package.cc" line="358"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
         <translation>Impossibile ottenere la chiave di backup dal tuo AID.

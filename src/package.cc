@@ -9,6 +9,7 @@
 
 #include <QDir>
 #include <QDebug>
+#include <QSettings>
 
 const char *HENCORE_FULL_FILE = "h-encore-full.zip";
 const char *HENCORE_FULL_SHA256 = "3ea59bdf6e7d8f5aa96cabd4f0577fcf78822970f463680b0758a5aaa332452d";
@@ -245,9 +246,18 @@ bool Package::verify(const QString &filepath, const char *sha256sum) {
 void Package::getBackupKey(const QString &aid) {
     if (accountId != aid) {
         accountId = aid;
-        get(QString("http://cma.henkaku.xyz/?aid=%1").arg(aid), backupKey);
-        qDebug("Fetching backup key from cma.henkaku.xyz...");
-        emit setStatusText(tr("Fetching backup key from cma.henkaku.xyz"));
+        QSettings settings;
+        settings.beginGroup("BackupKeys");
+        backupKey = settings.value(accountId).toString();
+        settings.endGroup();
+        if (backupKey.isEmpty()) {
+            get(QString("http://cma.henkaku.xyz/?aid=%1").arg(aid), backupKey);
+            qDebug("Fetching backup key from cma.henkaku.xyz...");
+            emit setStatusText(tr("Fetching backup key from cma.henkaku.xyz"));
+        } else {
+            emit setStatusText(tr("Fetched backup key.\nClick button to START!"));
+            emit gotBackupKey();
+        }
     }
 }
 
@@ -351,6 +361,10 @@ void Package::fetchFinished(void *arg) {
     emit setStatusText(tr("Fetched backup key.\nClick button to START!"));
     qDebug("Done.");
     *str = str->mid(index + 6, 64);
+    QSettings settings;
+    settings.beginGroup("BackupKeys");
+    settings.setValue(accountId, *str);
+    settings.endGroup();
     emit gotBackupKey();
 }
 

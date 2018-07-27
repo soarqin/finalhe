@@ -4,22 +4,22 @@
 <context>
     <name>FinalHE</name>
     <message>
-        <location filename="../main.cc" line="74"/>
+        <location filename="../main.cc" line="76"/>
         <source>WARNING</source>
         <translation>警告</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="74"/>
+        <location filename="../main.cc" line="76"/>
         <source>Qcma is running, force close it now?</source>
         <translation>Qcmaは実行中です。強制終了しますか？</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="78"/>
+        <location filename="../main.cc" line="80"/>
         <source>Unable to close Qcma, please close it manually and then restart this tool.</source>
         <translation>Qcmaが強制終了できません。Qcmaを手動で終了してこのソフトを再実行して下さい</translation>
     </message>
     <message>
-        <location filename="../main.cc" line="78"/>
+        <location filename="../main.cc" line="80"/>
         <source>ERROR</source>
         <translation>エラー</translation>
     </message>
@@ -56,42 +56,42 @@ PSVitaにPINコードを入力して下さい: %2</translation>
 <context>
     <name>Package</name>
     <message>
-        <location filename="../package.cc" line="96"/>
+        <location filename="../package.cc" line="91"/>
         <source>Downloading %1</source>
         <translation>ダウンロード中: %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="117"/>
+        <location filename="../package.cc" line="112"/>
         <source>Unpacking %1</source>
         <translation>複合化中: %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="131"/>
+        <location filename="../package.cc" line="126"/>
         <source>Failed to unpack %1</source>
         <translation>複合化できません %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="154"/>
+        <location filename="../package.cc" line="149"/>
         <source>Decompressing %1</source>
         <translation>展開中: %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="169"/>
+        <location filename="../package.cc" line="164"/>
         <source>Failed to decompress %1</source>
         <translation>展開できません %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="208"/>
+        <location filename="../package.cc" line="211"/>
         <source>Verifying %1</source>
         <translation>チェック中: %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="237"/>
+        <location filename="../package.cc" line="240"/>
         <source>sha256sum mismatch! Please check your network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../package.cc" line="254"/>
+        <location filename="../package.cc" line="266"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -99,39 +99,40 @@ PSVitaにPINコードを入力して下さい: %2</translation>
 4. Run &quot;h-encore&quot; and... Yay, that&apos;s it!</source>
         <translation>準備が完了したらPSVitaで以下の手順に従ってください:
 1. コンテンツ管理を実行してPCに接続
-2. 「パソコン->PS Vita」 ->「アプリケーション」 ->「PS Vita」を選択
+2. 「パソコン-&gt;PS Vita」 -&gt;「アプリケーション」 -&gt;「PS Vita」を選択
 3. Vitaにh-encoreをコピー
 4. Vitaで &quot;h-encore&quot;を起動して完了</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="248"/>
+        <location filename="../package.cc" line="256"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
         <translation>cma.henkaku.xyzからバックアップキーを取得中</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="353"/>
+        <location filename="../package.cc" line="258"/>
+        <location filename="../package.cc" line="361"/>
         <source>Fetched backup key.
 Click button to START!</source>
         <translation>バックアップキーの取得が完了しました
 スタートをクリックして開始して下さい</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="292"/>
+        <location filename="../package.cc" line="300"/>
         <source>Trimming package</source>
         <translation>容量を削減中</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="40"/>
+        <location filename="../package.cc" line="37"/>
         <source>Launch Content Manager on PS Vita and connect to computer.</source>
         <translation>Vitaでコンテンツ管理を実行</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="322"/>
+        <location filename="../package.cc" line="330"/>
         <source>Createing psvimg&apos;s</source>
         <translation>psvimgを作成中</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="350"/>
+        <location filename="../package.cc" line="358"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
         <translation>AIDからバックアップキーを取得できません。ネットワーク接続を確認して下さい</translation>
