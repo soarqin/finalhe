@@ -53,11 +53,12 @@ FORMS += finalhe.ui
 OTHER_FILES += finalhe.ico resources/xml/psp2-updatelist.xml
 RESOURCES += finalhe.qrc
 TRANSLATIONS += \
-    # only used as translation template, no need to be included in release
+    # en_US is only used as translation template, no need to be included in release
     translations/en_US.ts \
     translations/cs_CZ.ts \
     translations/es_ES.ts \
     translations/it_IT.ts \
+    translations/ja_JP.ts \
     translations/tr_TR.ts \
     translations/zh_CN.ts \
     translations/zh_TW.ts
