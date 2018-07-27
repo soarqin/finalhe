@@ -50,7 +50,7 @@ PSVitaにPINコードを入力して下さい: %2</translation>
     <message>
         <location filename="../finalhe.ui" line="144"/>
         <source>Trim h-encore to ~13MB</source>
-        <translation>h-encoreを約13MBに容量削減</translation>
+        <translation>h-encoreを約13MBに容量を削減</translation>
     </message>
 </context>
 <context>
@@ -68,7 +68,7 @@ PSVitaにPINコードを入力して下さい: %2</translation>
     <message>
         <location filename="../package.cc" line="126"/>
         <source>Failed to unpack %1</source>
-        <translation>複合化できません %1</translation>
+        <translation>複合化できません: %1</translation>
     </message>
     <message>
         <location filename="../package.cc" line="149"/>
@@ -78,7 +78,7 @@ PSVitaにPINコードを入力して下さい: %2</translation>
     <message>
         <location filename="../package.cc" line="164"/>
         <source>Failed to decompress %1</source>
-        <translation>展開できません %1</translation>
+        <translation>展開できません: %1</translation>
     </message>
     <message>
         <location filename="../package.cc" line="211"/>
@@ -100,8 +100,8 @@ PSVitaにPINコードを入力して下さい: %2</translation>
         <translation>準備が完了したらPSVitaで以下の手順に従ってください:
 1. コンテンツ管理を実行してPCに接続
 2. 「パソコン-&gt;PS Vita」 -&gt;「アプリケーション」 -&gt;「PS Vita」を選択
-3. Vitaにh-encoreをコピー
-4. Vitaで &quot;h-encore&quot;を起動して完了</translation>
+3. PSVitaにh-encoreをコピー
+4. PSVitaで &quot;h-encore&quot;を起動して完了</translation>
     </message>
     <message>
         <location filename="../package.cc" line="256"/>
@@ -124,7 +124,7 @@ Click button to START!</source>
     <message>
         <location filename="../package.cc" line="37"/>
         <source>Launch Content Manager on PS Vita and connect to computer.</source>
-        <translation>Vitaでコンテンツ管理を実行</translation>
+        <translation>PCとUSB接続したPSVitaでコンテンツ管理を実行して下さい</translation>
     </message>
     <message>
         <location filename="../package.cc" line="330"/>
@@ -153,7 +153,7 @@ Please check your network connection!</source>
     <message>
         <location filename="../vita.cc" line="361"/>
         <source>Connected to PS Vita [%1] (%2)</source>
-        <translation>PSVita [%1] (%2) と接続集</translation>
+        <translation>PSVita [%1] (%2) と接続中</translation>
     </message>
 </context>
 <context>
