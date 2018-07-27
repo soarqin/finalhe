@@ -65,6 +65,8 @@ int main(int argc, char *argv[]) {
 #endif
     QApplication a(argc, argv);
 
+    QCoreApplication::setOrganizationName("soarqin");
+    QCoreApplication::setOrganizationDomain("soar.im");
     QCoreApplication::setApplicationName("FinalHE");
     QSettings::setDefaultFormat(QSettings::IniFormat);
 
