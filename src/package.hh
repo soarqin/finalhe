@@ -29,7 +29,8 @@ private:
     void download(const QString &url, const QString &localFilename, const char *sha256sum);
     void startDownload(const QString &url, const QString &localFilename);
     void startUnpackDemo(const char *filename);
-    void startUnpackHencore(const char *filename);
+    void doUnpackHencore(const char *filename);
+    void startUnpackHencoreFull();
     bool verify(const QString &filepath, const char *sha256sum);
 
 public slots:
@@ -39,7 +40,7 @@ public slots:
 private slots:
     void checkHencoreFull();
     void downloadDemo();
-    void downloadHencore();
+    void startUnpackHencore();
     void createPsvImgs();
     void downloadProg(uint64_t, uint64_t);
     void downloadFinished(QFile*);

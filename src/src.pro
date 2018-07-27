@@ -4,7 +4,7 @@ QT += gui widgets network
 TARGET = FinalHE
 
 VER_MAJOR = 1
-VER_MINOR = 3
+VER_MINOR = 4
 VER_STR = \\\"$${VER_MAJOR}.$${VER_MINOR}\\\"
 
 CODECFORSRC = UTF-8
@@ -50,7 +50,10 @@ win32 {
 }
 
 FORMS += finalhe.ui
-OTHER_FILES += finalhe.ico resources/xml/psp2-updatelist.xml
+OTHER_FILES += \
+    finalhe.ico \
+    resources/xml/psp2-updatelist.xml \
+    resources/raw/h-encore.zip
 RESOURCES += finalhe.qrc
 TRANSLATIONS += \
     # en_US is only used as translation template, no need to be included in release

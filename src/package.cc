@@ -13,10 +13,6 @@
 const char *HENCORE_FULL_FILE = "h-encore-full.zip";
 const char *HENCORE_FULL_SHA256 = "3ea59bdf6e7d8f5aa96cabd4f0577fcf78822970f463680b0758a5aaa332452d";
 
-const char *HENCORE_URL = "https://github.com/TheOfficialFloW/h-encore/releases/download/v1.0/h-encore.zip";
-const char *HENCORE_FILE = "h-encore.zip";
-const char *HENCORE_SHA256 = "65a5eee6654bb7889e4c0543d09fa4e9eced53c76b25d23e12d23e7a28846b0a";
-
 const char *BSPKG_URL = "http://ares.dl.playstation.net/cdn/JP0741/PCSG90096_00/xGMrXOkORxWRyqzLMihZPqsXAbAXLzvAdJFqtPJLAZTgOcqJobxQAhLNbgiFydVlcmVOrpZKklOYxizQCRpiLfjeROuWivGXfwgkq.pkg";
 const char *BSPKG_FILE = "BitterSmile.pkg";
 const char *BSPKG_SHA256 = "280a734a0b40eedac2b3aad36d506cd4ab1a38cd069407e514387a49d81b9302";
@@ -28,7 +24,7 @@ Package::Package(const QString &basePath, QObject *obj_parent): QObject(obj_pare
     connect(&downloader, SIGNAL(downloadProgress(uint64_t, uint64_t)), this, SLOT(downloadProg(uint64_t, uint64_t)));
     connect(this, SIGNAL(startDownload()), SLOT(checkHencoreFull()));
     connect(this, SIGNAL(noHencoreFull()), SLOT(downloadDemo()));
-    connect(this, SIGNAL(unpackedDemo()), SLOT(downloadHencore()));
+    connect(this, SIGNAL(unpackedDemo()), SLOT(startUnpackHencore()));
     connect(this, SIGNAL(unpackedHencore()), SLOT(createPsvImgs()));
 }
 
@@ -80,8 +76,6 @@ void Package::download(const QString &url, const QString &localFilename, const c
                 QFileInfo fi(filename);
                 if (fi.fileName() == BSPKG_FILE)
                     startUnpackDemo(BSPKG_FILE);
-                else if (fi.fileName() == HENCORE_FILE)
-                    startUnpackHencore(HENCORE_FILE);
                 break;
             }
             }
@@ -145,7 +139,7 @@ void Package::startUnpackDemo(const char *filename) {
     }, &succ);
 }
 
-void Package::startUnpackHencore(const char *filename) {
+void Package::doUnpackHencore(const char * filename) {
     static bool succ = false;
     Worker::start(this, [this, filename](void *arg) {
         emit setPercent(0);
@@ -153,7 +147,7 @@ void Package::startUnpackHencore(const char *filename) {
         qDebug("Decompressing %s...", filename);
         emit setStatusText(tr("Decompressing %1").arg(filename));
         QDir dir(pkgBasePath);
-        QFile file(dir.filePath(filename));
+        QFile file(filename[0] == ':' ? QString(filename) : dir.filePath(filename));
         file.open(QFile::ReadOnly);
         mz_zip_archive arc;
         mz_zip_zero_struct(&arc);
@@ -181,9 +175,9 @@ void Package::startUnpackHencore(const char *filename) {
                 wfile.open(QFile::WriteOnly | QFile::Truncate);
                 mz_zip_reader_extract_to_callback(&arc, i,
                     [](void *pOpaque, mz_uint64 file_ofs, const void *pBuf, size_t n)->size_t {
-                        QFile *f = (QFile*)pOpaque;
-                        return f->write((const char*)pBuf, n);
-                    }, &wfile, 0);
+                    QFile *f = (QFile*)pOpaque;
+                    return f->write((const char*)pBuf, n);
+                }, &wfile, 0);
                 wfile.close();
             }
         }
@@ -199,6 +193,14 @@ void Package::startUnpackHencore(const char *filename) {
             emit unpackedHencore();
         }
     }, &succ);
+}
+
+void Package::startUnpackHencoreFull() {
+    doUnpackHencore(HENCORE_FULL_FILE);
+}
+
+void Package::startUnpackHencore() {
+    doUnpackHencore(":/main/resources/raw/h-encore.zip");
 }
 
 bool Package::verify(const QString &filepath, const char *sha256sum) {
@@ -266,7 +268,7 @@ void Package::checkHencoreFull() {
         *(bool*)arg = verify(filename, HENCORE_FULL_SHA256);
     }, [this](void *arg) {
         if (*(bool*)arg) {
-            startUnpackHencore(HENCORE_FULL_FILE);
+            startUnpackHencoreFull();
         } else {
             emit noHencoreFull();
         }
@@ -275,10 +277,6 @@ void Package::checkHencoreFull() {
 
 void Package::downloadDemo() {
     download(BSPKG_URL, BSPKG_FILE, BSPKG_SHA256);
-}
-
-void Package::downloadHencore() {
-    download(HENCORE_URL, HENCORE_FILE, HENCORE_SHA256);
 }
 
 void Package::createPsvImgs() {
@@ -361,17 +359,7 @@ void Package::downloadFinished(QFile *f) {
     QFileInfo fi(filepath);
     delete f;
     static int n = 0;
-    if (fi.fileName() == HENCORE_FILE) {
-        Worker::start(this, [this, filepath](void *arg) {
-            if (verify(filepath, HENCORE_SHA256)) 
-                *(int*)arg = 1;
-            else
-                *(int*)arg = 0;
-        }, [this](void *arg) {
-            if (*(int*)arg)
-                startUnpackHencore(HENCORE_FILE);
-        }, &n);
-    } else if (fi.fileName() == BSPKG_FILE) {
+    if (fi.fileName() == BSPKG_FILE) {
         Worker::start(this, [this, filepath](void *arg) {
             if (verify(filepath, BSPKG_SHA256))
                 *(int*)arg = 1;
