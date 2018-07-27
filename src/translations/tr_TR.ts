@@ -85,7 +85,7 @@ Bu PIN&apos;i PS Vita cihazınızda girin: %2</translation>
     <message>
         <location filename="../package.cc" line="237"/>
         <source>sha256sum mismatch! Please check your network.</source>
-        <translation type="unfinished"></translation>
+        <translation>sha256sum uyuşmadı. Lütfen internet bağlantınızı kontrol edin.</translation>
     </message>
     <message>
         <location filename="../package.cc" line="254"/>
