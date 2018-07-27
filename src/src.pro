@@ -30,7 +30,7 @@ win32-msvc* {
         -L../deps/libxml2 -llibxml2 \
         -L../deps/iconv -liconv
     !CONFIG(static) {
-        LIBS += -L../deps/zlib -lzlib
+        LIBS += -L../deps/zlib -lzstatic
     }
 } else {
     QT_CONFIG -= no-pkg-config
@@ -47,6 +47,7 @@ win32-msvc* {
 win32 {
     RC_FILE += finalhe.rc
     HEADERS += resource.h
+    LIBS += -ladvapi32 -lshlwapi -lws2_32
 }
 
 FORMS += finalhe.ui

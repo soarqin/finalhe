@@ -80,26 +80,6 @@ if(CMAKE_COMPILER_IS_GNUCC)
 	endif()
 endif()
 
-if(MSVC)
-    if(ASM686)
-		ENABLE_LANGUAGE(ASM_MASM)
-        set(ZLIB_ASMS
-			contrib/masmx86/inffas32.asm
-			contrib/masmx86/match686.asm
-		)
-    elseif (AMD64)
-		ENABLE_LANGUAGE(ASM_MASM)
-        set(ZLIB_ASMS
-			contrib/masmx64/gvmat64.asm
-			contrib/masmx64/inffasx64.asm
-		)
-    endif()
-
-	if(ZLIB_ASMS)
-		add_definitions(-DASMV -DASMINF)
-	endif()
-endif()
-
 file(READ ${CMAKE_CURRENT_SOURCE_DIR}/zlib.h _zlib_h_contents)
 string(REGEX REPLACE ".*#define[ \t]+ZLIB_VERSION[ \t]+\"([-0-9A-Za-z.]+)\".*"
     "\\1" ZLIB_FULL_VERSION ${_zlib_h_contents})
