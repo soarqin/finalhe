@@ -3,16 +3,11 @@ CONFIG -= debug_and_release
 QT += gui widgets network
 TARGET = FinalHE
 
-VER_MAJOR = 1
-VER_MINOR = 4
-VER_STR = \\\"$${VER_MAJOR}.$${VER_MINOR}\\\"
-
 CODECFORSRC = UTF-8
 
 win32-msvc* {
     DEFINES += _CRT_SECURE_NO_WARNINGS _CRT_NONSTDC_NO_DEPRECATE
 }
-DEFINES += FINALHE_VERSION_STR=$${VER_STR}
 DEFINES += USING_STATIC_LIBICONV LIBXML_STATIC
 INCLUDEPATH = ../deps/vitamtp ../deps/psvlib/img ../deps/psvlib/pkg ../deps/miniz ../deps/scrypto
 SOURCES += main.cc downloader.cc finalhe.cc package.cc vita.cc worker.cc

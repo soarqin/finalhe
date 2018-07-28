@@ -2,6 +2,7 @@
 
 #include "package.hh"
 #include "vita.hh"
+#include "version.hh"
 
 #include <QLocale>
 #include <QDir>
@@ -12,7 +13,7 @@
 
 FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
     ui.setupUi(this);
-    setWindowTitle("Final h-encore " FINALHE_VERSION_STR);
+    setWindowTitle("Final h-encore v" FINALHE_VERSION_STR);
     setWindowIcon(QIcon(":/main/resources/images/finalhe.png"));
     setFixedSize(600, 400);
 

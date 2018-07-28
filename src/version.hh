@@ -1,0 +1,9 @@
+#pragma once
+
+#define FINALHE_VERSION_MAJOR 1
+#define FINALHE_VERSION_MINOR 5
+
+#define _STR(x) #x
+#define STR(x) _STR(x)
+
+#define FINALHE_VERSION_STR STR(FINALHE_VERSION_MAJOR) "." STR(FINALHE_VERSION_MINOR)
