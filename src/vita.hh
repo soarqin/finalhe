@@ -29,6 +29,8 @@ public:
         time_t dateTimeModified;
         uint64_t size;
         int dataType;
+
+        QString fullPath;
         std::map<int, MetaInfo*> subMeta;
 
         void updateSize();

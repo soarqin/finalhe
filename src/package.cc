@@ -25,8 +25,9 @@ Package::Package(const QString &basePath, QObject *obj_parent): QObject(obj_pare
     connect(&downloader, SIGNAL(downloadProgress(uint64_t, uint64_t)), this, SLOT(downloadProg(uint64_t, uint64_t)));
     connect(this, SIGNAL(startDownload()), SLOT(checkHencoreFull()));
     connect(this, SIGNAL(noHencoreFull()), SLOT(downloadDemo()));
-    connect(this, SIGNAL(unpackedDemo()), SLOT(startUnpackHencore()));
-    connect(this, SIGNAL(unpackedHencore()), SLOT(createPsvImgs()));
+    connect(this, SIGNAL(unpackedDemo()), SLOT(startUnpackZips()));
+    connect(this, SIGNAL(unpackedZip(QString)), SLOT(createPsvImgs(QString)));
+    connect(this, SIGNAL(unpackNext()), SLOT(doUnpackZip()));
 }
 
 Package::~Package() {
@@ -140,15 +141,29 @@ void Package::startUnpackDemo(const char *filename) {
     }, &succ);
 }
 
-void Package::doUnpackHencore(const char * filename) {
+void Package::doUnpackZip() {
+    if (unzipQueue.isEmpty()) return;
+    auto p = unzipQueue.front();
+    auto filename = p.first;
+    auto titleID = p.second;
+    unzipQueue.pop_front();
     static bool succ = false;
-    Worker::start(this, [this, filename](void *arg) {
+    Worker::start(this, [this, filename, titleID](void *arg) {
         emit setPercent(0);
+        bool isHencore = titleID == "PCSG90096";
         *(bool*)arg = false;
-        qDebug("Decompressing %s...", filename);
+        qDebug("Decompressing %s...", filename.toUtf8().constData());
         emit setStatusText(tr("Decompressing %1").arg(filename));
         QDir dir(pkgBasePath);
-        QFile file(filename[0] == ':' ? QString(filename) : dir.filePath(filename));
+        if (!isHencore) {
+            dir.cdUp();
+            dir.cd("extra");
+            if (dir.cd(titleID)) {
+                dir.removeRecursively();
+                dir.cdUp();
+            }
+        }
+        QFile file(filename[0] == ':' ? filename : dir.filePath(filename));
         file.open(QFile::ReadOnly);
         mz_zip_archive arc;
         mz_zip_zero_struct(&arc);
@@ -160,8 +175,9 @@ void Package::doUnpackHencore(const char * filename) {
         };
         if (!mz_zip_reader_init(&arc, file.size(), 0)) {
             file.close();
-            qWarning("Unable to decompress %s!", filename);
+            qWarning("Unable to decompress %s!", filename.toUtf8().constData());
             emit setStatusText(tr("Failed to decompress %1").arg(filename));
+            unzipQueue.clear();
             return;
         }
         uint32_t num = mz_zip_reader_get_num_files(&arc);
@@ -184,24 +200,41 @@ void Package::doUnpackHencore(const char * filename) {
         }
         mz_zip_reader_end(&arc);
         file.close();
-        QFile::copy(pkgBasePath + "/h-encore/app/ux0_temp_game_PCSG90096_app_PCSG90096/sce_sys/package/temp.bin",
-            pkgBasePath + "/h-encore/license/ux0_temp_game_PCSG90096_license_app_PCSG90096/6488b73b912a753a492e2714e9b38bc7.rif");
+        if (isHencore) {
+            QFile::copy(pkgBasePath + QString("/h-encore/app/ux0_temp_game_%1_app_%1/sce_sys/package/temp.bin").arg(titleID),
+                pkgBasePath + QString("/h-encore/license/ux0_temp_game_%1_license_app_%1/6488b73b912a753a492e2714e9b38bc7.rif").arg(titleID));
+        }
         emit setPercent(100);
         *(bool*)arg = true;
-    }, [this](void *arg) {
+    }, [this, titleID](void *arg) {
         if (*(bool*)arg) {
             qDebug("Done.");
-            emit unpackedHencore();
+            emit unpackedZip(titleID);
         }
     }, &succ);
 }
 
-void Package::startUnpackHencoreFull() {
-    doUnpackHencore(HENCORE_FULL_FILE);
+void Package::genExtraUnpackList() {
+    QDir dir(pkgBasePath);
+    if (!dir.cdUp() || !dir.cd("extra")) return;
+    QFileInfoList qsl = dir.entryInfoList({"*.zip"}, QDir::Files, QDir::Name);
+    foreach(const QFileInfo &info, qsl) {
+        unzipQueue.push_back(qMakePair(dir.filePath(info.fileName()), info.baseName()));
+    }
 }
 
-void Package::startUnpackHencore() {
-    doUnpackHencore(":/main/resources/raw/h-encore.zip");
+void Package::startUnpackZipsFull() {
+    unzipQueue.clear();
+    genExtraUnpackList();
+    unzipQueue.push_back(qMakePair<QString, QString>(HENCORE_FULL_FILE, "PCSG90096"));
+    emit unpackNext();
+}
+
+void Package::startUnpackZips() {
+    unzipQueue.clear();
+    genExtraUnpackList();
+    unzipQueue.push_back(qMakePair<QString, QString>(":/main/resources/raw/h-encore.zip", "PCSG90096"));
+    emit unpackNext();
 }
 
 bool Package::verify(const QString &filepath, const char *sha256sum) {
@@ -243,6 +276,15 @@ bool Package::verify(const QString &filepath, const char *sha256sum) {
     return false;
 }
 
+void Package::createPsvImgSingleDir(const QString &titleID, const char *singleDir) {
+    QDir curr = QDir::current();
+    if (curr.exists(singleDir)) {
+        psvimg_create(singleDir, (titleID + "/" + singleDir).toUtf8().constData(), backupKey.toUtf8().constData(), singleDir, 0);
+        curr.cd(singleDir);
+        curr.removeRecursively();
+    }
+}
+
 void Package::getBackupKey(const QString &aid) {
     if (accountId != aid) {
         accountId = aid;
@@ -278,7 +320,7 @@ void Package::checkHencoreFull() {
         *(bool*)arg = verify(filename, HENCORE_FULL_SHA256);
     }, [this](void *arg) {
         if (*(bool*)arg) {
-            startUnpackHencoreFull();
+            startUnpackZipsFull();
         } else {
             emit noHencoreFull();
         }
@@ -289,58 +331,68 @@ void Package::downloadDemo() {
     download(BSPKG_URL, BSPKG_FILE, BSPKG_SHA256);
 }
 
-void Package::createPsvImgs() {
-    Worker::start(this, [this](void*) {
+void Package::createPsvImgs(QString titleID) {
+    Worker::start(this, [this, titleID](void*) {
+        bool isHencore = titleID == "PCSG90096";
         QString oldDir = QDir::currentPath();
         QDir curr(pkgBasePath);
-        curr.cd("h-encore");
-        QDir::setCurrent(curr.path());
-        if (trimApp) {
-            qDebug("Trimming package...");
-            emit setStatusText(tr("Trimming package"));
-            if (curr.cd("app") && curr.cd("ux0_temp_game_PCSG90096_app_PCSG90096")) {
-                QDir cdir = curr;
-                if (cdir.cd("resource") && cdir.cd("movie"))
-                    cdir.removeRecursively();
-                cdir = curr;
-                if (cdir.cd("resource") && cdir.cd("sound"))
-                    cdir.removeRecursively();
-                cdir = curr;
-                if (cdir.cd("resource") && cdir.cd("text") && cdir.cd("01"))
-                    cdir.removeRecursively();
-                cdir = curr;
-                if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("bg"))
-                    cdir.removeRecursively();
-                cdir = curr;
-                if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("ev"))
-                    cdir.removeRecursively();
-                cdir = curr;
-                if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("icon"))
-                    cdir.removeRecursively();
-                cdir = curr;
-                if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("stitle"))
-                    cdir.removeRecursively();
-                cdir = curr;
-                if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("tachie"))
-                    cdir.removeRecursively();
+        if (isHencore) {
+            curr.cd("h-encore");
+            QDir::setCurrent(curr.path());
+            if (trimApp) {
+                qDebug("Trimming package...");
+                emit setStatusText(tr("Trimming package"));
+                if (curr.cd("app") && curr.cd("ux0_temp_game_PCSG90096_app_PCSG90096")) {
+                    QDir cdir = curr;
+                    if (cdir.cd("resource") && cdir.cd("movie"))
+                        cdir.removeRecursively();
+                    cdir = curr;
+                    if (cdir.cd("resource") && cdir.cd("sound"))
+                        cdir.removeRecursively();
+                    cdir = curr;
+                    if (cdir.cd("resource") && cdir.cd("text") && cdir.cd("01"))
+                        cdir.removeRecursively();
+                    cdir = curr;
+                    if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("bg"))
+                        cdir.removeRecursively();
+                    cdir = curr;
+                    if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("ev"))
+                        cdir.removeRecursively();
+                    cdir = curr;
+                    if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("icon"))
+                        cdir.removeRecursively();
+                    cdir = curr;
+                    if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("stitle"))
+                        cdir.removeRecursively();
+                    cdir = curr;
+                    if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("tachie"))
+                        cdir.removeRecursively();
+                }
+                qDebug("Done trimming.");
             }
-            qDebug("Done trimming.");
+        } else {
+            curr.cdUp();
+            curr.cd("extra");
+            QDir::setCurrent(curr.path());
         }
-        qDebug("Creating psvimg's...");
+        qDebug("Creating psvimg's for %s...", titleID.toUtf8().constData());
         emit setStatusText(tr("Createing psvimg's"));
         emit setPercent(0);
-        psvimg_create("app", "PCSG90096/app", backupKey.toUtf8().constData(), "app", 0);
+        createPsvImgSingleDir(titleID, "app");
         emit setPercent(90);
-        psvimg_create("appmeta", "PCSG90096/appmeta", backupKey.toUtf8().constData(), "appmeta", 0);
+        createPsvImgSingleDir(titleID, "appmeta");
         emit setPercent(93);
-        psvimg_create("license", "PCSG90096/license", backupKey.toUtf8().constData(), "license", 0);
+        createPsvImgSingleDir(titleID, "license");
         emit setPercent(96);
-        psvimg_create("savedata", "PCSG90096/savedata", backupKey.toUtf8().constData(), "savedata", 0);
+        createPsvImgSingleDir(titleID, "savedata");
         emit setPercent(99);
         QDir::setCurrent(oldDir);
-    }, [this](void*) {
+    }, [this, titleID](void*) {
         qDebug("Done.");
-        emit createdPsvImgs();
+        if (unzipQueue.isEmpty())
+            emit createdPsvImgs();
+        else
+            emit unpackNext();
     });
 }
 

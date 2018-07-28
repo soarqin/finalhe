@@ -348,6 +348,16 @@ void VitaConn::buildData() {
     auto *thisMeta = metaAddFile(dir.path(), "PCSG90096", ohfi, VITA_OHFI_VITAAPP, VITA_OHFI_VITAAPP, true);
     recursiveScanRootDirectory(dir.path(), "PCSG90096", ohfi, VITA_OHFI_VITAAPP);
     thisMeta->updateSize();
+    dir = appBaseDir;
+    if (dir.cdUp() && dir.cd("extra")) {
+        QFileInfoList qsl = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
+        foreach(const QFileInfo &info, qsl) {
+            ohfi = ohfiMax++;
+            auto *thisMeta = metaAddFile(dir.path(), info.fileName(), ohfi, VITA_OHFI_VITAAPP, VITA_OHFI_VITAAPP, true);
+            recursiveScanRootDirectory(dir.path(), info.fileName(), ohfi, VITA_OHFI_VITAAPP);
+            thisMeta->updateSize();
+        }
+    }
     emit builtData();
 }
 
@@ -367,8 +377,7 @@ int VitaConn::recursiveScanRootDirectory(const QString &base_path, const QString
     int total_objects = 0;
 
     QDir dir(base_path + "/" + rel_path);
-    dir.setSorting(QDir::Name);
-    QFileInfoList qsl = dir.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot);
+    QFileInfoList qsl = dir.entryInfoList(QDir::AllEntries | QDir::NoDotAndDotDot, QDir::Name);
 
     foreach(const QFileInfo &info, qsl) {
         QString rel_name = rel_path.isNull() ? info.fileName() : rel_path + "/" + info.fileName();
@@ -645,9 +654,7 @@ void VitaConn::processEvent(vita_event_t *evt) {
             VitaMTP_ReportResult(currDev, eventId, PTP_RC_VITA_Invalid_Context);
             return;
         }
-        QDir dir(appBaseDir);
-        dir.cd("h-encore");
-        QString fullPath = dir.path() + "/" + ite->second.path;
+        QString fullPath = ite->second.fullPath;
         QFile file(fullPath);
         if (!file.open(QIODevice::ReadOnly)) {
             qWarning() << "Cannot read " << fullPath;
@@ -728,7 +735,7 @@ void VitaConn::deviceDisconnect() {
     accountId.clear();
 }
 
-VitaConn::MetaInfo *VitaConn::metaAddFile(const QString &basePath, const QString & relName, int ohfi, int ohfiParent, int ohfiRoot, bool isDir) {
+VitaConn::MetaInfo *VitaConn::metaAddFile(const QString &basePath, const QString &relName, int ohfi, int ohfiParent, int ohfiRoot, bool isDir) {
     QFileInfo info(basePath, relName);
     MetaInfo &minfo = metaMap[ohfi];
     minfo.ohfi = ohfi;
@@ -746,7 +753,9 @@ VitaConn::MetaInfo *VitaConn::metaAddFile(const QString &basePath, const QString
         minfo.size = info.size();
         minfo.dataType = App | File;
     }
+    minfo.fullPath = info.absoluteFilePath();
     metaMap[ohfiParent].subMeta[ohfi] = &minfo;
+    qDebug() << "Added" << info.fileName() << "as ohfi" << ohfi;
     return &minfo;
 }
 
