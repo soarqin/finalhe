@@ -318,7 +318,7 @@ bool Package::checkValidAppZip(const QString & filepath) {
         return false;
     }
     uint32_t num = mz_zip_reader_get_num_files(&arc);
-    bool hasApp = false, hasAppMeta = true, hasTitle = false;
+    bool hasApp = false, hasAppMeta = false, hasTitle = false;
     for (uint32_t i = 0; i < num; ++i) {
         char zfilename[1024];
         mz_zip_reader_get_filename(&arc, i, zfilename, 1024);
