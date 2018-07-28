@@ -18,8 +18,9 @@ const char *BSPKG_URL = "http://ares.dl.playstation.net/cdn/JP0741/PCSG90096_00/
 const char *BSPKG_FILE = "BitterSmile.pkg";
 const char *BSPKG_SHA256 = "280a734a0b40eedac2b3aad36d506cd4ab1a38cd069407e514387a49d81b9302";
 
-Package::Package(const QString &basePath, QObject *obj_parent): QObject(obj_parent), downloader(obj_parent) {
+Package::Package(const QString &basePath, const QString &appPath, QObject *obj_parent): QObject(obj_parent), downloader(obj_parent) {
     pkgBasePath = basePath;
+    appBasePath = appPath;
     connect(&downloader, SIGNAL(finishedFile(QFile*)), this, SLOT(downloadFinished(QFile*)));
     connect(&downloader, SIGNAL(finishedGet(void*)), this, SLOT(fetchFinished(void*)));
     connect(&downloader, SIGNAL(downloadProgress(uint64_t, uint64_t)), this, SLOT(downloadProg(uint64_t, uint64_t)));
@@ -157,13 +158,10 @@ void Package::doUnpackZip() {
         QDir dir(pkgBasePath);
         if (!isHencore) {
             dir.cdUp();
+            dir.mkpath("extra");
             dir.cd("extra");
-            if (dir.cd(titleID)) {
-                dir.removeRecursively();
-                dir.cdUp();
-            }
         }
-        QFile file(filename[0] == ':' ? filename : dir.filePath(filename));
+        QFile file(filename);
         file.open(QFile::ReadOnly);
         mz_zip_archive arc;
         mz_zip_zero_struct(&arc);
@@ -215,18 +213,37 @@ void Package::doUnpackZip() {
 }
 
 void Package::genExtraUnpackList() {
-    QDir dir(pkgBasePath);
-    if (!dir.cdUp() || !dir.cd("extra")) return;
-    QFileInfoList qsl = dir.entryInfoList({"*.zip"}, QDir::Files, QDir::Name);
+    /* search zips in app dir */
+    QDir dir(appBasePath);
+    QFileInfoList qsl = dir.entryInfoList({ "*.zip" }, QDir::Files, QDir::Name);
     foreach(const QFileInfo &info, qsl) {
-        unzipQueue.push_back(qMakePair(dir.filePath(info.fileName()), info.baseName()));
+        QString fullPath = dir.filePath(info.fileName());
+        if (checkValidAppZip(fullPath))
+            unzipQueue.push_back(qMakePair(fullPath, info.baseName()));
+    }
+    dir = pkgBasePath;
+    if (!dir.cdUp() || !dir.cd("extra")) return;
+    /* remove old unzipped dirs */
+    qsl = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
+    foreach(const QFileInfo &info, qsl) {
+        if (dir.cd(info.fileName())) {
+            dir.removeRecursively();
+            dir.cdUp();
+        }
+    }
+    /* search zips in `extra' */
+    qsl = dir.entryInfoList({"*.zip"}, QDir::Files, QDir::Name);
+    foreach(const QFileInfo &info, qsl) {
+        QString fullPath = dir.filePath(info.fileName());
+        if (checkValidAppZip(fullPath))
+            unzipQueue.push_back(qMakePair(fullPath, info.baseName()));
     }
 }
 
 void Package::startUnpackZipsFull() {
     unzipQueue.clear();
     genExtraUnpackList();
-    unzipQueue.push_back(qMakePair<QString, QString>(HENCORE_FULL_FILE, "PCSG90096"));
+    unzipQueue.push_back(qMakePair<QString, QString>(QDir(pkgBasePath).filePath(HENCORE_FULL_FILE), "PCSG90096"));
     emit unpackNext();
 }
 
@@ -283,6 +300,41 @@ void Package::createPsvImgSingleDir(const QString &titleID, const char *singleDi
         curr.cd(singleDir);
         curr.removeRecursively();
     }
+}
+
+bool Package::checkValidAppZip(const QString & filepath) {
+    QFile file(filepath);
+    file.open(QFile::ReadOnly);
+    mz_zip_archive arc;
+    mz_zip_zero_struct(&arc);
+    arc.m_pIO_opaque = &file;
+    arc.m_pRead = [](void *pOpaque, mz_uint64 file_ofs, void *pBuf, size_t n)->size_t {
+        QFile *f = (QFile*)pOpaque;
+        if (!f->seek(file_ofs)) return 0;
+        return f->read((char*)pBuf, n);
+    };
+    if (!mz_zip_reader_init(&arc, file.size(), 0)) {
+        file.close();
+        return false;
+    }
+    uint32_t num = mz_zip_reader_get_num_files(&arc);
+    bool hasApp = false, hasAppMeta = true, hasTitle = false;
+    for (uint32_t i = 0; i < num; ++i) {
+        char zfilename[1024];
+        mz_zip_reader_get_filename(&arc, i, zfilename, 1024);
+        if (!mz_zip_reader_is_file_a_directory(&arc, i)) continue;
+        QString dirName = QString(zfilename);
+        if (dirName == "app/") {
+            hasApp = true;
+        } else if (dirName == "appmeta/") {
+            hasAppMeta = true;
+        } else if (dirName.length() == 10 && dirName.indexOf("/") == 9) {
+            hasTitle = true;
+        }
+        if (hasApp && hasAppMeta && hasTitle) break;
+    }
+    mz_zip_reader_end(&arc);
+    return hasApp && hasAppMeta && hasTitle;
 }
 
 void Package::getBackupKey(const QString &aid) {

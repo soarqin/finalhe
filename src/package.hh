@@ -10,7 +10,7 @@
 class Package : public QObject {
     Q_OBJECT
 public:
-    Package(const QString &basePath, QObject *obj_parent = 0);
+    Package(const QString &basePath, const QString &appPath, QObject *obj_parent = 0);
     virtual ~Package();
 
     inline void setTrim(bool t) { trimApp = t; }
@@ -36,6 +36,7 @@ private:
     void startUnpackZipsFull();
     bool verify(const QString &filepath, const char *sha256sum);
     void createPsvImgSingleDir(const QString &titleID, const char *singleDir);
+    bool checkValidAppZip(const QString &filepath);
 
 public slots:
     void getBackupKey(const QString &aid);
@@ -54,6 +55,7 @@ private slots:
 private:
     bool trimApp = false;
     QString pkgBasePath;
+    QString appBasePath;
     Downloader downloader;
     QString accountId;
     QString backupKey;

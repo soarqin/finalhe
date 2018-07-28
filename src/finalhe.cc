@@ -21,6 +21,9 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
 
     ui.progressBar->setMaximum(100);
     QDir baseDir, dir(qApp->applicationDirPath());
+#ifdef __APPLE__
+    dir.cdUp(); dir.cdUp(); dir.cdUp();
+#endif
 #ifdef _WIN32
     baseDir = dir;
     if (!baseDir.mkpath("data") || !(baseDir.cd("data"), baseDir.exists()))
@@ -31,7 +34,7 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
         baseDir.cd("data");
     }
     vita = new VitaConn(baseDir.path(), this);
-    pkg = new Package(baseDir.path(), this);
+    pkg = new Package(baseDir.path(), dir.path(), this);
     int useSysLang = 0;
     QSettings settings;
     QString langLoad = settings.value("language").toString();
