@@ -28,14 +28,14 @@
         <translation type="vanished">書き込み権限無し 終了します</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="119"/>
+        <location filename="../finalhe.cc" line="123"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>デバイス登録: %1
 PSVitaにPINコードを入力して下さい: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="123"/>
+        <location filename="../finalhe.cc" line="127"/>
         <source>Registered device.</source>
         <translation>登録されたデバイス</translation>
     </message>
@@ -56,42 +56,42 @@ PSVitaにPINコードを入力して下さい: %2</translation>
 <context>
     <name>Package</name>
     <message>
-        <location filename="../package.cc" line="91"/>
+        <location filename="../package.cc" line="93"/>
         <source>Downloading %1</source>
         <translation>ダウンロード中: %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="112"/>
+        <location filename="../package.cc" line="114"/>
         <source>Unpacking %1</source>
         <translation>複合化中: %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="126"/>
+        <location filename="../package.cc" line="128"/>
         <source>Failed to unpack %1</source>
         <translation>複合化できません: %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="149"/>
+        <location filename="../package.cc" line="157"/>
         <source>Decompressing %1</source>
         <translation>展開中: %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="164"/>
+        <location filename="../package.cc" line="177"/>
         <source>Failed to decompress %1</source>
         <translation>展開できません: %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="211"/>
+        <location filename="../package.cc" line="261"/>
         <source>Verifying %1</source>
         <translation>チェック中: %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="240"/>
+        <location filename="../package.cc" line="290"/>
         <source>sha256sum mismatch! Please check your network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../package.cc" line="266"/>
+        <location filename="../package.cc" line="360"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -104,35 +104,35 @@ PSVitaにPINコードを入力して下さい: %2</translation>
 4. PSVitaで &quot;h-encore&quot;を起動して完了</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="256"/>
+        <location filename="../package.cc" line="350"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
         <translation>cma.henkaku.xyzからバックアップキーを取得中</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="258"/>
-        <location filename="../package.cc" line="361"/>
+        <location filename="../package.cc" line="352"/>
+        <location filename="../package.cc" line="465"/>
         <source>Fetched backup key.
 Click button to START!</source>
         <translation>バックアップキーの取得が完了しました
 スタートをクリックして開始して下さい</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="300"/>
+        <location filename="../package.cc" line="396"/>
         <source>Trimming package</source>
         <translation>容量を削減中</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="37"/>
+        <location filename="../package.cc" line="39"/>
         <source>Launch Content Manager on PS Vita and connect to computer.</source>
         <translation>PCとUSB接続したPSVitaでコンテンツ管理を実行して下さい</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="330"/>
+        <location filename="../package.cc" line="431"/>
         <source>Createing psvimg&apos;s</source>
         <translation>psvimgを作成中</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="358"/>
+        <location filename="../package.cc" line="462"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
         <translation>AIDからバックアップキーを取得できません。ネットワーク接続を確認して下さい</translation>
@@ -141,17 +141,17 @@ Please check your network connection!</source>
 <context>
     <name>VitaConn</name>
     <message>
-        <location filename="../vita.cc" line="356"/>
+        <location filename="../vita.cc" line="366"/>
         <source>Waiting for connection to PS Vita...</source>
         <translation>PSVitaの接続を待機中</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="359"/>
+        <location filename="../vita.cc" line="369"/>
         <source>Connected to PS Vita [%1], Waiting for account ID</source>
         <translation>PSVita[%1]と接続中 アカウントIDを取得中</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="361"/>
+        <location filename="../vita.cc" line="371"/>
         <source>Connected to PS Vita [%1] (%2)</source>
         <translation>PSVita [%1] (%2) と接続中</translation>
     </message>
@@ -159,13 +159,13 @@ Please check your network connection!</source>
 <context>
     <name>base</name>
     <message>
-        <location filename="../finalhe.cc" line="37"/>
-        <location filename="../finalhe.cc" line="132"/>
+        <location filename="../finalhe.cc" line="41"/>
+        <location filename="../finalhe.cc" line="136"/>
         <source>English</source>
         <translation>英語</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="45"/>
+        <location filename="../finalhe.cc" line="49"/>
         <source>LANGUAGE</source>
         <translation>日本語</translation>
     </message>

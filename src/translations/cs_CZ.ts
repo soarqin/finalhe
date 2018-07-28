@@ -28,14 +28,14 @@
         <translation type="vanished">K zapisování do této složky nemáte práva! Ukončuji.</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="119"/>
+        <location filename="../finalhe.cc" line="123"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>Registruji zařízení: %1
 Zadejte na Vaší Vitě následující PIN: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="123"/>
+        <location filename="../finalhe.cc" line="127"/>
         <source>Registered device.</source>
         <translation>Zařízení zaregistrované.</translation>
     </message>
@@ -56,42 +56,42 @@ Zadejte na Vaší Vitě následující PIN: %2</translation>
 <context>
     <name>Package</name>
     <message>
-        <location filename="../package.cc" line="91"/>
+        <location filename="../package.cc" line="93"/>
         <source>Downloading %1</source>
         <translation>Stahuji %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="112"/>
+        <location filename="../package.cc" line="114"/>
         <source>Unpacking %1</source>
         <translation>Rozbaluji %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="126"/>
+        <location filename="../package.cc" line="128"/>
         <source>Failed to unpack %1</source>
         <translation>Rozbalování selhalo %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="149"/>
+        <location filename="../package.cc" line="157"/>
         <source>Decompressing %1</source>
         <translation>Dekomprimuji %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="164"/>
+        <location filename="../package.cc" line="177"/>
         <source>Failed to decompress %1</source>
         <translation>Dekomprimace selhala %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="211"/>
+        <location filename="../package.cc" line="261"/>
         <source>Verifying %1</source>
         <translation>Ověřuji %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="240"/>
+        <location filename="../package.cc" line="290"/>
         <source>sha256sum mismatch! Please check your network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../package.cc" line="266"/>
+        <location filename="../package.cc" line="360"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -104,35 +104,35 @@ Zadejte na Vaší Vitě následující PIN: %2</translation>
 4. Spusťte &quot;h-encore&quot; a... hurá, je hotovo!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="256"/>
+        <location filename="../package.cc" line="350"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
         <translation>Načítám záložní klíč z cma.henkaku.xyz</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="258"/>
-        <location filename="../package.cc" line="361"/>
+        <location filename="../package.cc" line="352"/>
+        <location filename="../package.cc" line="465"/>
         <source>Fetched backup key.
 Click button to START!</source>
         <translation>Záložní klíč načten.
 Stiskněte tlačítko pro START!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="300"/>
+        <location filename="../package.cc" line="396"/>
         <source>Trimming package</source>
         <translation>Zmenšuji balíček</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="37"/>
+        <location filename="../package.cc" line="39"/>
         <source>Launch Content Manager on PS Vita and connect to computer.</source>
         <translation>Spusťte na Vaší Vitě &quot;Content Manager&quot; a připojte Vitu k počítači.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="330"/>
+        <location filename="../package.cc" line="431"/>
         <source>Createing psvimg&apos;s</source>
         <translation>Vytvářím psvimg</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="358"/>
+        <location filename="../package.cc" line="462"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
         <translation>Nepodařilo se získat záložní klíč z vašeho AID.
@@ -142,17 +142,17 @@ Prosím, zkontrolujte připojení k síťi!</translation>
 <context>
     <name>VitaConn</name>
     <message>
-        <location filename="../vita.cc" line="356"/>
+        <location filename="../vita.cc" line="366"/>
         <source>Waiting for connection to PS Vita...</source>
         <translation>Čekám na spojení s PS Vitou...</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="359"/>
+        <location filename="../vita.cc" line="369"/>
         <source>Connected to PS Vita [%1], Waiting for account ID</source>
         <translation>Připojeno k PS Vitě [%1], čekám na ID účtu</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="361"/>
+        <location filename="../vita.cc" line="371"/>
         <source>Connected to PS Vita [%1] (%2)</source>
         <translation>Připojeno k PS Vitě [%1] (%2)</translation>
     </message>
@@ -160,13 +160,13 @@ Prosím, zkontrolujte připojení k síťi!</translation>
 <context>
     <name>base</name>
     <message>
-        <location filename="../finalhe.cc" line="37"/>
-        <location filename="../finalhe.cc" line="132"/>
+        <location filename="../finalhe.cc" line="41"/>
+        <location filename="../finalhe.cc" line="136"/>
         <source>English</source>
         <translation>Anglicky</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="45"/>
+        <location filename="../finalhe.cc" line="49"/>
         <source>LANGUAGE</source>
         <translation>Česky</translation>
     </message>
