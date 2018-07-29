@@ -35,9 +35,14 @@ public:
 
         void updateSize();
     };
+
 public:
-    VitaConn(const QString& baseDir, QObject *obj_parent = 0);
+    VitaConn(const QString &baseDir, const QString &appDir, QObject *obj_parent = 0);
     virtual ~VitaConn();
+    inline bool has365Update() { return !Update365.isEmpty(); }
+    inline bool has368Update() { return !Update368.isEmpty(); }
+    inline void setUse365Update() { if (!Update365.isEmpty()) useUpdate = 1; }
+    inline void setUse368Update() { if (!Update368.isEmpty()) useUpdate = 2; }
 
 public slots:
     void process();
@@ -60,7 +65,7 @@ private:
     void buildMetaData(metadata_t **meta, int ohfiParent, uint32_t index, uint32_t num);
 
 private:
-    QString appBaseDir;
+    QString pkgBaseDir, appBaseDir;
     vita_device_t *currDev = nullptr, *wirelessDev = nullptr;
     QString onlineId;
     QString accountId;
@@ -72,5 +77,9 @@ private:
     QThread *clientThread = nullptr;
     QThread *wirelessThread = nullptr;
     QSemaphore semaClient, semaWireless;
+
+    QString Update365, Update368;
+    int useUpdate = 0;
+
     bool running = false;
 };

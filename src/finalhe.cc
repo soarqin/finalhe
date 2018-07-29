@@ -33,7 +33,7 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
         baseDir.mkpath("data");
         baseDir.cd("data");
     }
-    vita = new VitaConn(baseDir.path(), this);
+    vita = new VitaConn(baseDir.path(), dir.path(), this);
     pkg = new Package(baseDir.path(), dir.path(), this);
     int useSysLang = 0;
     QSettings settings;

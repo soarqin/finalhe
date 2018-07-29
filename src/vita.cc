@@ -3,6 +3,7 @@
 #include "worker.hh"
 
 #include <vitamtp.h>
+#include <sha256.h>
 
 #include <QSettings>
 #include <QUuid>
@@ -26,6 +27,11 @@
 #else
 #include <sys/statvfs.h>
 #endif
+
+#define UPDATE_365_SHA256 "86859b3071681268b6d0beb5ef691da874b6726e85b6f06a1cdf6a0e183e77c6"
+#define UPDATE_365_SIZE   133754368
+#define UPDATE_368_SHA256 "e39e13bbdb2d9413c3097e4ce23e9ac23f7202cbd35924527b7ad87302a7ba40"
+#define UPDATE_368_SIZE   133758464
 
 static inline int getVitaProtocolVersion() {
     return VITAMTP_PROTOCOL_FW_3_30;
@@ -214,8 +220,55 @@ void VitaConn::MetaInfo::updateSize() {
 static VitaConn *this_object = nullptr;
 static QString tempOnlineId;
 
-VitaConn::VitaConn(const QString& baseDir, QObject *obj_parent): QObject(obj_parent) {
-    appBaseDir = baseDir;
+VitaConn::VitaConn(const QString &baseDir, const QString &appDir, QObject *obj_parent): QObject(obj_parent) {
+    pkgBaseDir = baseDir;
+    appBaseDir = appDir;
+
+    QDir dir(appDir);
+    QFileInfoList qsl = dir.entryInfoList({ "*.PUP" }, QDir::Files, QDir::Name);
+    foreach(const QFileInfo &info, qsl) {
+        QString fullPath = dir.filePath(info.fileName());
+        QFile file(fullPath);
+        if (file.open(QFile::ReadOnly)) {
+            if (file.size() != UPDATE_365_SIZE && file.size() != UPDATE_368_SIZE) {
+                file.close();
+                continue;
+            }
+            char header[8];
+            file.read(header, 8);
+            if (memcmp(header, "SCEUF\x00\x00\x01", 8) != 0) {
+                file.close();
+                continue;
+            }
+            file.seek(0);
+            qDebug("Verifying sha256sum for %s...", qUtf8Printable(fullPath));
+            sha256_context ctx;
+            sha256_init(&ctx);
+            sha256_starts(&ctx);
+            size_t bufsize = 2 * 1024 * 1024;
+            char *buf;
+            do {
+                bufsize >>= 1;
+                buf = new char[bufsize];
+            } while (buf == nullptr);
+            qint64 rsz;
+            while ((rsz = file.read(buf, bufsize)) > 0)
+                sha256_update(&ctx, (const uint8_t*)buf, rsz);
+            delete[] buf;
+            file.close();
+            uint8_t sum[32];
+            sha256_final(&ctx, sum);
+            QString res = QByteArray((const char*)sum, 32).toHex();
+            if (res == UPDATE_365_SHA256) {
+                Update365 = fullPath;
+                qDebug("Foudn 3.65 update: %s", qUtf8Printable(fullPath));
+            } else if (res == UPDATE_368_SHA256) {
+                Update368 = fullPath;
+                qDebug("Foudn 3.68 update: %s", qUtf8Printable(fullPath));
+            }
+        }
+    }
+
     VitaMTP_Init();
     VitaMTP_USB_Init();
     this_object = this;
@@ -342,13 +395,13 @@ void VitaConn::process() {
 
 void VitaConn::buildData() {
     QMutexLocker locker(&metaMutex);
-    QDir dir(appBaseDir);
+    QDir dir(pkgBaseDir);
     dir.cd("h-encore");
     int ohfi = ohfiMax++;
     auto *thisMeta = metaAddFile(dir.path(), "PCSG90096", ohfi, VITA_OHFI_VITAAPP, VITA_OHFI_VITAAPP, true);
     recursiveScanRootDirectory(dir.path(), "PCSG90096", ohfi, VITA_OHFI_VITAAPP);
     thisMeta->updateSize();
-    dir = appBaseDir;
+    dir = pkgBaseDir;
     if (dir.cdUp() && dir.cd("extra")) {
         QFileInfoList qsl = dir.entryInfoList(QDir::Dirs | QDir::NoDotAndDotDot, QDir::Name);
         foreach(const QFileInfo &info, qsl) {
@@ -560,7 +613,6 @@ void VitaConn::processEvent(vita_event_t *evt) {
 
         QByteArray data;
 
-        bool ignorefile = false;
         if (basename == "psp2-updatelist.xml") {
             qDebug("Found request for update list. Sending embedded xml file");
             QFile res(":/main/resources/xml/psp2-updatelist.xml");
@@ -582,39 +634,31 @@ void VitaConn::processEvent(vita_event_t *evt) {
             } else {
                 qDebug("No country code found in URL, defaulting to \"us\"");
             }
-        } else {
-            /*
-            qDebug("Reading from local file");
-            data = file.readAll();
-
-            if (basename == "psp2-updatelist.xml" && !ignorefile) {
-                messageSent(tr("The PS Vita has requested an update check, sending local xml file and ignoring version settings"));
-            } else {
-                QString versiontype = settings.value("versiontype", "zero").toString();
-                QString customVersion = settings.value("customversion", "00.000.000").toString();
-
-                // verify that the update file is really the 3.60 pup
-                // to prevent people updating to the wrong version and lose henkaku.
-                if (ignorexml && basename == "PSP2UPDAT.PUP" &&
-                    (versiontype == "henkaku" ||
-                    (versiontype == "custom" &&
-                        customVersion == "03.600.000"))) {
-                    QCryptographicHash crypto(QCryptographicHash::Sha256);
-                    crypto.addData(data);
-                    QString result = crypto.result().toHex();
-
-                    if (result != hash360) {
-                        qWarning("3.60 PUP SHA256 mismatch");
-                        qWarning("> Actual:   %s", qPrintable(result));
-                        qWarning("> Expected: %s", qPrintable(hash360));
-                        // notify the user
-                        messageSent(tr("The XML version is set to 3.60 but the PUP file hash doesn't match, cancel the update if you don't want this"));
-                    }
-                }
+            switch (useUpdate) {
+            case 1:
+                data.replace("00.000.000", "03.650.000");
+                data.replace("0.00", "3.65");
+                break;
+            case 2:
+                data.replace("00.000.000", "03.680.000");
+                data.replace("0.00", "3.68");
+                break;
             }
-            */
+        } else if (basename == "PSP2UPDAT.PUP") {
+            QFile file;
+            switch (useUpdate) {
+            case 1:
+                file.setFileName(Update365);
+                break;
+            case 2:
+                file.setFileName(Update368);
+                break;
+            }
+            if (file.open(QIODevice::ReadOnly)) {
+                data = file.readAll();
+                file.close();
+            }
         }
-
         qDebug("Sending %d bytes of data for HTTP request %s", data.size(), url);
 
         if (VitaMTP_SendHttpObjectFromURL(currDev, eventId, data.data(), data.size()) != PTP_RC_OK) {
@@ -678,7 +722,7 @@ void VitaConn::processEvent(vita_event_t *evt) {
         quint64 total;
         quint64 free;
 
-        if (!getDiskSpace(appBaseDir, &free, &total)) {
+        if (!getDiskSpace(pkgBaseDir, &free, &total)) {
             qWarning("Cannot get disk space");
             VitaMTP_ReportResult(currDev, eventId, PTP_RC_VITA_Invalid_Permission);
             return;
