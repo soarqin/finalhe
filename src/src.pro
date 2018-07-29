@@ -58,6 +58,7 @@ TRANSLATIONS += \
     translations/es_ES.ts \
     translations/it_IT.ts \
     translations/ja_JP.ts \
+    translations/ru_RU.ts \
     translations/tr_TR.ts \
     translations/zh_CN.ts \
     translations/zh_TW.ts
