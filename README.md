@@ -7,6 +7,9 @@ see [CREDITS.md](CREDITS.md)
 # Prebuilt binaries for windows/macOS
 Check [latest release](https://github.com/soarqin/finalhe/releases/latest)
 
+# Prebuilt binary/package for linux openSUSE
+You just need to add a home [repository](https://software.opensuse.org/package/finalhe) to your local software repositories with ```sudo addrepo -f http://download.opensuse.org/repositories/home:/seilerphilipp/openSUSE_Leap_15.0/```. Then install package with ```sudo zypper install finalhe```. Now you can run "FinalHE" just by typing ```FinalHE``` into your terminal or start it as you like. If you're using Leap 42.3 just replace the version in the url with 42.3.
+
 # Notes on windows
 Please install QcmaDriver_winusb.exe(can be downloaded from releases) if you have not installed USB driver for PS Vita
 
@@ -15,7 +18,8 @@ Please install QcmaDriver_winusb.exe(can be downloaded from releases) if you hav
 2. For Linux:
    1. (Debian/Ubuntu) install build-essential, libxml2-dev, libusb-dev, zlib-dev or zlib1g-dev, qtbase5-dev, qttools5, cmake(if use cmake to build)
    2. (Fedora/CentOS) group install "Development Tools", install libxml2-devel, libusb-devel, zlib-devel, qt5-qtbase-devel, qt5-qtbase, cmake3(if use cmake to build)
-   3. (Arch) install base-devel, libxml2, libusb, zlib, qt5, cmake(if use cmake to build)
+   3. (openSUSE) install cmake >= 11.0, gcc-c++, zlib-devel, libxml2-devel, libQt5Widgets-devel, libQt5Network-devel, libqt5-linguist-devel, libusb-compat-devel
+   4. (Arch) install base-devel, libxml2, libusb, zlib, qt5, cmake(if use cmake to build)
 
 # Build from source
 You can choose either qmake or cmake to build
