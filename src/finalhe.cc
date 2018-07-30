@@ -206,31 +206,34 @@ void FinalHE::extraItemsChanged(QListWidgetItem *item) {
     QVariant var = item->data(Qt::UserRole);
     bool ok;
     int fwidx = var.toInt(&ok);
+    bool checked = item->checkState() == Qt::Checked;
     if (!ok) {
-        bool checked = item->checkState() == Qt::Checked;
         pkg->selectExtraApp(var.toString(), checked);
     } else {
-        switch (fwidx) {
-        case 1:
-            vita->setUse365Update();
-            break;
-        case 2:
-            vita->setUse368Update();
-            break;
-        default:
-            vita->setUseNoUpdate();
-            break;
-        }
-        int count = ui.extraItems->count();
-        for (int i = 0; i < count; ++i) {
-            auto *eitem = ui.extraItems->item(i);
-            if (eitem->flags() == Qt::NoItemFlags || eitem == item) continue;
-            bool ok;
-            int n = eitem->data(Qt::UserRole).toInt(&ok);
-            if (ok && n > 0) {
-                eitem->setCheckState(Qt::Unchecked);
+        if (checked) {
+            switch (fwidx) {
+            case 1:
+                vita->setUse365Update();
+                break;
+            case 2:
+                vita->setUse368Update();
+                break;
+            default:
+                vita->setUseNoUpdate();
+                break;
             }
-        }
+            int count = ui.extraItems->count();
+            for (int i = 0; i < count; ++i) {
+                auto *eitem = ui.extraItems->item(i);
+                if (eitem->flags() == Qt::NoItemFlags || eitem == item) continue;
+                bool ok;
+                int n = eitem->data(Qt::UserRole).toInt(&ok);
+                if (ok && n > 0) {
+                    eitem->setCheckState(Qt::Unchecked);
+                }
+            }
+        } else
+            vita->setUseNoUpdate();
     }
 }
 
