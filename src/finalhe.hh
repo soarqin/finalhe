@@ -27,6 +27,8 @@ private slots:
     void setTextPkg(QString);
     void displayPin(QString, int);
     void clearPin();
+    void toggleExpanding();
+    void extraItemsChanged(QListWidgetItem*);
 
 private:
     void loadLanguage(const QString &s);
@@ -36,4 +38,6 @@ private:
     QTranslator trans;
     Package *pkg;
     VitaConn *vita;
+
+    bool expanding = false;
 };

@@ -261,10 +261,10 @@ VitaConn::VitaConn(const QString &baseDir, const QString &appDir, QObject *obj_p
             QString res = QByteArray((const char*)sum, 32).toHex();
             if (res == UPDATE_365_SHA256) {
                 Update365 = fullPath;
-                qDebug("Foudn 3.65 update: %s", qUtf8Printable(fullPath));
+                qDebug("Found 3.65 update: %s", qUtf8Printable(fullPath));
             } else if (res == UPDATE_368_SHA256) {
                 Update368 = fullPath;
-                qDebug("Foudn 3.68 update: %s", qUtf8Printable(fullPath));
+                qDebug("Found 3.68 update: %s", qUtf8Printable(fullPath));
             }
         }
     }
@@ -467,6 +467,7 @@ void VitaConn::doConnect() {
         onlineId = info.onlineId;
     else
         onlineId = tempOnlineId;
+    deviceVersion = info.responderVersion;
     updateStatus();
     const initiator_info_t *iinfo = VitaMTP_Data_Initiator_New(QHostInfo::localHostName().toUtf8().data(), ::getVitaProtocolVersion());
     if (VitaMTP_SendInitiatorInfo(currDev, (initiator_info_t *)iinfo) != PTP_RC_OK) {

@@ -1,6 +1,7 @@
 #include "package.hh"
 
 #include "worker.hh"
+#include "sforeader.hh"
 
 #include <sha256.h>
 #include <pkg.h>
@@ -21,6 +22,7 @@ const char *BSPKG_SHA256 = "280a734a0b40eedac2b3aad36d506cd4ab1a38cd069407e51438
 Package::Package(const QString &basePath, const QString &appPath, QObject *obj_parent): QObject(obj_parent), downloader(obj_parent) {
     pkgBasePath = basePath;
     appBasePath = appPath;
+    genExtraUnpackList();
     connect(&downloader, SIGNAL(finishedFile(QFile*)), this, SLOT(downloadFinished(QFile*)));
     connect(&downloader, SIGNAL(finishedGet(void*)), this, SLOT(fetchFinished(void*)));
     connect(&downloader, SIGNAL(downloadProgress(uint64_t, uint64_t)), this, SLOT(downloadProg(uint64_t, uint64_t)));
@@ -37,6 +39,16 @@ Package::~Package() {
 void Package::tips() {
     if (accountId.isEmpty())
         emit setStatusText(tr("Launch Content Manager on PS Vita and connect to computer."));
+}
+
+void Package::selectExtraApp(const QString &titleId, bool select) {
+    if (select) {
+        auto ite = extraApps.find(titleId);
+        if (ite != extraApps.end())
+            selectedExtraApps[titleId] = &ite.value();
+    } else {
+        selectedExtraApps.remove(titleId);
+    }
 }
 
 void Package::get(const QString &url, QString &result) {
@@ -145,8 +157,8 @@ void Package::startUnpackDemo(const char *filename) {
 void Package::doUnpackZip() {
     if (unzipQueue.isEmpty()) return;
     auto p = unzipQueue.front();
-    auto filename = p.first;
-    auto titleID = p.second;
+    auto filename = p.fullPath;
+    auto titleID = p.titleId;
     unzipQueue.pop_front();
     static bool succ = false;
     Worker::start(this, [this, filename, titleID](void *arg) {
@@ -216,10 +228,12 @@ void Package::genExtraUnpackList() {
     /* search zips in app dir */
     QDir dir(appBasePath);
     QFileInfoList qsl = dir.entryInfoList({ "*.zip" }, QDir::Files, QDir::Name);
+    QString titleId;
+    QString name;
     foreach(const QFileInfo &info, qsl) {
         QString fullPath = dir.filePath(info.fileName());
-        if (checkValidAppZip(fullPath))
-            unzipQueue.push_back(qMakePair(fullPath, info.baseName()));
+        if (checkValidAppZip(fullPath, titleId, name))
+            extraApps[titleId] = AppInfo{ fullPath, titleId, name };
     }
     dir = pkgBasePath;
     if (!dir.cdUp() || !dir.cd("extra")) return;
@@ -235,22 +249,26 @@ void Package::genExtraUnpackList() {
     qsl = dir.entryInfoList({"*.zip"}, QDir::Files, QDir::Name);
     foreach(const QFileInfo &info, qsl) {
         QString fullPath = dir.filePath(info.fileName());
-        if (checkValidAppZip(fullPath))
-            unzipQueue.push_back(qMakePair(fullPath, info.baseName()));
+        if (checkValidAppZip(fullPath, titleId, name))
+            extraApps[titleId] = AppInfo{ fullPath, titleId, name };
     }
 }
 
 void Package::startUnpackZipsFull() {
     unzipQueue.clear();
-    genExtraUnpackList();
-    unzipQueue.push_back(qMakePair<QString, QString>(QDir(pkgBasePath).filePath(HENCORE_FULL_FILE), "PCSG90096"));
+    for (auto &p : selectedExtraApps) {
+        unzipQueue.push_back(*p);
+    }
+    unzipQueue.push_back(AppInfo{ QDir(pkgBasePath).filePath(HENCORE_FULL_FILE), "PCSG90096", "h-encore" });
     emit unpackNext();
 }
 
 void Package::startUnpackZips() {
     unzipQueue.clear();
-    genExtraUnpackList();
-    unzipQueue.push_back(qMakePair<QString, QString>(":/main/resources/raw/h-encore.zip", "PCSG90096"));
+    for (auto &p : selectedExtraApps) {
+        unzipQueue.push_back(*p);
+    }
+    unzipQueue.push_back(AppInfo{ ":/main/resources/raw/h-encore.zip", "PCSG90096", "h-encore" });
     emit unpackNext();
 }
 
@@ -302,7 +320,7 @@ void Package::createPsvImgSingleDir(const QString &titleID, const char *singleDi
     }
 }
 
-bool Package::checkValidAppZip(const QString & filepath) {
+bool Package::checkValidAppZip(const QString & filepath, QString &titleId, QString &name) {
     QFile file(filepath);
     file.open(QFile::ReadOnly);
     mz_zip_archive arc;
@@ -329,9 +347,25 @@ bool Package::checkValidAppZip(const QString & filepath) {
         } else if (dirName == "appmeta/") {
             hasAppMeta = true;
         } else if (dirName.length() == 10 && dirName.indexOf("/") == 9) {
+            titleId = dirName.left(9);
             hasTitle = true;
         }
         if (hasApp && hasAppMeta && hasTitle) break;
+    }
+    int index = mz_zip_reader_locate_file(&arc, (titleId + "/sce_sys/param.sfo").toUtf8().constData(), NULL, 0);
+    if (index < 0) {
+        mz_zip_reader_end(&arc);
+        return false;
+    }
+    QByteArray data;
+    mz_zip_archive_file_stat stat;
+    mz_zip_reader_file_stat(&arc, index, &stat);
+    data.resize(stat.m_uncomp_size);
+    if (mz_zip_reader_extract_to_mem(&arc, index, data.data(), stat.m_uncomp_size, 0) == MZ_TRUE) {
+        SfoReader reader;
+        if (reader.load(data)) {
+            name = reader.value("TITLE", titleId.toUtf8().constData());
+        }
     }
     mz_zip_reader_end(&arc);
     return hasApp && hasAppMeta && hasTitle;

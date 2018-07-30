@@ -16,6 +16,11 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
     setWindowTitle("Final h-encore v" FINALHE_VERSION_STR);
     setWindowIcon(QIcon(":/main/resources/images/finalhe.png"));
     setFixedSize(600, 400);
+    ui.centralWidget->setFixedSize(600, 400);
+    ui.extraItems->setFixedSize(200, 400);
+    ui.extraItems->hide();
+    ui.expandButton->setArrowType(Qt::RightArrow);
+    ui.expandButton->setFixedWidth(10);
 
     ui.textMTP->setStyleSheet("QLabel { color : blue; }");
 
@@ -61,9 +66,48 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
 
     pkg->setTrim(ui.checkTrim->checkState() == Qt::Checked);
 
+    bool hasFirmware = false;
+    for (int i = 0; i < 2; ++i) {
+        bool has = i == 0 ? vita->has365Update() : vita->has368Update();
+        if (has) {
+            auto *item = new QListWidgetItem(tr("Firmware %1").arg(i == 0 ? "3.65" : "3.68"));
+            item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
+            if (!hasFirmware) {
+                auto *item0 = new QListWidgetItem(tr("-- Firmware update --"));
+                item0->setFlags(Qt::NoItemFlags);
+                ui.extraItems->addItem(item0);
+                hasFirmware = true;
+                item->setCheckState(Qt::Checked);
+                i == 0 ? vita->setUse365Update() : vita->setUse368Update();
+            } else
+                item->setCheckState(Qt::Unchecked);
+            item->setData(Qt::UserRole, i + 1);
+            ui.extraItems->addItem(item);
+        }
+    }
+    const auto &extraApps = pkg->getExtraApps();
+    bool hasExtra = false;
+    for (auto &p: extraApps) {
+        if (!hasExtra) {
+            auto *item0 = new QListWidgetItem(tr("-- Additional applications --"));
+            item0->setFlags(Qt::NoItemFlags);
+            ui.extraItems->addItem(item0);
+            hasExtra = true;
+        }
+        auto *item = new QListWidgetItem(p.name);
+        item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
+        ui.extraItems->addItem(item);
+        item->setData(Qt::UserRole, p.titleId);
+        bool defsel = p.titleId == "VITASHELL";
+        item->setCheckState(defsel ? Qt::Checked : Qt::Unchecked);
+        if (defsel) pkg->selectExtraApp(p.titleId, true);
+    }
+
     connect(ui.btnStart, SIGNAL(clicked()), this, SLOT(onStart()));
 	connect(ui.comboLang, SIGNAL(currentIndexChanged(int)), this, SLOT(langChange()));
     connect(ui.checkTrim, SIGNAL(stateChanged(int)), this, SLOT(trimState(int)));
+    connect(ui.expandButton, SIGNAL(clicked()), this, SLOT(toggleExpanding()));
+    connect(ui.extraItems, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(extraItemsChanged(QListWidgetItem*)));
     connect(vita, &VitaConn::gotAccountId, this, [this](QString accountId) { pkg->getBackupKey(accountId); });
     connect(vita, SIGNAL(receivedPin(QString, int)), this, SLOT(displayPin(QString, int)));
     connect(vita, SIGNAL(completedPin()), this, SLOT(clearPin()));
@@ -125,6 +169,52 @@ void FinalHE::displayPin(QString onlineId, int pin) {
 
 void FinalHE::clearPin() {
     ui.textPkg->setText(tr("Registered device."));
+}
+
+void FinalHE::toggleExpanding() {
+    if (expanding) {
+        setFixedSize(600, 400);
+        ui.extraItems->hide();
+        ui.expandButton->setArrowType(Qt::RightArrow);
+        expanding = false;
+    } else {
+        setFixedSize(810, 400);
+        ui.extraItems->show();
+        ui.expandButton->setArrowType(Qt::LeftArrow);
+        expanding = true;
+    }
+}
+
+void FinalHE::extraItemsChanged(QListWidgetItem *item) {
+    QVariant var = item->data(Qt::UserRole);
+    bool ok;
+    int fwidx = var.toInt(&ok);
+    if (!ok) {
+        bool checked = item->checkState() == Qt::Checked;
+        pkg->selectExtraApp(var.toString(), checked);
+    } else {
+        switch (fwidx) {
+        case 1:
+            vita->setUse365Update();
+            break;
+        case 2:
+            vita->setUse368Update();
+            break;
+        default:
+            vita->setUseNoUpdate();
+            break;
+        }
+        int count = ui.extraItems->count();
+        for (int i = 0; i < count; ++i) {
+            auto *eitem = ui.extraItems->item(i);
+            if (eitem->flags() == Qt::NoItemFlags || eitem == item) continue;
+            bool ok;
+            int n = eitem->data(Qt::UserRole).toInt(&ok);
+            if (ok && n > 0) {
+                eitem->setCheckState(Qt::Unchecked);
+            }
+        }
+    }
 }
 
 void FinalHE::loadLanguage(const QString &s) {

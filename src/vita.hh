@@ -43,6 +43,7 @@ public:
     inline bool has368Update() { return !Update368.isEmpty(); }
     inline void setUse365Update() { if (!Update365.isEmpty()) useUpdate = 1; }
     inline void setUse368Update() { if (!Update368.isEmpty()) useUpdate = 2; }
+    inline void setUseNoUpdate() { if (!Update368.isEmpty()) useUpdate = 0; }
 
 public slots:
     void process();
@@ -69,6 +70,7 @@ private:
     vita_device_t *currDev = nullptr, *wirelessDev = nullptr;
     QString onlineId;
     QString accountId;
+    QString deviceVersion;
     int ohfiMax = 256;
 
     std::map<int, MetaInfo> metaMap;

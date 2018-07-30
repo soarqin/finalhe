@@ -5,7 +5,13 @@
 #include <QString>
 #include <QObject>
 #include <QQueue>
-#include <QPair>
+#include <QMap>
+
+struct AppInfo {
+    QString fullPath;
+    QString titleId;
+    QString name;
+};
 
 class Package : public QObject {
     Q_OBJECT
@@ -15,6 +21,8 @@ public:
 
     inline void setTrim(bool t) { trimApp = t; }
     void tips();
+    inline const QMap<QString, AppInfo> &getExtraApps() { return extraApps; }
+    void selectExtraApp(const QString &titleId, bool select);
 
 signals:
     void startDownload();
@@ -36,7 +44,7 @@ private:
     void startUnpackZipsFull();
     bool verify(const QString &filepath, const char *sha256sum);
     void createPsvImgSingleDir(const QString &titleID, const char *singleDir);
-    bool checkValidAppZip(const QString &filepath);
+    bool checkValidAppZip(const QString &filepath, QString &titleId, QString &name);
 
 public slots:
     void getBackupKey(const QString &aid);
@@ -59,5 +67,7 @@ private:
     Downloader downloader;
     QString accountId;
     QString backupKey;
-    QQueue<QPair<QString, QString>> unzipQueue;
+    QMap<QString, AppInfo> extraApps;
+    QMap<QString, AppInfo*> selectedExtraApps;
+    QQueue<AppInfo> unzipQueue;
 };
