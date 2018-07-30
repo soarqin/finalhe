@@ -119,6 +119,10 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
         item->setCheckState(defsel ? Qt::Checked : Qt::Unchecked);
         if (defsel) pkg->selectExtraApp(p.titleId, true);
     }
+    if (hasFirmware || hasExtra)
+        ui.expandButton->show();
+    else
+        ui.expandButton->hide();
 
     connect(ui.btnStart, SIGNAL(clicked()), this, SLOT(onStart()));
 	connect(ui.comboLang, SIGNAL(currentIndexChanged(int)), this, SLOT(langChange()));
@@ -164,7 +168,42 @@ void FinalHE::onStart() {
     emit pkg->startDownload();
 }
 
+void FinalHE::fwUpdateMsg() {
+    if (vita->getDeviceVersion() < "3.65") {
+        ui.textPkg->setText(tr("Fimrware version is not supported by h-encore.") + "\n"
+            + tr("Update to %1 before installing h-encore!").arg("3.65/3.68") + "\n"
+            + ((vita->has365Update() || vita->has368Update())
+            ? tr("On PS Vita:\nSettings -> System Update -> Update by Connecting to a PC")
+            : QString()));
+    } else if (vita->getDeviceVersion() > "3.65" && vita->getDeviceVersion() < "3.68") {
+        if (vita->has368Update()) {
+            int count = ui.extraItems->count();
+            for (int i = 0; i < count; ++i) {
+                auto *eitem = ui.extraItems->item(i);
+                if (eitem->flags() == Qt::NoItemFlags) continue;
+                bool ok;
+                int n = eitem->data(Qt::UserRole).toInt(&ok);
+                if (ok) {
+                    if (n == 1) {
+                        ui.extraItems->removeItemWidget(eitem);
+                        delete eitem;
+                        count = ui.extraItems->count();
+                        --i;
+                    } else
+                        eitem->setCheckState(n == 2 ? Qt::Checked : Qt::Unchecked);
+                }
+            }
+        }
+        ui.textPkg->setText(tr("Fimrware version is not supported by h-encore.") + "\n"
+            + tr("Update to %2 before installing h-encore!").arg("3.68") + "\n"
+            + (vita->has368Update()
+            ? tr("On PS Vita:\nSettings -> System Update -> Update by Connecting to a PC")
+            : QString()));
+    }
+}
+
 void FinalHE::enableStart() {
+    fwUpdateMsg();
     ui.btnStart->setEnabled(true);
 }
 

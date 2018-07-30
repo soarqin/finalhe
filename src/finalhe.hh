@@ -48,6 +48,7 @@ private slots:
     void extraItemsChanged(QListWidgetItem*);
 
 private:
+    void fwUpdateMsg();
     void loadLanguage(const QString &s);
 
 private:

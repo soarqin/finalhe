@@ -56,6 +56,7 @@ public:
 public:
     VitaConn(const QString &baseDir, const QString &appDir, QObject *obj_parent = 0);
     virtual ~VitaConn();
+    inline const QString &getDeviceVersion() { return deviceVersion; }
     inline bool has365Update() { return !Update365.isEmpty(); }
     inline bool has368Update() { return !Update368.isEmpty(); }
     inline void setUse365Update() { if (!Update365.isEmpty()) useUpdate = 1; }

@@ -436,9 +436,9 @@ void VitaConn::updateStatus() {
         emit setStatusText(tr("Waiting for connection to PS Vita..."));
     } else {
         if (accountId.isEmpty()) {
-            emit setStatusText(tr("Connected to PS Vita [%1], Waiting for account ID").arg(onlineId));
+            emit setStatusText(tr("Connected to PS Vita") + QString(" @%1: [%2]. ").arg(deviceVersion).arg(onlineId) + tr("Waiting for account ID"));
         } else {
-            emit setStatusText(tr("Connected to PS Vita [%1] (%2)").arg(onlineId).arg(accountId));
+            emit setStatusText(tr("Connected to PS Vita") + QString(" @%1: [%2](%3)").arg(deviceVersion).arg(onlineId).arg(accountId));
         }
     }
 }
