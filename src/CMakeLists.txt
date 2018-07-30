@@ -19,6 +19,7 @@ set(SRC_FILES
     downloader.cc downloader.hh
     finalhe.cc finalhe.hh
     package.cc package.hh
+    sforeader.cc sforeader.hh
     vita.cc vita.hh
     worker.cc worker.hh
 )

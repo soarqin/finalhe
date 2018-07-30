@@ -10,8 +10,9 @@ win32-msvc* {
 }
 DEFINES += USING_STATIC_LIBICONV LIBXML_STATIC
 INCLUDEPATH = ../deps/vitamtp ../deps/psvlib/img ../deps/psvlib/pkg ../deps/miniz ../deps/scrypto
-SOURCES += main.cc downloader.cc finalhe.cc package.cc vita.cc worker.cc
-HEADERS += downloader.hh finalhe.hh package.hh vita.hh worker.hh
+SOURCES += main.cc \
+           downloader.cc finalhe.cc package.cc sforeader.cc vita.cc worker.cc
+HEADERS += downloader.hh finalhe.hh package.hh sforeader.hh vita.hh worker.hh
 LIBS += \
     -L../deps/vitamtp -lvitamtp \
     -L../deps/psvlib/img -lpsvimg \
