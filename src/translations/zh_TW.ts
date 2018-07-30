@@ -30,17 +30,17 @@
     <message>
         <location filename="../finalhe.cc" line="90"/>
         <source>Firmware %1</source>
-        <translation type="unfinished"></translation>
+        <translation>韌體</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="93"/>
         <source>-- Firmware update --</source>
-        <translation type="unfinished"></translation>
+        <translation>-- 韌體更新 --</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="109"/>
         <source>-- Additional applications --</source>
-        <translation type="unfinished"></translation>
+        <translation>-- 額外應用程式 --</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="184"/>
@@ -103,7 +103,7 @@ Input this PIN on PS Vita: %2</source>
     <message>
         <location filename="../package.cc" line="325"/>
         <source>sha256sum mismatch! Please check your network.</source>
-        <translation type="unfinished"></translation>
+        <translation>sha256sum不適配！請檢查網路狀況</translation>
     </message>
     <message>
         <location filename="../package.cc" line="411"/>
