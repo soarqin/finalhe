@@ -392,10 +392,8 @@ void Package::getBackupKey(const QString &aid) {
     if (accountId != aid) {
         accountId = aid;
         QSettings settings;
-        settings.beginGroup("BackupKeys");
-        backupKey = settings.value(accountId).toString();
-        settings.endGroup();
-        if (backupKey.isEmpty()) {
+        backupKey = settings.value("BackupKeys/" + accountId).toString();
+        if (backupKey.length() != 64) {
             get(QString("http://cma.henkaku.xyz/?aid=%1").arg(aid), backupKey);
             qDebug("Fetching backup key from cma.henkaku.xyz...");
             emit setStatusText(tr("Fetching backup key from cma.henkaku.xyz"));
@@ -517,9 +515,7 @@ void Package::fetchFinished(void *arg) {
     qDebug("Done.");
     *str = str->mid(index + 6, 64);
     QSettings settings;
-    settings.beginGroup("BackupKeys");
-    settings.setValue(accountId, *str);
-    settings.endGroup();
+    settings.setValue("BackupKeys/" + accountId, *str);
     emit gotBackupKey();
 }
 
