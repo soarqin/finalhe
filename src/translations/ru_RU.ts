@@ -178,18 +178,18 @@ Click button to START!</source>
 <context>
     <name>VitaConn</name>
     <message>
-        <location filename="../vita.cc" line="436"/>
+        <location filename="../vita.cc" line="438"/>
         <source>Waiting for connection to PS Vita...</source>
         <translation>Ожидание подключения к PS Vita</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="439"/>
         <location filename="../vita.cc" line="441"/>
+        <location filename="../vita.cc" line="443"/>
         <source>Connected to PS Vita</source>
         <translation>PS Vita подключена</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="439"/>
+        <location filename="../vita.cc" line="441"/>
         <source>Waiting for account ID</source>
         <translation>Ожидание AID</translation>
     </message>

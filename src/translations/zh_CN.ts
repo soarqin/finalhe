@@ -183,18 +183,18 @@ Please check your network connection!</source>
 <context>
     <name>VitaConn</name>
     <message>
-        <location filename="../vita.cc" line="436"/>
+        <location filename="../vita.cc" line="438"/>
         <source>Waiting for connection to PS Vita...</source>
         <translation>等待连接到PSV……</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="439"/>
         <location filename="../vita.cc" line="441"/>
+        <location filename="../vita.cc" line="443"/>
         <source>Connected to PS Vita</source>
         <translation>已经连接到PSV [%1]</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="439"/>
+        <location filename="../vita.cc" line="441"/>
         <source>Waiting for account ID</source>
         <translation>等待用户ID</translation>
     </message>

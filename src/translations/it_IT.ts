@@ -183,18 +183,18 @@ Si prega di verificare la connessione di rete!</translation>
 <context>
     <name>VitaConn</name>
     <message>
-        <location filename="../vita.cc" line="436"/>
+        <location filename="../vita.cc" line="438"/>
         <source>Waiting for connection to PS Vita...</source>
         <translation>In attesa di connessione su PS Vita...</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="439"/>
         <location filename="../vita.cc" line="441"/>
+        <location filename="../vita.cc" line="443"/>
         <source>Connected to PS Vita</source>
         <translation>Connesso a PS Vita</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="439"/>
+        <location filename="../vita.cc" line="441"/>
         <source>Waiting for account ID</source>
         <translation>in attesa di ID account</translation>
     </message>

@@ -369,8 +369,10 @@ void VitaConn::process() {
                 broadcast->setUnavailable();
                 doConnect();
                 broadcast->setAvailable();
-            } else
+                continue;
+            } else {
                 connMutex.unlock();
+            }
             vita_event_t evt;
             int res = VitaMTP_Read_Event(currDev, &evt);
             if (res < 0) {
@@ -654,12 +656,16 @@ void VitaConn::processEvent(vita_event_t *evt) {
             }
             switch (useUpdate) {
             case 1:
-                data.replace("00.000.000", "03.650.000");
-                data.replace("0.00", "3.65");
+                if (deviceVersion < "3.65") {
+                    data.replace("00.000.000", "03.650.000");
+                    data.replace("0.00", "3.65");
+                }
                 break;
             case 2:
-                data.replace("00.000.000", "03.680.000");
-                data.replace("0.00", "3.68");
+                if (deviceVersion < "3.68") {
+                    data.replace("00.000.000", "03.680.000");
+                    data.replace("0.00", "3.68");
+                }
                 break;
             }
         } else if (basename == "PSP2UPDAT.PUP") {

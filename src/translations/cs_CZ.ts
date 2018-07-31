@@ -183,18 +183,18 @@ Prosím, zkontrolujte připojení k síťi!</translation>
 <context>
     <name>VitaConn</name>
     <message>
-        <location filename="../vita.cc" line="436"/>
+        <location filename="../vita.cc" line="438"/>
         <source>Waiting for connection to PS Vita...</source>
         <translation>Čekám na spojení s PS Vitou...</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="439"/>
         <location filename="../vita.cc" line="441"/>
+        <location filename="../vita.cc" line="443"/>
         <source>Connected to PS Vita</source>
         <translation>Připojeno k PS Vitě</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="439"/>
+        <location filename="../vita.cc" line="441"/>
         <source>Waiting for account ID</source>
         <translation>čekám na ID účtu</translation>
     </message>
