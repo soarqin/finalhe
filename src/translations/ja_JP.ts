@@ -46,27 +46,29 @@
         <location filename="../finalhe.cc" line="191"/>
         <location filename="../finalhe.cc" line="216"/>
         <source>Fimrware version is not supported by h-encore.</source>
-        <translation type="unfinished"></translation>
+        <translation>h-encoreはこのファームウェアをサポートしていません</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="192"/>
         <location filename="../finalhe.cc" line="217"/>
         <source>Update to %1 first.</source>
-        <translation type="unfinished"></translation>
+        <translation>最初に %1 にアップデート</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="195"/>
         <location filename="../finalhe.cc" line="220"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
-        <translation type="unfinished"></translation>
+        <translation>USB経由でアップデートするには:
+アップデートパッケージ(.PUP)をこのツールのフォルダに入れてこのツールを再実行して下さい</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="194"/>
         <location filename="../finalhe.cc" line="219"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
-        <translation type="unfinished"></translation>
+        <translation>PSVita側の作業
+設定 -&gt; システムアップデート -&gt; パソコンに接続してアップデートする と手順を踏んで下さい</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="244"/>
