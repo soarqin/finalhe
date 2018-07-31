@@ -51,11 +51,11 @@ The following cache variables may also be set:
 
 #]=======================================================================]
 
-include(${CMAKE_CURRENT_LIST_DIR}/CMakePushCheckState.cmake)
+include(CMakePushCheckState)
 if(CMAKE_C_COMPILER_LOADED)
-  include(${CMAKE_CURRENT_LIST_DIR}/CheckCSourceCompiles.cmake)
+  include(CheckCSourceCompiles)
 elseif(CMAKE_CXX_COMPILER_LOADED)
-  include(${CMAKE_CURRENT_LIST_DIR}/CheckCXXSourceCompiles.cmake)
+  include(CheckCXXSourceCompiles)
 else()
   # If neither C nor CXX are loaded, implicit iconv makes no sense.
   set(Iconv_IS_BUILT_IN FALSE)
@@ -115,7 +115,7 @@ find_library(Iconv_LIBRARY
 mark_as_advanced(Iconv_INCLUDE_DIR)
 mark_as_advanced(Iconv_LIBRARY)
 
-include(${CMAKE_CURRENT_LIST_DIR}/FindPackageHandleStandardArgs.cmake)
+include(FindPackageHandleStandardArgs)
 if(NOT Iconv_IS_BUILT_IN)
   find_package_handle_standard_args(Iconv REQUIRED_VARS Iconv_LIBRARY Iconv_INCLUDE_DIR)
 else()
