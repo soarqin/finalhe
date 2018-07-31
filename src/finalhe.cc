@@ -61,7 +61,8 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
     QSettings settings;
     QString langLoad = settings.value("language").toString();
     ui.comboLang->addItem(trans.isEmpty() ? "English" : trans.translate("base", "English"));
-    if (dir.cd("language")) {
+    dir = qApp->applicationDirPath();
+    if (dir.cdUp() && dir.cd("language")) {
         QStringList ll = dir.entryList({"*.qm"}, QDir::Filter::Files, QDir::SortFlag::IgnoreCase);
         for (auto &p: ll) {
             QString compPath = dir.filePath(p);
@@ -208,6 +209,7 @@ bool FinalHE::checkFwUpdate() {
             : tr("To update through USB:\nPut Update Package(.PUP) in this tool's folder and restart the tool")));
         return false;
     }
+    return true;
 }
 
 void FinalHE::enableStart() {
