@@ -30,43 +30,45 @@
     <message>
         <location filename="../finalhe.cc" line="143"/>
         <source>Firmware %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Firmware %1</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="146"/>
         <source>-- Firmware update --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Actualización de Firmware --</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="162"/>
         <source>-- Additional applications --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Aplicaciones adicionales --</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="191"/>
         <location filename="../finalhe.cc" line="216"/>
         <source>Fimrware version is not supported by h-encore.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Versión de firmware no soportada por h-encore.</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="192"/>
         <location filename="../finalhe.cc" line="217"/>
         <source>Update to %1 first.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Primero, actualice %1.</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="195"/>
         <location filename="../finalhe.cc" line="220"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Para actualizar por USB:
+Ponga el Paquete de Actualización (.PUP) en la carpeta de esta herramienta y reinicie esta aplicación.</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="194"/>
         <location filename="../finalhe.cc" line="219"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">En la PS Vita:
+Opciones -&gt; Actualización de Sistema -&gt; Actualizar Conectando al PC</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="244"/>
@@ -129,7 +131,7 @@ Inserte este PIN en su PS Vita: %2</translation>
     <message>
         <location filename="../package.cc" line="325"/>
         <source>sha256sum mismatch! Please check your network.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">¡No coincide el sha256sum! Por favor, compruebe su conexión a internet.</translation>
     </message>
     <message>
         <location filename="../package.cc" line="411"/>
@@ -160,7 +162,7 @@ Click button to START!</source>
     <message>
         <location filename="../package.cc" line="447"/>
         <source>Trimming package</source>
-        <translation>Reduciendo el tamaño</translation>
+        <translation>Reduciendo el tamaño del paquete</translation>
     </message>
     <message>
         <location filename="../package.cc" line="58"/>
@@ -196,7 +198,7 @@ Please check your network connection!</source>
     <message>
         <location filename="../vita.cc" line="441"/>
         <source>Waiting for account ID</source>
-        <translation>esperando ID de cuenta</translation>
+        <translation>Esperando ID de cuenta</translation>
     </message>
 </context>
 <context>
