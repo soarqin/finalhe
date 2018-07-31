@@ -62,7 +62,11 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
     QString langLoad = settings.value("language").toString();
     ui.comboLang->addItem(trans.isEmpty() ? "English" : trans.translate("base", "English"));
     dir = qApp->applicationDirPath();
-    if (dir.cdUp() && dir.cd("language")) {
+    if (
+#ifdef __APPLE__
+        dir.cdUp() &&
+#endif
+        dir.cd("language")) {
         QStringList ll = dir.entryList({"*.qm"}, QDir::Filter::Files, QDir::SortFlag::IgnoreCase);
         for (auto &p: ll) {
             QString compPath = dir.filePath(p);

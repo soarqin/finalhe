@@ -28,56 +28,56 @@
         <translation type="vanished">没有目录写入权限，关闭工具中 </translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="138"/>
+        <location filename="../finalhe.cc" line="143"/>
         <source>Firmware %1</source>
         <translation>固件 %1</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="141"/>
+        <location filename="../finalhe.cc" line="146"/>
         <source>-- Firmware update --</source>
         <translation>-- 固件更新 --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="157"/>
+        <location filename="../finalhe.cc" line="162"/>
         <source>-- Additional applications --</source>
         <translation>-- 附加应用程序 --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="179"/>
-        <location filename="../finalhe.cc" line="204"/>
+        <location filename="../finalhe.cc" line="191"/>
+        <location filename="../finalhe.cc" line="216"/>
         <source>Fimrware version is not supported by h-encore.</source>
         <translation>h-encore不支持的固件版本</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="180"/>
-        <location filename="../finalhe.cc" line="205"/>
+        <location filename="../finalhe.cc" line="192"/>
+        <location filename="../finalhe.cc" line="217"/>
         <source>Update to %1 first.</source>
         <translation>请先更新到%1</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="183"/>
-        <location filename="../finalhe.cc" line="208"/>
+        <location filename="../finalhe.cc" line="195"/>
+        <location filename="../finalhe.cc" line="220"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
         <translation>要通过USB更新:
 将更新包(.PUP)放在本工具所在目录内后重启工具</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="182"/>
-        <location filename="../finalhe.cc" line="207"/>
+        <location filename="../finalhe.cc" line="194"/>
+        <location filename="../finalhe.cc" line="219"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
         <translation>设定 -&gt; 系统升级 -&gt; 连接至电脑进行升级</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="231"/>
+        <location filename="../finalhe.cc" line="244"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>正在注册设备: %1
 请在PSV上输入PIN: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="235"/>
+        <location filename="../finalhe.cc" line="248"/>
         <source>Registered device.</source>
         <translation>设备注册成功</translation>
     </message>
@@ -211,12 +211,12 @@ Please check your network connection!</source>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="293"/>
+        <location filename="../finalhe.cc" line="310"/>
         <source>English</source>
         <translation>英语</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="71"/>
+        <location filename="../finalhe.cc" line="76"/>
         <source>LANGUAGE</source>
         <translation>简体中文</translation>
     </message>

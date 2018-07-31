@@ -4,55 +4,55 @@
 <context>
     <name>FinalHE</name>
     <message>
-        <location filename="../finalhe.cc" line="138"/>
+        <location filename="../finalhe.cc" line="143"/>
         <source>Firmware %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="141"/>
+        <location filename="../finalhe.cc" line="146"/>
         <source>-- Firmware update --</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="157"/>
+        <location filename="../finalhe.cc" line="162"/>
         <source>-- Additional applications --</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="179"/>
-        <location filename="../finalhe.cc" line="204"/>
+        <location filename="../finalhe.cc" line="191"/>
+        <location filename="../finalhe.cc" line="216"/>
         <source>Fimrware version is not supported by h-encore.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="180"/>
-        <location filename="../finalhe.cc" line="205"/>
+        <location filename="../finalhe.cc" line="192"/>
+        <location filename="../finalhe.cc" line="217"/>
         <source>Update to %1 first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="183"/>
-        <location filename="../finalhe.cc" line="208"/>
+        <location filename="../finalhe.cc" line="195"/>
+        <location filename="../finalhe.cc" line="220"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="182"/>
-        <location filename="../finalhe.cc" line="207"/>
+        <location filename="../finalhe.cc" line="194"/>
+        <location filename="../finalhe.cc" line="219"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="231"/>
+        <location filename="../finalhe.cc" line="244"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>Регистрация устройства: %1
         	Напишите этот PIN-код на PS Vita</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="235"/>
+        <location filename="../finalhe.cc" line="248"/>
         <source>Registered device.</source>
         <translation>Зарегестрированный девайс</translation>
     </message>
@@ -198,12 +198,12 @@ Click button to START!</source>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="293"/>
+        <location filename="../finalhe.cc" line="310"/>
         <source>English</source>
         <translation>Русский</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="71"/>
+        <location filename="../finalhe.cc" line="76"/>
         <source>LANGUAGE</source>
         <translation>Язык</translation>
     </message>
