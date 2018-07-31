@@ -168,10 +168,17 @@ void FinalHE::updateExpandArea() {
         item->setCheckState(defsel ? Qt::Checked : Qt::Unchecked);
         if (defsel) pkg->selectExtraApp(p.titleId, true);
     }
-    if (hasFirmware || hasExtra)
+    if (hasFirmware || hasExtra) {
+#ifndef _WIN32
+        ui.centralWidget->setFixedSize(588, 400);
+#endif
         ui.expandButton->show();
-    else
+    } else {
+        setFixedSize(600, 400);
+        ui.centralWidget->setFixedSize(600, 400);
         ui.expandButton->hide();
+        ui.extraItems->hide();
+    }
 }
 
 bool FinalHE::checkFwUpdate() {
@@ -244,7 +251,11 @@ void FinalHE::toggleExpanding() {
         ui.expandButton->setArrowType(Qt::RightArrow);
         expanding = false;
     } else {
+#ifdef _WIN32
         setFixedSize(812, 400);
+#else
+        setFixedSize(800, 400);
+#endif
         ui.extraItems->show();
         ui.expandButton->setArrowType(Qt::LeftArrow);
         expanding = true;
