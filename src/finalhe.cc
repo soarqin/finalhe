@@ -168,13 +168,14 @@ void FinalHE::onStart() {
     emit pkg->startDownload();
 }
 
-void FinalHE::fwUpdateMsg() {
+bool FinalHE::checkFwUpdate() {
     if (vita->getDeviceVersion() < "3.65") {
         ui.textPkg->setText(tr("Fimrware version is not supported by h-encore.") + "\n"
-            + tr("Update to %1 before installing h-encore!").arg("3.65/3.68") + "\n"
+            + tr("Update to %1 first.").arg("3.65/3.68") + "\n"
             + ((vita->has365Update() || vita->has368Update())
             ? tr("On PS Vita:\nSettings -> System Update -> Update by Connecting to a PC")
-            : QString()));
+            : tr("To update through USB:\nPut Update Package(.PUP) in this tool's folder and restart the tool")));
+        return false;
     } else if (vita->getDeviceVersion() > "3.65" && vita->getDeviceVersion() < "3.68") {
         if (vita->has368Update()) {
             int count = ui.extraItems->count();
@@ -195,16 +196,17 @@ void FinalHE::fwUpdateMsg() {
             }
         }
         ui.textPkg->setText(tr("Fimrware version is not supported by h-encore.") + "\n"
-            + tr("Update to %2 before installing h-encore!").arg("3.68") + "\n"
+            + tr("Update to %2 first.").arg("3.68") + "\n"
             + (vita->has368Update()
             ? tr("On PS Vita:\nSettings -> System Update -> Update by Connecting to a PC")
-            : QString()));
+            : tr("To update through USB:\nPut Update Package(.PUP) in this tool's folder and restart the tool")));
+        return false;
     }
 }
 
 void FinalHE::enableStart() {
-    fwUpdateMsg();
-    ui.btnStart->setEnabled(true);
+    if (checkFwUpdate())
+        ui.btnStart->setEnabled(true);
 }
 
 void FinalHE::trimState(int state) {
