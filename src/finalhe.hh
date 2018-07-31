@@ -48,6 +48,7 @@ private slots:
     void extraItemsChanged(QListWidgetItem*);
 
 private:
+    void updateExpandArea();
     bool checkFwUpdate();
     void loadLanguage(const QString &s);
 

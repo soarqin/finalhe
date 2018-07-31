@@ -37,7 +37,7 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
     ui.extraItems->setFixedSize(200, 400);
     ui.extraItems->hide();
     ui.expandButton->setArrowType(Qt::RightArrow);
-    ui.expandButton->setFixedWidth(10);
+    ui.expandButton->setFixedWidth(12);
 
     ui.textMTP->setStyleSheet("QLabel { color : blue; }");
 
@@ -83,46 +83,6 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
 
     pkg->setTrim(ui.checkTrim->checkState() == Qt::Checked);
 
-    bool hasFirmware = false;
-    for (int i = 0; i < 2; ++i) {
-        bool has = i == 0 ? vita->has365Update() : vita->has368Update();
-        if (has) {
-            auto *item = new QListWidgetItem(tr("Firmware %1").arg(i == 0 ? "3.65" : "3.68"));
-            item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
-            if (!hasFirmware) {
-                auto *item0 = new QListWidgetItem(tr("-- Firmware update --"));
-                item0->setFlags(Qt::NoItemFlags);
-                ui.extraItems->addItem(item0);
-                hasFirmware = true;
-                item->setCheckState(Qt::Checked);
-                i == 0 ? vita->setUse365Update() : vita->setUse368Update();
-            } else
-                item->setCheckState(Qt::Unchecked);
-            item->setData(Qt::UserRole, i + 1);
-            ui.extraItems->addItem(item);
-        }
-    }
-    const auto &extraApps = pkg->getExtraApps();
-    bool hasExtra = false;
-    for (auto &p: extraApps) {
-        if (!hasExtra) {
-            auto *item0 = new QListWidgetItem(tr("-- Additional applications --"));
-            item0->setFlags(Qt::NoItemFlags);
-            ui.extraItems->addItem(item0);
-            hasExtra = true;
-        }
-        auto *item = new QListWidgetItem(p.name);
-        item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
-        ui.extraItems->addItem(item);
-        item->setData(Qt::UserRole, p.titleId);
-        bool defsel = p.titleId == "VITASHELL";
-        item->setCheckState(defsel ? Qt::Checked : Qt::Unchecked);
-        if (defsel) pkg->selectExtraApp(p.titleId, true);
-    }
-    if (hasFirmware || hasExtra)
-        ui.expandButton->show();
-    else
-        ui.expandButton->hide();
 
     connect(ui.btnStart, SIGNAL(clicked()), this, SLOT(onStart()));
 	connect(ui.comboLang, SIGNAL(currentIndexChanged(int)), this, SLOT(langChange()));
@@ -147,6 +107,7 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
         ui.comboLang->setCurrentIndex(useSysLang);
         langChange();
     }
+    updateExpandArea();
 }
 
 FinalHE::~FinalHE() {
@@ -168,7 +129,52 @@ void FinalHE::onStart() {
     emit pkg->startDownload();
 }
 
+void FinalHE::updateExpandArea() {
+    ui.extraItems->clear();
+    bool hasFirmware = false;
+    for (int i = 0; i < 2; ++i) {
+        bool has = i == 0 ? vita->has365Update() : vita->has368Update();
+        if (has) {
+            auto *item = new QListWidgetItem(tr("Firmware %1").arg(i == 0 ? "3.65" : "3.68"));
+            item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
+            if (!hasFirmware) {
+                auto *item0 = new QListWidgetItem(tr("-- Firmware update --"));
+                item0->setFlags(Qt::NoItemFlags);
+                ui.extraItems->addItem(item0);
+                hasFirmware = true;
+                item->setCheckState(Qt::Checked);
+                i == 0 ? vita->setUse365Update() : vita->setUse368Update();
+            } else
+                item->setCheckState(Qt::Unchecked);
+            item->setData(Qt::UserRole, i + 1);
+            ui.extraItems->addItem(item);
+        }
+    }
+    const auto &extraApps = pkg->getExtraApps();
+    bool hasExtra = false;
+    for (auto &p : extraApps) {
+        if (!hasExtra) {
+            auto *item0 = new QListWidgetItem(tr("-- Additional applications --"));
+            item0->setFlags(Qt::NoItemFlags);
+            ui.extraItems->addItem(item0);
+            hasExtra = true;
+        }
+        auto *item = new QListWidgetItem(p.name);
+        item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
+        ui.extraItems->addItem(item);
+        item->setData(Qt::UserRole, p.titleId);
+        bool defsel = p.titleId == "VITASHELL";
+        item->setCheckState(defsel ? Qt::Checked : Qt::Unchecked);
+        if (defsel) pkg->selectExtraApp(p.titleId, true);
+    }
+    if (hasFirmware || hasExtra)
+        ui.expandButton->show();
+    else
+        ui.expandButton->hide();
+}
+
 bool FinalHE::checkFwUpdate() {
+    if (vita->getDeviceVersion().isEmpty()) return true;
     if (vita->getDeviceVersion() < "3.65") {
         ui.textPkg->setText(tr("Fimrware version is not supported by h-encore.") + "\n"
             + tr("Update to %1 first.").arg("3.65/3.68") + "\n"
@@ -236,7 +242,7 @@ void FinalHE::toggleExpanding() {
         ui.expandButton->setArrowType(Qt::RightArrow);
         expanding = false;
     } else {
-        setFixedSize(810, 400);
+        setFixedSize(812, 400);
         ui.extraItems->show();
         ui.expandButton->setArrowType(Qt::LeftArrow);
         expanding = true;
@@ -285,4 +291,6 @@ void FinalHE::loadLanguage(const QString &s) {
     }
     ui.retranslateUi(this);
     ui.comboLang->setItemText(0, trans.isEmpty() ? "English" : trans.translate("base", "English"));
+    updateExpandArea();
+    checkFwUpdate();
 }

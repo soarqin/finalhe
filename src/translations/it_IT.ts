@@ -28,55 +28,55 @@
         <translation type="vanished">Non hai permessi di scrittura su questa cartella! Uscire ora.</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="90"/>
+        <location filename="../finalhe.cc" line="138"/>
         <source>Firmware %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="93"/>
+        <location filename="../finalhe.cc" line="141"/>
         <source>-- Firmware update --</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="109"/>
+        <location filename="../finalhe.cc" line="157"/>
         <source>-- Additional applications --</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="173"/>
-        <location filename="../finalhe.cc" line="198"/>
+        <location filename="../finalhe.cc" line="179"/>
+        <location filename="../finalhe.cc" line="204"/>
         <source>Fimrware version is not supported by h-encore.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="174"/>
-        <location filename="../finalhe.cc" line="199"/>
+        <location filename="../finalhe.cc" line="180"/>
+        <location filename="../finalhe.cc" line="205"/>
         <source>Update to %1 first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="177"/>
-        <location filename="../finalhe.cc" line="202"/>
+        <location filename="../finalhe.cc" line="183"/>
+        <location filename="../finalhe.cc" line="208"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="176"/>
-        <location filename="../finalhe.cc" line="201"/>
+        <location filename="../finalhe.cc" line="182"/>
+        <location filename="../finalhe.cc" line="207"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="225"/>
+        <location filename="../finalhe.cc" line="231"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>Registrazione dispositivo: %1
 Inserire questo PIN su PS Vita: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="229"/>
+        <location filename="../finalhe.cc" line="235"/>
         <source>Registered device.</source>
         <translation>Dispositivo registrato.</translation>
     </message>
@@ -203,7 +203,7 @@ Si prega di verificare la connessione di rete!</translation>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="287"/>
+        <location filename="../finalhe.cc" line="293"/>
         <source>English</source>
         <translation>Inglese</translation>
     </message>
