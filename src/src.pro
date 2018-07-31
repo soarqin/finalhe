@@ -56,6 +56,7 @@ TRANSLATIONS += \
     # en_US is only used as translation template, no need to be included in release
     translations/en_US.ts \
     translations/cs_CZ.ts \
+    translations/de_DE.ts \
     translations/es_ES.ts \
     translations/it_IT.ts \
     translations/ja_JP.ts \

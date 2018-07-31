@@ -35,6 +35,7 @@ set(RES_FILES
 
 set(TRANSLATION_FILES
     translations/cs_CZ.ts
+    translations/de_DE.ts
     translations/es_ES.ts
     translations/it_IT.ts
     translations/ja_JP.ts
