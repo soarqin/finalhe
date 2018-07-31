@@ -30,17 +30,17 @@
     <message>
         <location filename="../finalhe.cc" line="143"/>
         <source>Firmware %1</source>
-        <translation type="unfinished"></translation>
+        <translation>ファームウェア %1</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="146"/>
         <source>-- Firmware update --</source>
-        <translation type="unfinished"></translation>
+        <translation>--ファームウェア アップデート--</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="162"/>
         <source>-- Additional applications --</source>
-        <translation type="unfinished"></translation>
+        <translation>--その他のアプリ―ケーション--</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="191"/>
@@ -104,22 +104,22 @@ PSVitaにPINコードを入力して下さい: %2</translation>
     <message>
         <location filename="../package.cc" line="143"/>
         <source>Unpacking %1</source>
-        <translation>複合化中: %1</translation>
+        <translation>展開中: %1</translation>
     </message>
     <message>
         <location filename="../package.cc" line="157"/>
         <source>Failed to unpack %1</source>
-        <translation>複合化できません: %1</translation>
+        <translation>展開できません: %1</translation>
     </message>
     <message>
         <location filename="../package.cc" line="186"/>
         <source>Decompressing %1</source>
-        <translation>展開中: %1</translation>
+        <translation>解凍中: %1</translation>
     </message>
     <message>
         <location filename="../package.cc" line="206"/>
         <source>Failed to decompress %1</source>
-        <translation>展開できません: %1</translation>
+        <translation>解凍できません: %1</translation>
     </message>
     <message>
         <location filename="../package.cc" line="296"/>
@@ -204,7 +204,7 @@ Please check your network connection!</source>
         <location filename="../finalhe.cc" line="63"/>
         <location filename="../finalhe.cc" line="310"/>
         <source>English</source>
-        <translation>英語</translation>
+        <translation>English</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="76"/>
