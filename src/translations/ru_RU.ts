@@ -19,14 +19,40 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="184"/>
+        <location filename="../finalhe.cc" line="173"/>
+        <location filename="../finalhe.cc" line="198"/>
+        <source>Fimrware version is not supported by h-encore.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="174"/>
+        <location filename="../finalhe.cc" line="199"/>
+        <source>Update to %1 first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="177"/>
+        <location filename="../finalhe.cc" line="202"/>
+        <source>To update through USB:
+Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="176"/>
+        <location filename="../finalhe.cc" line="201"/>
+        <source>On PS Vita:
+Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="225"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>Регистрация устройства: %1
         	Напишите этот PIN-код на PS Vita</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="188"/>
+        <location filename="../finalhe.cc" line="229"/>
         <source>Registered device.</source>
         <translation>Зарегестрированный девайс</translation>
     </message>
@@ -158,20 +184,21 @@ Click button to START!</source>
     </message>
     <message>
         <location filename="../vita.cc" line="439"/>
-        <source>Connected to PS Vita [%1], Waiting for account ID</source>
-        <translation>PS Vita [%1] подключена. Ожидание AID</translation>
+        <location filename="../vita.cc" line="441"/>
+        <source>Connected to PS Vita</source>
+        <translation>PS Vita подключена</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="441"/>
-        <source>Connected to PS Vita [%1] (%2)</source>
-        <translation>PS Vita [%1] (%2) подключена</translation>
+        <location filename="../vita.cc" line="439"/>
+        <source>Waiting for account ID</source>
+        <translation>Ожидание AID</translation>
     </message>
 </context>
 <context>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="246"/>
+        <location filename="../finalhe.cc" line="287"/>
         <source>English</source>
         <translation>Русский</translation>
     </message>

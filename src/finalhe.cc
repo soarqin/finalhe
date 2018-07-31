@@ -196,7 +196,7 @@ bool FinalHE::checkFwUpdate() {
             }
         }
         ui.textPkg->setText(tr("Fimrware version is not supported by h-encore.") + "\n"
-            + tr("Update to %2 first.").arg("3.68") + "\n"
+            + tr("Update to %1 first.").arg("3.68") + "\n"
             + (vita->has368Update()
             ? tr("On PS Vita:\nSettings -> System Update -> Update by Connecting to a PC")
             : tr("To update through USB:\nPut Update Package(.PUP) in this tool's folder and restart the tool")));

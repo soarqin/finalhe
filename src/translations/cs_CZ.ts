@@ -43,14 +43,40 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="184"/>
+        <location filename="../finalhe.cc" line="173"/>
+        <location filename="../finalhe.cc" line="198"/>
+        <source>Fimrware version is not supported by h-encore.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="174"/>
+        <location filename="../finalhe.cc" line="199"/>
+        <source>Update to %1 first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="177"/>
+        <location filename="../finalhe.cc" line="202"/>
+        <source>To update through USB:
+Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="176"/>
+        <location filename="../finalhe.cc" line="201"/>
+        <source>On PS Vita:
+Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="225"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>Registruji zařízení: %1
 Zadejte na Vaší Vitě následující PIN: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="188"/>
+        <location filename="../finalhe.cc" line="229"/>
         <source>Registered device.</source>
         <translation>Zařízení zaregistrované.</translation>
     </message>
@@ -163,20 +189,21 @@ Prosím, zkontrolujte připojení k síťi!</translation>
     </message>
     <message>
         <location filename="../vita.cc" line="439"/>
-        <source>Connected to PS Vita [%1], Waiting for account ID</source>
-        <translation>Připojeno k PS Vitě [%1], čekám na ID účtu</translation>
+        <location filename="../vita.cc" line="441"/>
+        <source>Connected to PS Vita</source>
+        <translation>Připojeno k PS Vitě</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="441"/>
-        <source>Connected to PS Vita [%1] (%2)</source>
-        <translation>Připojeno k PS Vitě [%1] (%2)</translation>
+        <location filename="../vita.cc" line="439"/>
+        <source>Waiting for account ID</source>
+        <translation>čekám na ID účtu</translation>
     </message>
 </context>
 <context>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="246"/>
+        <location filename="../finalhe.cc" line="287"/>
         <source>English</source>
         <translation>Anglicky</translation>
     </message>

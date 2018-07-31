@@ -43,14 +43,41 @@
         <translation>-- 額外應用程式 --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="184"/>
+        <location filename="../finalhe.cc" line="173"/>
+        <location filename="../finalhe.cc" line="198"/>
+        <source>Fimrware version is not supported by h-encore.</source>
+        <translation>h-encore無法支援的韌體版本</translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="174"/>
+        <location filename="../finalhe.cc" line="199"/>
+        <source>Update to %1 first.</source>
+        <translation>請先更新到%1</translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="177"/>
+        <location filename="../finalhe.cc" line="202"/>
+        <source>To update through USB:
+Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
+        <translation>要通過USB連結更新:
+將更新檔案(.PUP)放於本軟體所在資料夾内后重開軟體</translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="176"/>
+        <location filename="../finalhe.cc" line="201"/>
+        <source>On PS Vita:
+Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
+        <translation>設定 -&gt; 系統更新 -&gt; 連接至個人電腦更新</translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="225"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>正在登記裝置: %1
 請在PSVita上輸入PIN: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="188"/>
+        <location filename="../finalhe.cc" line="229"/>
         <source>Registered device.</source>
         <translation>裝置登記成功</translation>
     </message>
@@ -162,20 +189,29 @@ Please check your network connection!</source>
     </message>
     <message>
         <location filename="../vita.cc" line="439"/>
-        <source>Connected to PS Vita [%1], Waiting for account ID</source>
-        <translation>已經連接到PSV [%1], 等待用戶ID</translation>
+        <location filename="../vita.cc" line="441"/>
+        <source>Connected to PS Vita</source>
+        <translation>已經連接到PSV [%1]</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="441"/>
+        <location filename="../vita.cc" line="439"/>
+        <source>Waiting for account ID</source>
+        <translation>等待用戶ID</translation>
+    </message>
+    <message>
+        <source>Connected to PS Vita [%1], Waiting for account ID</source>
+        <translation type="vanished">已經連接到PSV [%1], 等待用戶ID</translation>
+    </message>
+    <message>
         <source>Connected to PS Vita [%1] (%2)</source>
-        <translation>已經連接到PSV [%1] (%2)</translation>
+        <translation type="vanished">已經連接到PSV [%1] (%2)</translation>
     </message>
 </context>
 <context>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="246"/>
+        <location filename="../finalhe.cc" line="287"/>
         <source>English</source>
         <translation>英文</translation>
     </message>
