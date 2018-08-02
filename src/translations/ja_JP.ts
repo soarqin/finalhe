@@ -134,7 +134,7 @@ PSVitaにPINコードを入力して下さい: %2</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../package.cc" line="411"/>
+        <location filename="../package.cc" line="409"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -147,20 +147,20 @@ PSVitaにPINコードを入力して下さい: %2</translation>
 4. PSVitaで &quot;h-encore&quot;を起動して完了</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="401"/>
+        <location filename="../package.cc" line="399"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
         <translation>cma.henkaku.xyzからバックアップキーを取得中</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="403"/>
-        <location filename="../package.cc" line="516"/>
+        <location filename="../package.cc" line="401"/>
+        <location filename="../package.cc" line="514"/>
         <source>Fetched backup key.
 Click button to START!</source>
         <translation>バックアップキーの取得が完了しました
 スタートをクリックして開始して下さい</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="447"/>
+        <location filename="../package.cc" line="445"/>
         <source>Trimming package</source>
         <translation>容量を削減中</translation>
     </message>
@@ -170,12 +170,12 @@ Click button to START!</source>
         <translation>PCとUSB接続したPSVitaでコンテンツ管理を実行して下さい</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="482"/>
+        <location filename="../package.cc" line="480"/>
         <source>Createing psvimg&apos;s</source>
         <translation>psvimgを作成中</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="513"/>
+        <location filename="../package.cc" line="511"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
         <translation>AIDからバックアップキーを取得できません。ネットワーク接続を確認して下さい</translation>

@@ -132,7 +132,7 @@ Zadejte na Vaší Vitě následující PIN: %2</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../package.cc" line="411"/>
+        <location filename="../package.cc" line="409"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -145,20 +145,20 @@ Zadejte na Vaší Vitě následující PIN: %2</translation>
 4. Spusťte &quot;h-encore&quot; a... hurá, je hotovo!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="401"/>
+        <location filename="../package.cc" line="399"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
         <translation>Načítám záložní klíč z cma.henkaku.xyz</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="403"/>
-        <location filename="../package.cc" line="516"/>
+        <location filename="../package.cc" line="401"/>
+        <location filename="../package.cc" line="514"/>
         <source>Fetched backup key.
 Click button to START!</source>
         <translation>Záložní klíč načten.
 Stiskněte tlačítko pro START!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="447"/>
+        <location filename="../package.cc" line="445"/>
         <source>Trimming package</source>
         <translation>Zmenšuji balíček</translation>
     </message>
@@ -168,12 +168,12 @@ Stiskněte tlačítko pro START!</translation>
         <translation>Spusťte na Vaší Vitě &quot;Content Manager&quot; a připojte Vitu k počítači.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="482"/>
+        <location filename="../package.cc" line="480"/>
         <source>Createing psvimg&apos;s</source>
         <translation>Vytvářím psvimg</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="513"/>
+        <location filename="../package.cc" line="511"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
         <translation>Nepodařilo se získat záložní klíč z vašeho AID.

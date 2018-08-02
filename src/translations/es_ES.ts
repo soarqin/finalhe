@@ -134,7 +134,7 @@ Inserte este PIN en su PS Vita: %2</translation>
         <translation type="unfinished">¡No coincide el sha256sum! Por favor, compruebe su conexión a internet.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="411"/>
+        <location filename="../package.cc" line="409"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -147,20 +147,20 @@ Inserte este PIN en su PS Vita: %2</translation>
 4. Ejecuta &quot;h-encore&quot; y... Sí, ¡eso es todo!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="401"/>
+        <location filename="../package.cc" line="399"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
         <translation>Recuperando clave de copia de seguridad de cma.henkaku.xyz</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="403"/>
-        <location filename="../package.cc" line="516"/>
+        <location filename="../package.cc" line="401"/>
+        <location filename="../package.cc" line="514"/>
         <source>Fetched backup key.
 Click button to START!</source>
         <translation>Recuperada clave de copia de seguridad.
 ¡Pulsa el botón para EMPEZAR!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="447"/>
+        <location filename="../package.cc" line="445"/>
         <source>Trimming package</source>
         <translation>Reduciendo el tamaño del paquete</translation>
     </message>
@@ -170,12 +170,12 @@ Click button to START!</source>
         <translation>Usa el Gestor de Contenido en tu PS Vita y conéctala al PC.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="482"/>
+        <location filename="../package.cc" line="480"/>
         <source>Createing psvimg&apos;s</source>
         <translation>Creando el archivo psvimg</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="513"/>
+        <location filename="../package.cc" line="511"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
         <translation>No se pudo obtener la clave de tu copia de seguridad de tu AID.

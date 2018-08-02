@@ -132,12 +132,12 @@ Input this PIN on PS Vita: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../package.cc" line="401"/>
+        <location filename="../package.cc" line="399"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../package.cc" line="411"/>
+        <location filename="../package.cc" line="409"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -146,24 +146,24 @@ Input this PIN on PS Vita: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../package.cc" line="447"/>
+        <location filename="../package.cc" line="445"/>
         <source>Trimming package</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../package.cc" line="482"/>
+        <location filename="../package.cc" line="480"/>
         <source>Createing psvimg&apos;s</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../package.cc" line="513"/>
+        <location filename="../package.cc" line="511"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../package.cc" line="403"/>
-        <location filename="../package.cc" line="516"/>
+        <location filename="../package.cc" line="401"/>
+        <location filename="../package.cc" line="514"/>
         <source>Fetched backup key.
 Click button to START!</source>
         <translation type="unfinished"></translation>

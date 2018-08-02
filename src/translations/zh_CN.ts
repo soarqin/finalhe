@@ -24,10 +24,6 @@
         <translation>错误</translation>
     </message>
     <message>
-        <source>You don&apos;t have write permission to this folder! Exit now.</source>
-        <translation type="vanished">没有目录写入权限，关闭工具中 </translation>
-    </message>
-    <message>
         <location filename="../finalhe.cc" line="143"/>
         <source>Firmware %1</source>
         <translation>固件 %1</translation>
@@ -133,7 +129,7 @@ Input this PIN on PS Vita: %2</source>
         <translation>sha256sum不匹配！请检查网络状态</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="411"/>
+        <location filename="../package.cc" line="409"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -146,20 +142,20 @@ Input this PIN on PS Vita: %2</source>
 4. 在PSV上运行 &quot;h-encore&quot;，大功告成！</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="401"/>
+        <location filename="../package.cc" line="399"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
         <translation>正在从cma.henkaku.xyz获得备份密钥</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="403"/>
-        <location filename="../package.cc" line="516"/>
+        <location filename="../package.cc" line="401"/>
+        <location filename="../package.cc" line="514"/>
         <source>Fetched backup key.
 Click button to START!</source>
         <translation>已获得备份密钥
 现在点击按钮开始！</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="447"/>
+        <location filename="../package.cc" line="445"/>
         <source>Trimming package</source>
         <translation>正在瘦身</translation>
     </message>
@@ -169,12 +165,12 @@ Click button to START!</source>
         <translation>在PSV上运行内容管理器并连接到计算机</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="482"/>
+        <location filename="../package.cc" line="480"/>
         <source>Createing psvimg&apos;s</source>
         <translation>正在创建psvimg</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="513"/>
+        <location filename="../package.cc" line="511"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
         <translation>无法从用户ID获取备份密钥，请检查计算机的网络连接</translation>
@@ -191,20 +187,12 @@ Please check your network connection!</source>
         <location filename="../vita.cc" line="441"/>
         <location filename="../vita.cc" line="443"/>
         <source>Connected to PS Vita</source>
-        <translation>已经连接到PSV [%1]</translation>
+        <translation>已经连接到PSV</translation>
     </message>
     <message>
         <location filename="../vita.cc" line="441"/>
         <source>Waiting for account ID</source>
         <translation>等待用户ID</translation>
-    </message>
-    <message>
-        <source>Connected to PS Vita [%1], Waiting for account ID</source>
-        <translation type="vanished">已经连接到PSV [%1], 等待用户ID</translation>
-    </message>
-    <message>
-        <source>Connected to PS Vita [%1] (%2)</source>
-        <translation type="vanished">已经连接到PSV [%1] (%2)</translation>
     </message>
 </context>
 <context>
