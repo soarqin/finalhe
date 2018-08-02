@@ -1,6 +1,7 @@
 * Translations
     * Chinese: [Soar Qin](https://github.com/soarqin)
     * Czech: [spenaat](https://github.com/spenaat)
+    * German: [Philipp](https://github.com/pseiler)
     * Italian: [theheroGAC](https://github.com/theheroGAC)
     * Japanese: [Hack-Usagi](https://github.com/Hack-Usagi)
     * Russian: [M2l2koPOWER](https://github.com/M2l2koPOWER)
