@@ -6,43 +6,43 @@
     <message>
         <location filename="../finalhe.cc" line="143"/>
         <source>Firmware %1</source>
-        <translation type="unfinished">Системное ПО %1</translation>
+        <translation>Системное ПО %1</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="146"/>
         <source>-- Firmware update --</source>
-        <translation type="unfinished">-- Обновление ПО --</translation>
+        <translation>-- Обновление ПО --</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="162"/>
         <source>-- Additional applications --</source>
-        <translation type="unfinished">-- Дополнительные приложения --</translation>
+        <translation>-- Дополнительные приложения --</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="191"/>
         <location filename="../finalhe.cc" line="216"/>
         <source>Fimrware version is not supported by h-encore.</source>
-        <translation type="unfinished">Версия ПО не поддерживается</translation>
+        <translation>Версия ПО не поддерживается</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="192"/>
         <location filename="../finalhe.cc" line="217"/>
         <source>Update to %1 first.</source>
-        <translation type="unfinished">Сначала обновите ПО до %1</translation>
+        <translation>Сначала обновите ПО до %1</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="195"/>
         <location filename="../finalhe.cc" line="220"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
-        <translation type="unfinished">Поместите пакет обновления (.PUP) в папку этой программы и перезапустите finalhe</translation>
+        <translation>Поместите пакет обновления (.PUP) в папку этой программы и перезапустите finalhe</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="194"/>
         <location filename="../finalhe.cc" line="219"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
-        <translation type="unfinished">На PS Vita:
+        <translation>На PS Vita:
 Настройки -&gt; Обновление системы -&gt; Обновить путем подключения к компьютеру</translation>
     </message>
     <message>
@@ -201,12 +201,12 @@ Click button to START!</source>
         <location filename="../finalhe.cc" line="63"/>
         <location filename="../finalhe.cc" line="310"/>
         <source>English</source>
-        <translation>Русский</translation>
+        <translation>English</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="76"/>
         <source>LANGUAGE</source>
-        <translation>Язык</translation>
+        <translation>Русский</translation>
     </message>
 </context>
 </TS>
