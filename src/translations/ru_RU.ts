@@ -6,55 +6,56 @@
     <message>
         <location filename="../finalhe.cc" line="143"/>
         <source>Firmware %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Системное ПО %1</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="146"/>
         <source>-- Firmware update --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Обновление ПО --</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="162"/>
         <source>-- Additional applications --</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">-- Дополнительные приложения --</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="191"/>
         <location filename="../finalhe.cc" line="216"/>
         <source>Fimrware version is not supported by h-encore.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Версия ПО не поддерживается</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="192"/>
         <location filename="../finalhe.cc" line="217"/>
         <source>Update to %1 first.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Сначала обновите ПО до %1</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="195"/>
         <location filename="../finalhe.cc" line="220"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Поместите пакет обновления (.PUP) в папку этой программы и перезапустите finalhe</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="194"/>
         <location filename="../finalhe.cc" line="219"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">На PS Vita:
+Настройки -&gt; Обновление системы -&gt; Обновить путем подключения к компьютеру</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="244"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>Регистрация устройства: %1
-        	Напишите этот PIN-код на PS Vita</translation>
+        	Введите этот PIN-код на PS Vita: %2</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="248"/>
         <source>Registered device.</source>
-        <translation>Зарегестрированный девайс</translation>
+        <translation>Устройство зарегистрировано</translation>
     </message>
     <message>
         <location filename="../main.cc" line="93"/>
@@ -64,7 +65,7 @@ Input this PIN on PS Vita: %2</source>
     <message>
         <location filename="../main.cc" line="93"/>
         <source>Qcma is running, force close it now?</source>
-        <translation>QCMA в данный момент запущен, закрыть ли его принудительно?</translation>
+        <translation>QCMA в данный момент запущен, закрыть его принудительно?</translation>
     </message>
     <message>
         <location filename="../main.cc" line="97"/>
@@ -74,7 +75,7 @@ Input this PIN on PS Vita: %2</source>
     <message>
         <location filename="../main.cc" line="97"/>
         <source>Unable to close Qcma, please close it manually and then restart this tool.</source>
-        <translation>Невозможно закрыть QCMA, закройте его вручную и начните процесс заново.</translation>
+        <translation>Невозможно закрыть QCMA, закройте его вручную и перезапустите finalhe.</translation>
     </message>
 </context>
 <context>
@@ -87,7 +88,7 @@ Input this PIN on PS Vita: %2</source>
     <message>
         <location filename="../finalhe.ui" line="122"/>
         <source>Trim h-encore to ~13MB</source>
-        <translation>Обрезать пузырь h-encore до ~13МБ</translation>
+        <translation>Обрезать h-encore до ~13МБ</translation>
     </message>
 </context>
 <context>
@@ -130,7 +131,7 @@ Input this PIN on PS Vita: %2</source>
     <message>
         <location filename="../package.cc" line="325"/>
         <source>sha256sum mismatch! Please check your network.</source>
-        <translation>sha256sum несоответствует. Проверьте подключение к интернету.</translation>
+        <translation>Несовпадение sha256sum! Проверьте подключение к интернету.</translation>
     </message>
     <message>
         <location filename="../package.cc" line="399"/>
@@ -153,7 +154,7 @@ Input this PIN on PS Vita: %2</source>
     <message>
         <location filename="../package.cc" line="445"/>
         <source>Trimming package</source>
-        <translation>Обрезается пузырь</translation>
+        <translation>Обрезается h-encore</translation>
     </message>
     <message>
         <location filename="../package.cc" line="480"/>
@@ -172,7 +173,7 @@ Please check your network connection!</source>
         <source>Fetched backup key.
 Click button to START!</source>
         <translation>Ключ получен
-        	нажмите Начать</translation>
+        	нажмите Начать!</translation>
     </message>
 </context>
 <context>
@@ -180,7 +181,7 @@ Click button to START!</source>
     <message>
         <location filename="../vita.cc" line="438"/>
         <source>Waiting for connection to PS Vita...</source>
-        <translation>Ожидание подключения к PS Vita</translation>
+        <translation>Ожидание подключения к PS Vita...</translation>
     </message>
     <message>
         <location filename="../vita.cc" line="441"/>
