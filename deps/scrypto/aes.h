@@ -23,6 +23,9 @@ int aes_init_dec(aes_context* ctx, const uint8_t* key, int bits);
 void aes_ecb_encrypt(const aes_context* ctx, const uint8_t* input, uint8_t* output);
 void aes_ecb_decrypt(const aes_context* ctx, const uint8_t* input, uint8_t* output);
 
+int aes_cbc_encrypt(const aes_context* ctx, uint8_t iv[16], const uint8_t* input, size_t length, uint8_t* output);
+int aes_cbc_decrypt(const aes_context* ctx, uint8_t iv[16], const uint8_t* input, size_t length, uint8_t* output);
+
 void aes_ctr_xor(const aes_context* ctx, const uint8_t* iv, uint64_t block, uint8_t* buffer, size_t size);
 
 void aes_cmac(const uint8_t* key, const uint8_t* buffer, uint32_t size, uint8_t* mac);

@@ -29,13 +29,6 @@ typedef int ssize_t;
 #endif /* _SSIZE_T_DEFINED */
 #endif /* _MSC_VER */
 
-#ifndef O_BINARY
-#define O_BINARY 0
-#endif
-
-ssize_t read_block(int fd, void *buf, size_t nbyte);
-ssize_t write_block(int fd, const void *buf, size_t nbyte);
-ssize_t copy_block(int fd_out, int fd_in, size_t nbyte);
 int parse_key(const char *ascii, uint8_t key[0x20]);
 
 #endif

@@ -6,6 +6,8 @@
 #ifndef BACKUP_H__
 #define BACKUP_H__
 
+#include <stdint.h>
+
 typedef struct args {
   int in;
   int out;
@@ -16,7 +18,9 @@ typedef struct args {
 } args_t;
 
 void *encrypt_thread(void *pargs);
-void *compress_thread(void *pargs);
 void *pack_thread(void *pargs);
+
+int compress_and_encrypt(const char* output, const uint8_t* data, size_t data_size, uint8_t iv[16], uint8_t key[32]);
+int pack_and_encrypt(const char* output, uint64_t* content_size, const char* prefix, uint8_t iv[16], uint8_t key[32]);
 
 #endif

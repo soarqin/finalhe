@@ -425,6 +425,47 @@ void aes_ecb_decrypt(const aes_context* ctx, const uint8_t* input, uint8_t* outp
     aes_decrypt(ctx, input, output);
 }
 
+int aes_cbc_encrypt(const aes_context* ctx, uint8_t iv[16], const uint8_t* input, size_t length, uint8_t* output) {
+    int i;
+
+    if (length % 16)
+        return -1;
+    while (length > 0) {
+        for (i = 0; i < 16; i++)
+            output[i] = (unsigned char)(input[i] ^ iv[i]);
+
+        aes_ecb_encrypt(ctx, output, output);
+        memcpy(iv, output, 16);
+
+        input += 16;
+        output += 16;
+        length -= 16;
+    }
+    return 0;
+}
+
+int aes_cbc_decrypt(const aes_context* ctx, uint8_t iv[16], const uint8_t* input, size_t length, uint8_t* output) {
+    int i;
+    unsigned char temp[16];
+
+    if (length % 16)
+        return -1;
+    while (length > 0) {
+        memcpy(temp, input, 16);
+        aes_ecb_decrypt(ctx, input, output);
+
+        for (i = 0; i < 16; i++)
+            output[i] = (unsigned char)(output[i] ^ iv[i]);
+
+        memcpy(iv, temp, 16);
+
+        input += 16;
+        output += 16;
+        length -= 16;
+    }
+    return 0;
+}
+
 static inline void ctr_add(uint8_t* counter, uint64_t n)
 {
     for (int i=15; i>=0; i--)
