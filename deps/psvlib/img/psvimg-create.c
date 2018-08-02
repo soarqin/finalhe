@@ -46,7 +46,7 @@ int psvimg_create(const char *inputdir, const char *outputdir, const char *key, 
     PsvMd_t md;
     uint64_t content_size;
 
-    // TODO: support more types
+    srand((uint32_t)time(NULL));
     if (is_meta) {
         mfd = fopen(meta_name, "rb");
         if (mfd == NULL) {
@@ -75,9 +75,8 @@ int psvimg_create(const char *inputdir, const char *outputdir, const char *key, 
         md.type = 2;
         md.version = 2;
         md.add_data = 1;
-        srand((uint32_t)time(NULL));
         for (int i = 0; i < sizeof(md.iv); i++) {
-            md.iv[i] = (uint8_t)i;//rand() % 0xFF;
+            md.iv[i] = rand() % 0xFF;
         }
     }
 
@@ -103,7 +102,7 @@ int psvimg_create(const char *inputdir, const char *outputdir, const char *key, 
     snprintf(path, sizeof(path), "%s/%s.psvmd", outputdir, md.name);
 
     for (int i = 0; i < sizeof(md.iv); i++) {
-        iv[i] = (uint8_t)i; // rand() % 0xFF;
+        iv[i] = rand() % 0xFF;
     }
 
     compress_and_encrypt(path, (const uint8_t*)&md, sizeof(md), iv, keys);
