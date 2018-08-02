@@ -201,7 +201,7 @@ Click button to START!</source>
         <location filename="../finalhe.cc" line="63"/>
         <location filename="../finalhe.cc" line="310"/>
         <source>English</source>
-        <translation>English</translation>
+        <translation>Английский</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="76"/>
