@@ -138,7 +138,7 @@ void VitaMTP_hex_dump(const unsigned char *data, unsigned int size, unsigned int
 #define PTPIP_VERSION_MAJOR 0x0001
 #define PTPIP_VERSION_MINOR 0x0000
 
-#include "byteorder.h"
+#include "endian-utils.h"
 #include "ptp-pack.c"
 
 #define ptpip_len       0

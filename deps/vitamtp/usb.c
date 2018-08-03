@@ -24,7 +24,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "byteorder.h"
+#include "endian-utils.h"
 #include "ptp.h"
 #include "vitamtp.h"
 

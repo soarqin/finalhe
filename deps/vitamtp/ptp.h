@@ -28,7 +28,7 @@
 #ifdef HAVE_ICONV
 #include <iconv.h>
 #endif
-#include "byteorder.h"
+#include "endian-utils.h"
 #include "device-flags.h"
 
 #ifdef __cplusplus

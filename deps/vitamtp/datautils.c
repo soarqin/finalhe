@@ -33,7 +33,7 @@
 #include "asprintf.h"
 #endif
 
-#include "byteorder.h"
+#include "endian-utils.h"
 
 extern int g_VitaMTP_logmask;
 
