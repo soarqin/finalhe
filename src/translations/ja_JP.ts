@@ -131,7 +131,7 @@ PSVitaにPINコードを入力して下さい: %2</translation>
     <message>
         <location filename="../package.cc" line="325"/>
         <source>sha256sum mismatch! Please check your network.</source>
-        <translation type="unfinished"></translation>
+        <translation>sha256sum 一致しません ネットワークを確認して下さい</translation>
     </message>
     <message>
         <location filename="../package.cc" line="409"/>
