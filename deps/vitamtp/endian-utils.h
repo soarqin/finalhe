@@ -89,9 +89,9 @@
 #define HTOLE16(x) (x) = htole16(x)
 #define HTOLE32(x) (x) = htole32(x)
 #define HTOLE64(x) (x) = htole64(x)
-#define LE16TOH(x) (x) = letoh16(x)
-#define LE32TOH(x) (x) = letoh32(x)
-#define LE64TOH(x) (x) = letoh64(x)
+#define LE16TOH(x) (x) = le16toh(x)
+#define LE32TOH(x) (x) = le32toh(x)
+#define LE64TOH(x) (x) = le64toh(x)
 
 /* Here are some macros to create integers from a byte array */
 /* These are used to get and put integers from/into a uint8_t array */
