@@ -50,7 +50,7 @@ static uint32_t zlib_inflate(const uint8_t* in, uint32_t inlen, uint8_t* out, ui
     d_stream.zfree = (voidpf)0;
     d_stream.opaque = (voidpf)0;
 
-    d_stream.next_in = (z_const Bytef*)in;
+    d_stream.next_in = (const Bytef*)in;
     d_stream.avail_in = (uInt)inlen;
 
     err = inflateInit(&d_stream);
