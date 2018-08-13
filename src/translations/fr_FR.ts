@@ -80,12 +80,12 @@ Mettre ce PIN dans la PS Vita: %2</source>
     <name>FinalHEClass</name>
     <message>
         <location filename="../finalhe.ui" line="103"/>
-        <source> Va&apos;s Y! </source>
+        <source> Allons&apos;-Y! </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../finalhe.ui" line="122"/>
-        <source> Reduction de  h-encore à environs ~13MB</source>
+        <source> Reduction de h-encore à environs ~13MB</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
