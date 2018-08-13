@@ -41,7 +41,7 @@ Paramètres -&gt; Mise à jour système -&gt; mettre à jour connexion au PC</so
         <location filename="../finalhe.cc" line="195"/>
         <location filename="../finalhe.cc" line="220"/>
         <source>Pour mettre a jour via  USB:
-Mettre le fichier de mise à jour (.PUP) dans le dossier de cet applications &apos;s et redémarrer la</source>
+Mettre le fichier de mise à jour (.PUP) dans le dossier de cet applications &apos;et redémarrer la</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
