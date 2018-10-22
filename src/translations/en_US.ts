@@ -21,7 +21,7 @@
     <message>
         <location filename="../finalhe.cc" line="191"/>
         <location filename="../finalhe.cc" line="216"/>
-        <source>Fimrware version is not supported by h-encore.</source>
+        <source>Firmware version is not supported by h-encore.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
