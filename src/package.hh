@@ -40,6 +40,7 @@ public:
     void tips();
     inline const QMap<QString, AppInfo> &getExtraApps() { return extraApps; }
     void selectExtraApp(const QString &titleId, bool select);
+    void calcBackupKey(const QString &aid);
 
 signals:
     void startDownload();
@@ -64,7 +65,6 @@ private:
     bool checkValidAppZip(const QString &filepath, QString &titleId, QString &name);
 
 public slots:
-    void getBackupKey(const QString &aid);
     void finishBuildData();
 
 private slots:
@@ -75,7 +75,6 @@ private slots:
     void createPsvImgs(QString);
     void downloadProg(uint64_t, uint64_t);
     void downloadFinished(QFile*);
-    void fetchFinished(void*);
 
 private:
     bool trimApp = false;

@@ -96,10 +96,12 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
     connect(ui.checkTrim, SIGNAL(stateChanged(int)), this, SLOT(trimState(int)));
     connect(ui.expandButton, SIGNAL(clicked()), this, SLOT(toggleExpanding()));
     connect(ui.extraItems, SIGNAL(itemClicked(QListWidgetItem*)), this, SLOT(extraItemsChanged(QListWidgetItem*)));
-    connect(vita, &VitaConn::gotAccountId, this, [this](QString accountId) { pkg->getBackupKey(accountId); });
+    connect(vita, &VitaConn::gotAccountId, this, [this](QString accountId) {
+        pkg->calcBackupKey(accountId);
+        enableStart();
+    });
     connect(vita, SIGNAL(receivedPin(QString, int)), this, SLOT(displayPin(QString, int)));
     connect(vita, SIGNAL(completedPin()), this, SLOT(clearPin()));
-    connect(pkg, SIGNAL(gotBackupKey()), this, SLOT(enableStart()));
     connect(pkg, SIGNAL(createdPsvImgs()), vita, SLOT(buildData()));
     connect(vita, SIGNAL(builtData()), pkg, SLOT(finishBuildData()));
 
@@ -226,8 +228,10 @@ bool FinalHE::checkFwUpdate() {
 }
 
 void FinalHE::enableStart() {
-    if (checkFwUpdate())
+    if (checkFwUpdate()) {
+        ui.textPkg->setText(tr("Click button to START!"));
         ui.btnStart->setEnabled(true);
+    }
 }
 
 void FinalHE::trimState(int state) {

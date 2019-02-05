@@ -1,6 +1,5 @@
 TEMPLATE = subdirs
 SUBDIRS = miniz scrypto vitamtp psvimg pkg FinalHE
-
 miniz.subdir = deps/miniz
 scrypto.subdir = deps/scrypto
 vitamtp.subdir = deps/vitamtp

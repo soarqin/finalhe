@@ -4,75 +4,80 @@
 <context>
     <name>FinalHE</name>
     <message>
-        <location filename="../finalhe.cc" line="143"/>
+        <location filename="../finalhe.cc" line="147"/>
         <source>Firmware %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="146"/>
-        <source>-- Mise à jour Firmware --</source>
+        <location filename="../finalhe.cc" line="150"/>
+        <source>-- Firmware update --</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="162"/>
-        <source>-- Applications Additionelles --</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../finalhe.cc" line="191"/>
-        <location filename="../finalhe.cc" line="216"/>
-        <source>La version du Fimrware n'est pas supporté par h-encore.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../finalhe.cc" line="192"/>
-        <location filename="../finalhe.cc" line="217"/>
-        <source>Mettre à jour vers %1 d’abord.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../finalhe.cc" line="194"/>
-        <location filename="../finalhe.cc" line="219"/>
-        <source>Sur La PS Vita:
-Paramètres -&gt; Mise à jour système -&gt; mettre à jour connexion au PC</source>
+        <location filename="../finalhe.cc" line="166"/>
+        <source>-- Additional applications --</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="195"/>
         <location filename="../finalhe.cc" line="220"/>
-        <source>Pour mettre a jour via  USB:
-Mettre le fichier de mise à jour (.PUP) dans le dossier de cet applications &apos;et redémarrer la</source>
+        <source>Fimrware version is not supported by h-encore.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="244"/>
-        <source>Registrement de l’appareil: %1
-Mettre ce PIN dans la PS Vita: %2</source>
+        <location filename="../finalhe.cc" line="196"/>
+        <location filename="../finalhe.cc" line="221"/>
+        <source>Update to %1 first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="248"/>
-        <source>Appareil enregistré.</source>
+        <location filename="../finalhe.cc" line="198"/>
+        <location filename="../finalhe.cc" line="223"/>
+        <source>On PS Vita:
+Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="199"/>
+        <location filename="../finalhe.cc" line="224"/>
+        <source>To update through USB:
+Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="232"/>
+        <source>Click button to START!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="250"/>
+        <source>Registering device: %1
+Input this PIN on PS Vita: %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="254"/>
+        <source>Registered device.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../main.cc" line="93"/>
-        <source>AVERTISSEMENT</source>
+        <source>WARNING</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../main.cc" line="93"/>
-        <source>Qcma est en cours d’exécution , forcer la fermeture maintenant?</source>
+        <source>Qcma is running, force close it now?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../main.cc" line="97"/>
-        <source>ERREUR</source>
+        <source>ERROR</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../main.cc" line="97"/>
-        <source>fermeture de Qcma impossible, veuillez le fermer manuellement et redémarrer cette application.</source>
+        <source>Unable to close Qcma, please close it manually and then restart this tool.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -80,92 +85,74 @@ Mettre ce PIN dans la PS Vita: %2</source>
     <name>FinalHEClass</name>
     <message>
         <location filename="../finalhe.ui" line="103"/>
-        <source> Allons&apos;-Y! </source>
+        <source> Let&apos;s GO! </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../finalhe.ui" line="122"/>
-        <source> Reduction de h-encore à environs ~13MB</source>
+        <source>Trim h-encore to ~13MB</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>Paquet</name>
+    <name>Package</name>
     <message>
         <location filename="../package.cc" line="58"/>
-        <source>Lancer le gestionnaire de contenu sur la PS Vita et connecter là au PC.</source>
+        <source>Launch Content Manager on PS Vita and connect to computer.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../package.cc" line="122"/>
-        <source>Téléchargement %1</source>
+        <source>Downloading %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../package.cc" line="143"/>
-        <source>Dépaquetage %1</source>
+        <source>Unpacking %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../package.cc" line="157"/>
-        <source>Échec du dépaquetage %1</source>
+        <source>Failed to unpack %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../package.cc" line="186"/>
-        <source>Décompression %1</source>
+        <source>Decompressing %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../package.cc" line="206"/>
-        <source>Échec de la décompression %1</source>
+        <source>Failed to decompress %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../package.cc" line="296"/>
-        <source>Vérification %1</source>
+        <source>Verifying %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../package.cc" line="325"/>
-        <source>sha256sum incorrect! S'il vous plaît vérifier votre réseau.</source>
+        <source>sha256sum mismatch! Please check your network.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../package.cc" line="399"/>
-        <source>Récupération de la clé de sauvegarde depuis cma.henkaku.xyz</source>
+        <location filename="../package.cc" line="415"/>
+        <source>Everything is ready, now follow below steps on your PS Vita:
+1. Launch Content Manager and connect to your computer.
+2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
+3. Transfer &quot;h-encore&quot; to your PS Vita.
+4. Run &quot;h-encore&quot; and... Yay, that&apos;s it!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../package.cc" line="409"/>
-        <source>Tout est prêt, suivez maintenant les étapes ci-dessous sur votre PS Vita:
-1. Lancez le gestionnaire de contenu et connectez-vous à votre ordinateur.
-2. Sélectionner &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
-3. Transférer &quot;h-encore&quot; à votre PS Vita.
-4. Exécuter &quot;h-encore&quot; et... Yay, C'est&apos;Bon!</source>
+        <location filename="../package.cc" line="451"/>
+        <source>Trimming package</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../package.cc" line="445"/>
-        <source>Réduction du paquet</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../package.cc" line="480"/>
-        <source>Création du psvimg&apos;s</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../package.cc" line="511"/>
-        <source>Impossible d'obtenir la clé de sauvegarde à partir de votre AID.
-Veuillez vérifier votre connexion réseau!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../package.cc" line="401"/>
-        <location filename="../package.cc" line="514"/>
-        <source>Extraction de la clé de sauvegarde .
-Appuyiez sur le bouton pour démarrer !</source>
+        <location filename="../package.cc" line="486"/>
+        <source>Createing psvimg&apos;s</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -173,18 +160,18 @@ Appuyiez sur le bouton pour démarrer !</source>
     <name>VitaConn</name>
     <message>
         <location filename="../vita.cc" line="438"/>
-        <source> Attente de la connexion à la PS Vita...</source>
+        <source>Waiting for connection to PS Vita...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../vita.cc" line="441"/>
         <location filename="../vita.cc" line="443"/>
-        <source>Connecté à la PS Vita</source>
+        <source>Connected to PS Vita</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../vita.cc" line="441"/>
-        <source>En Attente de l'ID du compte</source>
+        <source>Waiting for account ID</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -192,13 +179,13 @@ Appuyiez sur le bouton pour démarrer !</source>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="310"/>
-        <source>Français</source>
+        <location filename="../finalhe.cc" line="316"/>
+        <source>English</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="76"/>
-        <source>LANGAGUE</source>
+        <location filename="../finalhe.cc" line="78"/>
+        <source>LANGUAGE</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

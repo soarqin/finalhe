@@ -58,8 +58,10 @@ TRANSLATIONS += \
     translations/cs_CZ.ts \
     translations/de_DE.ts \
     translations/es_ES.ts \
+    translations/fr_FR.ts \
     translations/it_IT.ts \
     translations/ja_JP.ts \
+    translations/pt_BR.ts \
     translations/ru_RU.ts \
     translations/tr_TR.ts \
     translations/zh_CN.ts \

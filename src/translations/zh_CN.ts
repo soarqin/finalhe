@@ -24,56 +24,61 @@
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="143"/>
+        <location filename="../finalhe.cc" line="147"/>
         <source>Firmware %1</source>
         <translation>固件 %1</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="146"/>
+        <location filename="../finalhe.cc" line="150"/>
         <source>-- Firmware update --</source>
         <translation>-- 固件更新 --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="162"/>
+        <location filename="../finalhe.cc" line="166"/>
         <source>-- Additional applications --</source>
         <translation>-- 附加应用程序 --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="191"/>
-        <location filename="../finalhe.cc" line="216"/>
+        <location filename="../finalhe.cc" line="195"/>
+        <location filename="../finalhe.cc" line="220"/>
         <source>Fimrware version is not supported by h-encore.</source>
         <translation>h-encore不支持的固件版本</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="192"/>
-        <location filename="../finalhe.cc" line="217"/>
+        <location filename="../finalhe.cc" line="196"/>
+        <location filename="../finalhe.cc" line="221"/>
         <source>Update to %1 first.</source>
         <translation>请先更新到%1</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="195"/>
-        <location filename="../finalhe.cc" line="220"/>
+        <location filename="../finalhe.cc" line="199"/>
+        <location filename="../finalhe.cc" line="224"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
         <translation>要通过USB更新:
 将更新包(.PUP)放在本工具所在目录内后重启工具</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="194"/>
-        <location filename="../finalhe.cc" line="219"/>
+        <location filename="../finalhe.cc" line="198"/>
+        <location filename="../finalhe.cc" line="223"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
         <translation>设定 -&gt; 系统升级 -&gt; 连接至电脑进行升级</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="244"/>
+        <location filename="../finalhe.cc" line="232"/>
+        <source>Click button to START!</source>
+        <translation>现在点击按钮开始！</translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="250"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>正在注册设备: %1
 请在PSV上输入PIN: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="248"/>
+        <location filename="../finalhe.cc" line="254"/>
         <source>Registered device.</source>
         <translation>设备注册成功</translation>
     </message>
@@ -129,7 +134,7 @@ Input this PIN on PS Vita: %2</source>
         <translation>sha256sum不匹配！请检查网络状态</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="409"/>
+        <location filename="../package.cc" line="415"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -142,20 +147,17 @@ Input this PIN on PS Vita: %2</source>
 4. 在PSV上运行 &quot;h-encore&quot;，大功告成！</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="399"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
-        <translation>正在从cma.henkaku.xyz获得备份密钥</translation>
+        <translation type="vanished">正在从cma.henkaku.xyz获得备份密钥</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="401"/>
-        <location filename="../package.cc" line="514"/>
         <source>Fetched backup key.
 Click button to START!</source>
-        <translation>已获得备份密钥
+        <translation type="vanished">已获得备份密钥
 现在点击按钮开始！</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="445"/>
+        <location filename="../package.cc" line="451"/>
         <source>Trimming package</source>
         <translation>正在瘦身</translation>
     </message>
@@ -165,15 +167,14 @@ Click button to START!</source>
         <translation>在PSV上运行内容管理器并连接到计算机</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="480"/>
+        <location filename="../package.cc" line="486"/>
         <source>Createing psvimg&apos;s</source>
         <translation>正在创建psvimg</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="511"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
-        <translation>无法从用户ID获取备份密钥，请检查计算机的网络连接</translation>
+        <translation type="vanished">无法从用户ID获取备份密钥，请检查计算机的网络连接</translation>
     </message>
 </context>
 <context>
@@ -199,12 +200,12 @@ Please check your network connection!</source>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="310"/>
+        <location filename="../finalhe.cc" line="316"/>
         <source>English</source>
         <translation>英语</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="76"/>
+        <location filename="../finalhe.cc" line="78"/>
         <source>LANGUAGE</source>
         <translation>简体中文</translation>
     </message>

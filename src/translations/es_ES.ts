@@ -28,57 +28,62 @@
         <translation type="vanished">¡No tienes permiso de escritura en esta carpeta! Finalizando.</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="143"/>
+        <location filename="../finalhe.cc" line="147"/>
         <source>Firmware %1</source>
         <translation type="unfinished">Firmware %1</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="146"/>
+        <location filename="../finalhe.cc" line="150"/>
         <source>-- Firmware update --</source>
         <translation type="unfinished">-- Actualización de Firmware --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="162"/>
+        <location filename="../finalhe.cc" line="166"/>
         <source>-- Additional applications --</source>
         <translation type="unfinished">-- Aplicaciones adicionales --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="191"/>
-        <location filename="../finalhe.cc" line="216"/>
+        <location filename="../finalhe.cc" line="195"/>
+        <location filename="../finalhe.cc" line="220"/>
         <source>Fimrware version is not supported by h-encore.</source>
         <translation type="unfinished">Versión de firmware no soportada por h-encore.</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="192"/>
-        <location filename="../finalhe.cc" line="217"/>
+        <location filename="../finalhe.cc" line="196"/>
+        <location filename="../finalhe.cc" line="221"/>
         <source>Update to %1 first.</source>
         <translation type="unfinished">Primero, actualice %1.</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="195"/>
-        <location filename="../finalhe.cc" line="220"/>
+        <location filename="../finalhe.cc" line="199"/>
+        <location filename="../finalhe.cc" line="224"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
         <translation type="unfinished">Para actualizar por USB:
 Ponga el Paquete de Actualización (.PUP) en la carpeta de esta herramienta y reinicie esta aplicación.</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="194"/>
-        <location filename="../finalhe.cc" line="219"/>
+        <location filename="../finalhe.cc" line="198"/>
+        <location filename="../finalhe.cc" line="223"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
         <translation type="unfinished">En la PS Vita:
 Opciones -&gt; Actualización de Sistema -&gt; Actualizar Conectando al PC</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="244"/>
+        <location filename="../finalhe.cc" line="232"/>
+        <source>Click button to START!</source>
+        <translation>¡Pulsa el botón para EMPEZAR!</translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="250"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>Registrando dispositivo: %1
 Inserte este PIN en su PS Vita: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="248"/>
+        <location filename="../finalhe.cc" line="254"/>
         <source>Registered device.</source>
         <translation>Dispositivo registrado.</translation>
     </message>
@@ -134,7 +139,7 @@ Inserte este PIN en su PS Vita: %2</translation>
         <translation type="unfinished">¡No coincide el sha256sum! Por favor, compruebe su conexión a internet.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="409"/>
+        <location filename="../package.cc" line="415"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -147,20 +152,17 @@ Inserte este PIN en su PS Vita: %2</translation>
 4. Ejecuta &quot;h-encore&quot; y... Sí, ¡eso es todo!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="399"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
-        <translation>Recuperando clave de copia de seguridad de cma.henkaku.xyz</translation>
+        <translation type="vanished">Recuperando clave de copia de seguridad de cma.henkaku.xyz</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="401"/>
-        <location filename="../package.cc" line="514"/>
         <source>Fetched backup key.
 Click button to START!</source>
-        <translation>Recuperada clave de copia de seguridad.
+        <translation type="vanished">Recuperada clave de copia de seguridad.
 ¡Pulsa el botón para EMPEZAR!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="445"/>
+        <location filename="../package.cc" line="451"/>
         <source>Trimming package</source>
         <translation>Reduciendo el tamaño del paquete</translation>
     </message>
@@ -170,15 +172,14 @@ Click button to START!</source>
         <translation>Usa el Gestor de Contenido en tu PS Vita y conéctala al PC.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="480"/>
+        <location filename="../package.cc" line="486"/>
         <source>Createing psvimg&apos;s</source>
         <translation>Creando el archivo psvimg</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="511"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
-        <translation>No se pudo obtener la clave de tu copia de seguridad de tu AID.
+        <translation type="vanished">No se pudo obtener la clave de tu copia de seguridad de tu AID.
 ¡Por favor, compruebe su conexión a internet!</translation>
     </message>
 </context>
@@ -205,12 +206,12 @@ Please check your network connection!</source>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="310"/>
+        <location filename="../finalhe.cc" line="316"/>
         <source>English</source>
         <translation>Inglés</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="76"/>
+        <location filename="../finalhe.cc" line="78"/>
         <source>LANGUAGE</source>
         <translation>Español</translation>
     </message>

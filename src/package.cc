@@ -21,6 +21,7 @@
 #include "sforeader.hh"
 
 #include <sha256.h>
+#include <aes.h>
 #include <pkg.h>
 #include <psvimg-create.h>
 #include <miniz_zip.h>
@@ -41,7 +42,6 @@ Package::Package(const QString &basePath, const QString &appPath, QObject *obj_p
     appBasePath = appPath;
     genExtraUnpackList();
     connect(&downloader, SIGNAL(finishedFile(QFile*)), this, SLOT(downloadFinished(QFile*)));
-    connect(&downloader, SIGNAL(finishedGet(void*)), this, SLOT(fetchFinished(void*)));
     connect(&downloader, SIGNAL(downloadProgress(uint64_t, uint64_t)), this, SLOT(downloadProg(uint64_t, uint64_t)));
     connect(this, SIGNAL(startDownload()), SLOT(checkHencoreFull()));
     connect(this, SIGNAL(noHencoreFull()), SLOT(downloadDemo()));
@@ -388,20 +388,26 @@ bool Package::checkValidAppZip(const QString & filepath, QString &titleId, QStri
     return hasApp && hasAppMeta && hasTitle;
 }
 
-void Package::getBackupKey(const QString &aid) {
-    if (accountId != aid) {
-        accountId = aid;
-        QSettings settings;
-        backupKey = settings.value("BackupKeys/" + accountId).toString();
-        if (backupKey.length() != 64) {
-            get(QString("http://cma.henkaku.xyz/?aid=%1").arg(aid), backupKey);
-            qDebug("Fetching backup key from cma.henkaku.xyz...");
-            emit setStatusText(tr("Fetching backup key from cma.henkaku.xyz"));
-        } else {
-            emit setStatusText(tr("Fetched backup key.\nClick button to START!"));
-            emit gotBackupKey();
-        }
-    }
+void cmaKeygen(const uint8_t *input, uint8_t output[32]) {
+    static const uint8_t passphrase[] = "Sri Jayewardenepura Kotte";
+    static const uint8_t key[] = { 0xA9,0xFA,0x5A,0x62,0x79,0x9F,0xCC,0x4C,0x72,0x6B,0x4E,0x2C,0xE3,0x50,0x6D,0x38 };
+    sha256_context ctx;
+    aes_context aes;
+    sha256_init(&ctx);
+    sha256_starts(&ctx);
+    sha256_update(&ctx, input, 8);
+    sha256_update(&ctx, passphrase, 25);
+    sha256_final(&ctx, output);
+    aes_init_dec(&aes, key, 128);
+    aes_ecb_decrypt(&aes, output, output);
+    aes_ecb_decrypt(&aes, output + 16, output + 16);
+}
+
+void Package::calcBackupKey(const QString &aid) {
+    QByteArray bytes = QByteArray::fromHex(aid.toLocal8Bit());
+    uint8_t output[32];
+    cmaKeygen((const uint8_t*)bytes.data(), output);
+    backupKey = QString(QByteArray((const char*)output, 32).toHex());
 }
 
 void Package::finishBuildData() {
@@ -500,23 +506,6 @@ void Package::createPsvImgs(QString titleID) {
 void Package::downloadProg(uint64_t curr, uint64_t total) {
     if (total > 0)
         emit setPercent((int)(curr * 100ULL / total));
-}
-
-void Package::fetchFinished(void *arg) {
-    QString *str = (QString*)arg;
-    int index = str->indexOf("</b>: ");
-    if (index < 0) {
-        str->clear();
-        qWarning("Cannot get backup key from your AID");
-        emit setStatusText(tr("Cannot get backup key from your AID.\nPlease check your network connection!"));
-        return;
-    }
-    emit setStatusText(tr("Fetched backup key.\nClick button to START!"));
-    qDebug("Done.");
-    *str = str->mid(index + 6, 64);
-    QSettings settings;
-    settings.setValue("BackupKeys/" + accountId, *str);
-    emit gotBackupKey();
 }
 
 void Package::downloadFinished(QFile *f) {

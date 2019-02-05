@@ -28,55 +28,60 @@
         <translation type="vanished">Non hai permessi di scrittura su questa cartella! Uscire ora.</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="143"/>
+        <location filename="../finalhe.cc" line="147"/>
         <source>Firmware %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="146"/>
+        <location filename="../finalhe.cc" line="150"/>
         <source>-- Firmware update --</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="162"/>
+        <location filename="../finalhe.cc" line="166"/>
         <source>-- Additional applications --</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../finalhe.cc" line="191"/>
-        <location filename="../finalhe.cc" line="216"/>
-        <source>Fimrware version is not supported by h-encore.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../finalhe.cc" line="192"/>
-        <location filename="../finalhe.cc" line="217"/>
-        <source>Update to %1 first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="195"/>
         <location filename="../finalhe.cc" line="220"/>
+        <source>Fimrware version is not supported by h-encore.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="196"/>
+        <location filename="../finalhe.cc" line="221"/>
+        <source>Update to %1 first.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="199"/>
+        <location filename="../finalhe.cc" line="224"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="194"/>
-        <location filename="../finalhe.cc" line="219"/>
+        <location filename="../finalhe.cc" line="198"/>
+        <location filename="../finalhe.cc" line="223"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="244"/>
+        <location filename="../finalhe.cc" line="232"/>
+        <source>Click button to START!</source>
+        <translation>Fai clic sul pulsante START per iniziare!</translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="250"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>Registrazione dispositivo: %1
 Inserire questo PIN su PS Vita: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="248"/>
+        <location filename="../finalhe.cc" line="254"/>
         <source>Registered device.</source>
         <translation>Dispositivo registrato.</translation>
     </message>
@@ -132,7 +137,7 @@ Inserire questo PIN su PS Vita: %2</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../package.cc" line="409"/>
+        <location filename="../package.cc" line="415"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -145,20 +150,17 @@ Inserire questo PIN su PS Vita: %2</translation>
 4. Avvia &quot;h-encore&quot; e... Si, questo è tutto!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="399"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
-        <translation>Recupero della chiave di backup da cma.henkaku.xyz</translation>
+        <translation type="vanished">Recupero della chiave di backup da cma.henkaku.xyz</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="401"/>
-        <location filename="../package.cc" line="514"/>
         <source>Fetched backup key.
 Click button to START!</source>
-        <translation>Chiave di backup recuperata.
+        <translation type="vanished">Chiave di backup recuperata.
 Fai clic sul pulsante START per iniziare!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="445"/>
+        <location filename="../package.cc" line="451"/>
         <source>Trimming package</source>
         <translation>Sto riducendo il pacchetto</translation>
     </message>
@@ -168,15 +170,14 @@ Fai clic sul pulsante START per iniziare!</translation>
         <translation>Avvia Gestione Contenuto su PS Vita e connettiti al computer.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="480"/>
+        <location filename="../package.cc" line="486"/>
         <source>Createing psvimg&apos;s</source>
         <translation>Sto creando i file psvimg</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="511"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
-        <translation>Impossibile ottenere la chiave di backup dal tuo AID.
+        <translation type="vanished">Impossibile ottenere la chiave di backup dal tuo AID.
 Si prega di verificare la connessione di rete!</translation>
     </message>
 </context>
@@ -203,12 +204,12 @@ Si prega di verificare la connessione di rete!</translation>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="310"/>
+        <location filename="../finalhe.cc" line="316"/>
         <source>English</source>
         <translation>Inglese</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="76"/>
+        <location filename="../finalhe.cc" line="78"/>
         <source>LANGUAGE</source>
         <translation>Italiano</translation>
     </message>

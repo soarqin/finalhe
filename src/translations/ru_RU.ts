@@ -4,56 +4,61 @@
 <context>
     <name>FinalHE</name>
     <message>
-        <location filename="../finalhe.cc" line="143"/>
+        <location filename="../finalhe.cc" line="147"/>
         <source>Firmware %1</source>
         <translation>Системное ПО %1</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="146"/>
+        <location filename="../finalhe.cc" line="150"/>
         <source>-- Firmware update --</source>
         <translation>-- Обновление ПО --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="162"/>
+        <location filename="../finalhe.cc" line="166"/>
         <source>-- Additional applications --</source>
         <translation>-- Дополнительные приложения --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="191"/>
-        <location filename="../finalhe.cc" line="216"/>
+        <location filename="../finalhe.cc" line="195"/>
+        <location filename="../finalhe.cc" line="220"/>
         <source>Fimrware version is not supported by h-encore.</source>
         <translation>Версия ПО не поддерживается</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="192"/>
-        <location filename="../finalhe.cc" line="217"/>
+        <location filename="../finalhe.cc" line="196"/>
+        <location filename="../finalhe.cc" line="221"/>
         <source>Update to %1 first.</source>
         <translation>Сначала обновите ПО до %1</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="195"/>
-        <location filename="../finalhe.cc" line="220"/>
+        <location filename="../finalhe.cc" line="199"/>
+        <location filename="../finalhe.cc" line="224"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
         <translation>Поместите пакет обновления (.PUP) в папку этой программы и перезапустите finalhe</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="194"/>
-        <location filename="../finalhe.cc" line="219"/>
+        <location filename="../finalhe.cc" line="198"/>
+        <location filename="../finalhe.cc" line="223"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
         <translation>На PS Vita:
 Настройки -&gt; Обновление системы -&gt; Обновить путем подключения к компьютеру</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="244"/>
+        <location filename="../finalhe.cc" line="232"/>
+        <source>Click button to START!</source>
+        <translation>нажмите Начать!</translation>
+    </message>
+    <message>
+        <location filename="../finalhe.cc" line="250"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>Регистрация устройства: %1
         	Введите этот PIN-код на PS Vita: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="248"/>
+        <location filename="../finalhe.cc" line="254"/>
         <source>Registered device.</source>
         <translation>Устройство зарегистрировано</translation>
     </message>
@@ -134,12 +139,11 @@ Input this PIN on PS Vita: %2</source>
         <translation>Несовпадение sha256sum! Проверьте подключение к интернету.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="399"/>
         <source>Fetching backup key from cma.henkaku.xyz</source>
-        <translation>Получение ключа от cma.henkaku.xyz</translation>
+        <translation type="vanished">Получение ключа от cma.henkaku.xyz</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="409"/>
+        <location filename="../package.cc" line="415"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -152,27 +156,24 @@ Input this PIN on PS Vita: %2</source>
 4. Запустите &quot;h-encore&quot; и... Ура, все работает!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="445"/>
+        <location filename="../package.cc" line="451"/>
         <source>Trimming package</source>
         <translation>Обрезается h-encore</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="480"/>
+        <location filename="../package.cc" line="486"/>
         <source>Createing psvimg&apos;s</source>
         <translation>Создание psvimg</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="511"/>
         <source>Cannot get backup key from your AID.
 Please check your network connection!</source>
-        <translation>Невозможно получить ключ. Проверьте подключение к интернету.</translation>
+        <translation type="vanished">Невозможно получить ключ. Проверьте подключение к интернету.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="401"/>
-        <location filename="../package.cc" line="514"/>
         <source>Fetched backup key.
 Click button to START!</source>
-        <translation>Ключ получен
+        <translation type="vanished">Ключ получен
         	нажмите Начать!</translation>
     </message>
 </context>
@@ -199,12 +200,12 @@ Click button to START!</source>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="310"/>
+        <location filename="../finalhe.cc" line="316"/>
         <source>English</source>
         <translation>Английский</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="76"/>
+        <location filename="../finalhe.cc" line="78"/>
         <source>LANGUAGE</source>
         <translation>Русский</translation>
     </message>
