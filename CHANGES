@@ -1,3 +1,6 @@
+v1.6
+1. Calculate Backup key from AID offline (#43), thanks to [KuromeSan's code](https://bitbucket.org/SilicaAndPina/cmakeyderiv)
+
 v1.5
 1. New feature: Check firmware version and support firmware update 3.65/3.68 through USB connection
 2. New feature: build prepared applications for transferring through Content Manager
