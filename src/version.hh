@@ -18,7 +18,7 @@
 #pragma once
 
 #define FINALHE_VERSION_MAJOR 1
-#define FINALHE_VERSION_MINOR 6
+#define FINALHE_VERSION_MINOR 7
 
 #define _STR(x) #x
 #define STR(x) _STR(x)

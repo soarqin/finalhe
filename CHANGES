@@ -1,3 +1,6 @@
+v1.7
+1. Updated h-encore to 2.0
+
 v1.6
 1. Calculate Backup key from AID offline (#43), thanks to [KuromeSan's code](https://bitbucket.org/SilicaAndPina/cmakeyderiv)
 
