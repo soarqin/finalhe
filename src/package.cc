@@ -32,6 +32,7 @@
 
 const char *HENCORE_FULL_FILE = "h-encore-full.zip";
 const char *HENCORE_FULL_SHA256 = "3ea59bdf6e7d8f5aa96cabd4f0577fcf78822970f463680b0758a5aaa332452d";
+const char *MEMCORE_FULL_FILE = "memcore-full.zip";
 
 const char *BSPKG_URL = "http://ares.dl.playstation.net/cdn/JP0741/PCSG90096_00/xGMrXOkORxWRyqzLMihZPqsXAbAXLzvAdJFqtPJLAZTgOcqJobxQAhLNbgiFydVlcmVOrpZKklOYxizQCRpiLfjeROuWivGXfwgkq.pkg";
 const char *BSPKG_FILE = "BitterSmile.pkg";
@@ -285,7 +286,7 @@ void Package::startUnpackZips() {
     for (auto &p : selectedExtraApps) {
         unzipQueue.push_back(*p);
     }
-    unzipQueue.push_back(AppInfo{ ":/main/resources/raw/h-encore.zip", "PCSG90096", "h-encore" });
+    unzipQueue.push_back(AppInfo{ useMemcore ? ":/main/resources/raw/memcore.zip" : ":/main/resources/raw/h-encore.zip", "PCSG90096", "h-encore" });
     emit unpackNext();
 }
 
@@ -404,9 +405,9 @@ void cmaKeygen(const uint8_t *input, uint8_t output[32]) {
 }
 
 void Package::calcBackupKey(const QString &aid) {
-    QByteArray bytes = QByteArray::fromHex(aid.toLocal8Bit());
+    aidBytes = QByteArray::fromHex(aid.toLocal8Bit());
     uint8_t output[32];
-    cmaKeygen((const uint8_t*)bytes.data(), output);
+    cmaKeygen((const uint8_t*)aidBytes.data(), output);
     backupKey = QString(QByteArray((const char*)output, 32).toHex());
 }
 

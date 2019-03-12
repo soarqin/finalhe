@@ -141,10 +141,19 @@ void FinalHE::onStart() {
 void FinalHE::updateExpandArea() {
     ui.extraItems->clear();
     bool hasFirmware = false;
-    for (int i = 0; i < 2; ++i) {
-        bool has = i == 0 ? vita->has365Update() : vita->has368Update();
+    for (int i = 0; i < 3; ++i) {
+        bool has = false;
+        switch(i) {
+            case 0:
+                has = vita->has360Update(); break;
+            case 1:
+                has = vita->has365Update(); break;
+            case 2:
+                has = vita->has368Update(); break;
+            default: break;
+        }
         if (has) {
-            auto *item = new QListWidgetItem(tr("Firmware %1").arg(i == 0 ? "3.65" : "3.68"));
+            auto *item = new QListWidgetItem(tr("Firmware %1").arg(i == 0 ? "3.60" : (i == 1 ? "3.65" : "3.68")));
             item->setFlags(Qt::ItemIsEnabled | Qt::ItemIsUserCheckable);
             if (!hasFirmware) {
                 auto *item0 = new QListWidgetItem(tr("-- Firmware update --"));
@@ -191,15 +200,15 @@ void FinalHE::updateExpandArea() {
 
 bool FinalHE::checkFwUpdate() {
     if (vita->getDeviceVersion().isEmpty()) return true;
-    if (vita->getDeviceVersion() < "3.65") {
+    if (vita->getDeviceVersion() < "3.60") {
         ui.textPkg->setText(tr("Fimrware version is not supported by h-encore.") + "\n"
-            + tr("Update to %1 first.").arg("3.65/3.68") + "\n"
-            + ((vita->has365Update() || vita->has368Update())
+            + tr("Update to %1 first.").arg("3.60/3.65/3.68") + "\n"
+            + ((vita->has360Update() || vita->has365Update() || vita->has368Update())
             ? tr("On PS Vita:\nSettings -> System Update -> Update by Connecting to a PC")
             : tr("To update through USB:\nPut Update Package(.PUP) in this tool's folder and restart the tool")));
         return false;
-    } else if (vita->getDeviceVersion() > "3.65" && vita->getDeviceVersion() < "3.68") {
-        if (vita->has368Update()) {
+    } else if (vita->getDeviceVersion() > "3.60" && vita->getDeviceVersion() < "3.65") {
+        if (vita->has365Update() || vita->has368Update()) {
             int count = ui.extraItems->count();
             for (int i = 0; i < count; ++i) {
                 auto *eitem = ui.extraItems->item(i);
@@ -213,7 +222,32 @@ bool FinalHE::checkFwUpdate() {
                         count = ui.extraItems->count();
                         --i;
                     } else
-                        eitem->setCheckState(n == 2 ? Qt::Checked : Qt::Unchecked);
+                        eitem->setCheckState(n > 1 ? Qt::Checked : Qt::Unchecked);
+                }
+            }
+        }
+        ui.textPkg->setText(tr("Fimrware version is not supported by h-encore.") + "\n"
+            + tr("Update to %1 first.").arg("3.65/3.68") + "\n"
+            + (vita->has368Update()
+            ? tr("On PS Vita:\nSettings -> System Update -> Update by Connecting to a PC")
+            : tr("To update through USB:\nPut Update Package(.PUP) in this tool's folder and restart the tool")));
+        return false;
+    } else if (vita->getDeviceVersion() > "3.65" && vita->getDeviceVersion() < "3.68") {
+        if (vita->has368Update()) {
+            int count = ui.extraItems->count();
+            for (int i = 0; i < count; ++i) {
+                auto *eitem = ui.extraItems->item(i);
+                if (eitem->flags() == Qt::NoItemFlags) continue;
+                bool ok;
+                int n = eitem->data(Qt::UserRole).toInt(&ok);
+                if (ok) {
+                    if (n == 1 || n == 2) {
+                        ui.extraItems->removeItemWidget(eitem);
+                        delete eitem;
+                        count = ui.extraItems->count();
+                        --i;
+                    } else
+                        eitem->setCheckState(n > 2 ? Qt::Checked : Qt::Unchecked);
                 }
             }
         }
@@ -229,6 +263,7 @@ bool FinalHE::checkFwUpdate() {
 
 void FinalHE::enableStart() {
     if (checkFwUpdate()) {
+        pkg->setUseMemcore(vita->getDeviceVersion() == "3.60");
         ui.textPkg->setText(tr("Click button to START!"));
         ui.btnStart->setEnabled(true);
     }

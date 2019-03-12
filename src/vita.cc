@@ -45,6 +45,8 @@
 #include <sys/statvfs.h>
 #endif
 
+#define UPDATE_360_SHA256 "8cc2e2666626c4ff8f582bf209473526e825e2a5e38e39b259a8a46e25ef371c"
+#define UPDATE_360_SIZE   133676544
 #define UPDATE_365_SHA256 "86859b3071681268b6d0beb5ef691da874b6726e85b6f06a1cdf6a0e183e77c6"
 #define UPDATE_365_SIZE   133754368
 #define UPDATE_368_SHA256 "e39e13bbdb2d9413c3097e4ce23e9ac23f7202cbd35924527b7ad87302a7ba40"
@@ -247,7 +249,7 @@ VitaConn::VitaConn(const QString &baseDir, const QString &appDir, QObject *obj_p
         QString fullPath = dir.filePath(info.fileName());
         QFile file(fullPath);
         if (file.open(QFile::ReadOnly)) {
-            if (file.size() != UPDATE_365_SIZE && file.size() != UPDATE_368_SIZE) {
+            if (file.size() != UPDATE_360_SIZE && file.size() != UPDATE_365_SIZE && file.size() != UPDATE_368_SIZE) {
                 file.close();
                 continue;
             }
@@ -276,7 +278,10 @@ VitaConn::VitaConn(const QString &baseDir, const QString &appDir, QObject *obj_p
             uint8_t sum[32];
             sha256_final(&ctx, sum);
             QString res = QByteArray((const char*)sum, 32).toHex();
-            if (res == UPDATE_365_SHA256) {
+            if (res == UPDATE_360_SHA256) {
+                Update360 = fullPath;
+                qDebug("Found 3.60 update: %s", qUtf8Printable(fullPath));
+            } else if (res == UPDATE_365_SHA256) {
                 Update365 = fullPath;
                 qDebug("Found 3.65 update: %s", qUtf8Printable(fullPath));
             } else if (res == UPDATE_368_SHA256) {
@@ -672,9 +677,12 @@ void VitaConn::processEvent(vita_event_t *evt) {
             QFile file;
             switch (useUpdate) {
             case 1:
-                file.setFileName(Update365);
+                file.setFileName(Update360);
                 break;
             case 2:
+                file.setFileName(Update365);
+                break;
+            case 3:
                 file.setFileName(Update368);
                 break;
             }

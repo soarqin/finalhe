@@ -57,10 +57,12 @@ public:
     VitaConn(const QString &baseDir, const QString &appDir, QObject *obj_parent = 0);
     virtual ~VitaConn();
     inline const QString &getDeviceVersion() { return deviceVersion; }
+    inline bool has360Update() { return !Update360.isEmpty(); }
     inline bool has365Update() { return !Update365.isEmpty(); }
     inline bool has368Update() { return !Update368.isEmpty(); }
-    inline void setUse365Update() { if (!Update365.isEmpty()) useUpdate = 1; }
-    inline void setUse368Update() { if (!Update368.isEmpty()) useUpdate = 2; }
+    inline void setUse360Update() { if (!Update360.isEmpty()) useUpdate = 1; }
+    inline void setUse365Update() { if (!Update365.isEmpty()) useUpdate = 2; }
+    inline void setUse368Update() { if (!Update368.isEmpty()) useUpdate = 3; }
     inline void setUseNoUpdate() { if (!Update368.isEmpty()) useUpdate = 0; }
 
 public slots:
@@ -98,7 +100,7 @@ private:
     QThread *wirelessThread = nullptr;
     QSemaphore semaClient, semaWireless;
 
-    QString Update365, Update368;
+    QString Update360, Update365, Update368;
     int useUpdate = 0;
 
     bool running = false;
