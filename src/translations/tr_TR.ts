@@ -24,60 +24,64 @@
         <translation>HATA</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="147"/>
+        <location filename="../finalhe.cc" line="156"/>
         <source>Firmware %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="150"/>
+        <location filename="../finalhe.cc" line="159"/>
         <source>-- Firmware update --</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="166"/>
+        <location filename="../finalhe.cc" line="175"/>
         <source>-- Additional applications --</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="195"/>
-        <location filename="../finalhe.cc" line="220"/>
+        <location filename="../finalhe.cc" line="204"/>
+        <location filename="../finalhe.cc" line="229"/>
+        <location filename="../finalhe.cc" line="254"/>
         <source>Fimrware version is not supported by h-encore.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="196"/>
-        <location filename="../finalhe.cc" line="221"/>
+        <location filename="../finalhe.cc" line="205"/>
+        <location filename="../finalhe.cc" line="230"/>
+        <location filename="../finalhe.cc" line="255"/>
         <source>Update to %1 first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="199"/>
-        <location filename="../finalhe.cc" line="224"/>
+        <location filename="../finalhe.cc" line="208"/>
+        <location filename="../finalhe.cc" line="233"/>
+        <location filename="../finalhe.cc" line="258"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="198"/>
-        <location filename="../finalhe.cc" line="223"/>
+        <location filename="../finalhe.cc" line="207"/>
+        <location filename="../finalhe.cc" line="232"/>
+        <location filename="../finalhe.cc" line="257"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="232"/>
+        <location filename="../finalhe.cc" line="267"/>
         <source>Click button to START!</source>
         <translation>Başlamak için düğmeye basın.</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="250"/>
+        <location filename="../finalhe.cc" line="285"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>Cihaz kaydediliyor: %1
 Bu PIN&apos;i PS Vita cihazınızda girin: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="254"/>
+        <location filename="../finalhe.cc" line="289"/>
         <source>Registered device.</source>
         <translation>Cihaz kaydedildi.</translation>
     </message>
@@ -91,50 +95,51 @@ Bu PIN&apos;i PS Vita cihazınızda girin: %2</translation>
     </message>
     <message>
         <location filename="../finalhe.ui" line="122"/>
-        <source>Trim h-encore to ~13MB</source>
-        <translation>Gereksiz dosyaları silerek h-encore boyutunu ~13MB&apos;ye düşür
+        <source>Trim h-encore to ~6.5MB</source>
+        <translation>Gereksiz dosyaları silerek h-encore boyutunu ~6.5MB&apos;ye düşür
         </translation>
     </message>
 </context>
 <context>
     <name>Package</name>
     <message>
-        <location filename="../package.cc" line="122"/>
+        <location filename="../package.cc" line="124"/>
         <source>Downloading %1</source>
         <translation>%1 indiriliyor</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="143"/>
+        <location filename="../package.cc" line="145"/>
         <source>Unpacking %1</source>
         <translation>%1 arşivden çıkarılıyor</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="157"/>
+        <location filename="../package.cc" line="159"/>
+        <location filename="../package.cc" line="171"/>
         <source>Failed to unpack %1</source>
         <translation>%1 arşivden çıkarılamadı</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="186"/>
+        <location filename="../package.cc" line="196"/>
         <source>Decompressing %1</source>
         <translation>%1 decompress ediliyor</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="206"/>
+        <location filename="../package.cc" line="216"/>
         <source>Failed to decompress %1</source>
         <translation>%1 decompress edilemedi</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="296"/>
+        <location filename="../package.cc" line="306"/>
         <source>Verifying %1</source>
         <translation>%1 doğrulanıyor</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="325"/>
+        <location filename="../package.cc" line="335"/>
         <source>sha256sum mismatch! Please check your network.</source>
         <translation>sha256sum uyuşmadı. Lütfen internet bağlantınızı kontrol edin.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="415"/>
+        <location filename="../package.cc" line="425"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -158,17 +163,17 @@ Click button to START!</source>
 Başlamak için düğmeye basın.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="451"/>
+        <location filename="../package.cc" line="461"/>
         <source>Trimming package</source>
         <translation>Paketten gereksiz dosyalar siliniyor.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="58"/>
+        <location filename="../package.cc" line="60"/>
         <source>Launch Content Manager on PS Vita and connect to computer.</source>
         <translation>PS Vita&apos;nızda İçerik Yöneticisi&apos;ni açın ve bilgisayara bağlayın.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="486"/>
+        <location filename="../package.cc" line="542"/>
         <source>Createing psvimg&apos;s</source>
         <translation>psvimg oluşturuluyor.</translation>
     </message>
@@ -182,18 +187,18 @@ Lütfen internet bağlantınızı kontrol edin.</translation>
 <context>
     <name>VitaConn</name>
     <message>
-        <location filename="../vita.cc" line="438"/>
+        <location filename="../vita.cc" line="445"/>
         <source>Waiting for connection to PS Vita...</source>
         <translation>PS Vita&apos;ya bağlantı için bekleniyor.</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="441"/>
-        <location filename="../vita.cc" line="443"/>
+        <location filename="../vita.cc" line="448"/>
+        <location filename="../vita.cc" line="450"/>
         <source>Connected to PS Vita</source>
         <translation>Bağlanılan PS Vita</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="441"/>
+        <location filename="../vita.cc" line="448"/>
         <source>Waiting for account ID</source>
         <translation>hesap ID bekleniyor</translation>
     </message>
@@ -202,7 +207,7 @@ Lütfen internet bağlantınızı kontrol edin.</translation>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="316"/>
+        <location filename="../finalhe.cc" line="351"/>
         <source>English</source>
         <translation>İngilizce</translation>
     </message>

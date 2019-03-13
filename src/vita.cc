@@ -383,6 +383,8 @@ void VitaConn::process() {
             if (res < 0) {
                 qDebug("Disconnected from %s", VitaMTP_Get_Identification(currDev));
                 deviceDisconnect();
+                lastDeviceVersion.clear();
+                lastAccountId.clear();
                 continue;
             }
             processEvent(&evt);
@@ -712,7 +714,11 @@ void VitaConn::processEvent(vita_event_t *evt) {
         qDebug("Current account id: %s", settingsinfo->current_account.accountId);
         accountId = settingsinfo->current_account.accountId;
         updateStatus();
-        emit gotAccountId(accountId);
+        if (accountId != lastAccountId || deviceVersion != lastDeviceVersion) {
+            lastAccountId = accountId;
+            lastDeviceVersion = deviceVersion;
+            emit gotAccountId(accountId);
+        }
 
         VitaMTP_Data_Free_Settings(settingsinfo);
         VitaMTP_ReportResult(currDev, eventId, PTP_RC_OK);

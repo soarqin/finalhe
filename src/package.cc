@@ -31,8 +31,9 @@
 #include <QSettings>
 
 const char *HENCORE_FULL_FILE = "h-encore-full.zip";
-const char *HENCORE_FULL_SHA256 = "3ea59bdf6e7d8f5aa96cabd4f0577fcf78822970f463680b0758a5aaa332452d";
+const char *HENCORE_FULL_SHA256 = "f4dc2160e79475237932180956b2fc14ac73eebe6b4e09a14dfa02ad94e0c99e";
 const char *MEMCORE_FULL_FILE = "memcore-full.zip";
+const char *MEMCORE_FULL_SHA256 = "e6945976de13d2e4257b917d2e18a1eb5e44c1adf9ab197804cdd4637ad974fa";
 
 const char *BSPKG_URL = "http://ares.dl.playstation.net/cdn/JP0741/PCSG90096_00/xGMrXOkORxWRyqzLMihZPqsXAbAXLzvAdJFqtPJLAZTgOcqJobxQAhLNbgiFydVlcmVOrpZKklOYxizQCRpiLfjeROuWivGXfwgkq.pkg";
 const char *BSPKG_FILE = "BitterSmile.pkg";
@@ -159,8 +160,16 @@ void Package::startUnpackDemo(const char *filename) {
         } else {
             curr.cd("h-encore");
             curr.cd("app");
-            curr.rename("PCSG90096", "ux0_temp_game_PCSG90096_app_PCSG90096");
-            *(bool*)arg = true;
+            int count = 10;
+            while (count > 0) {
+                if (curr.rename("PCSG90096", "ux0_temp_game_PCSG90096_app_PCSG90096")) break;
+                QThread::msleep(500);
+                --count;
+            }
+            if (count == 0) {
+                qWarning("Failed to unpack %s!", filename);
+                emit setStatusText(tr("Failed to unpack %1").arg(filename));
+            } else *(bool*)arg = true;
         }
         QDir::setCurrent(oldDir);
     }, [this](void *arg) {
@@ -277,7 +286,7 @@ void Package::startUnpackZipsFull() {
     for (auto &p : selectedExtraApps) {
         unzipQueue.push_back(*p);
     }
-    unzipQueue.push_back(AppInfo{ QDir(pkgBasePath).filePath(HENCORE_FULL_FILE), "PCSG90096", "h-encore" });
+    unzipQueue.push_back(AppInfo{ QDir(pkgBasePath).filePath(useMemcore ? MEMCORE_FULL_FILE : HENCORE_FULL_FILE), "PCSG90096", "h-encore" });
     emit unpackNext();
 }
 
@@ -424,8 +433,8 @@ void Package::checkHencoreFull() {
     static bool succ = false;
     Worker::start(this, [this](void *arg) {
         QDir dir(pkgBasePath);
-        QString filename = dir.filePath(HENCORE_FULL_FILE);
-        *(bool*)arg = verify(filename, HENCORE_FULL_SHA256);
+        QString filename = useMemcore ? dir.filePath(MEMCORE_FULL_FILE) : dir.filePath(HENCORE_FULL_FILE);
+        *(bool*)arg = verify(filename, useMemcore ? MEMCORE_FULL_SHA256 : HENCORE_FULL_SHA256);
     }, [this](void *arg) {
         if (*(bool*)arg) {
             startUnpackZipsFull();
@@ -452,13 +461,33 @@ void Package::createPsvImgs(QString titleID) {
                 emit setStatusText(tr("Trimming package"));
                 if (curr.cd("app") && curr.cd("ux0_temp_game_PCSG90096_app_PCSG90096")) {
                     QDir cdir = curr;
+                    if (cdir.cd("sce_module")) {
+                        cdir.remove("libface.suprx");
+                        cdir.remove("libsmart.suprx");
+                        cdir.remove("libult.suprx");
+                    }
+                    cdir = curr;
+                    if (cdir.cd("sce_sys")) {
+                        cdir.remove("icon0.png");
+                        cdir.remove("pic0.png");
+                    }
+                    cdir = curr;
+                    if (cdir.cd("sce_sys") && cdir.cd("about"))
+                        cdir.removeRecursively();
+                    cdir = curr;
+                    if (cdir.cd("sce_sys") && cdir.cd("livearea"))
+                        cdir.removeRecursively();
+                    cdir = curr;
+                    if (cdir.cd("sce_sys") && cdir.cd("manual"))
+                        cdir.removeRecursively();
+                    cdir = curr;
                     if (cdir.cd("resource") && cdir.cd("movie"))
                         cdir.removeRecursively();
                     cdir = curr;
                     if (cdir.cd("resource") && cdir.cd("sound"))
                         cdir.removeRecursively();
                     cdir = curr;
-                    if (cdir.cd("resource") && cdir.cd("text") && cdir.cd("01"))
+                    if (cdir.cd("resource") && cdir.cd("text"))
                         cdir.removeRecursively();
                     cdir = curr;
                     if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("bg"))
@@ -472,6 +501,32 @@ void Package::createPsvImgs(QString titleID) {
                     cdir = curr;
                     if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("stitle"))
                         cdir.removeRecursively();
+                    cdir = curr;
+                    if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("sys"))
+                        cdir.removeRecursively();
+                    cdir = curr;
+                    if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("sysc")) {
+                        cdir.remove("kuro_waku.png");
+                        cdir.remove("shiro_waku.png");
+                        cdir.remove("sysc_bgm_mode_base.jpg");
+                        cdir.remove("sysc_black.jpg");
+                        cdir.remove("sysc_button_number.png");
+                        cdir.remove("sysc_cg_mode_base.jpg");
+                        cdir.remove("sysc_how_to_base.jpg");
+                        cdir.remove("sysc_info_base.jpg");
+                        cdir.remove("sysc_log_base.jpg");
+                        cdir.remove("sysc_mabuta_1.png");
+                        cdir.remove("sysc_mabuta_2.png");
+                        cdir.remove("sysc_rain.png");
+                        cdir.remove("sysc_save_base.jpg");
+                        cdir.remove("sysc_sepia.jpg");
+                        cdir.remove("sysc_shuuchuu.png");
+                        cdir.remove("sysc_small_black.jpg");
+                        cdir.remove("sysc_snow.png");
+                        cdir.remove("sysc_tobira_l.png");
+                        cdir.remove("sysc_tobira_r.png");
+                        cdir.remove("sysc_white.jpg");
+                    }
                     cdir = curr;
                     if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("tachie"))
                         cdir.removeRecursively();

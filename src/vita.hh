@@ -89,8 +89,8 @@ private:
     QString pkgBaseDir, appBaseDir;
     vita_device_t *currDev = nullptr, *wirelessDev = nullptr;
     QString onlineId;
-    QString accountId;
-    QString deviceVersion;
+    QString accountId, lastAccountId;
+    QString deviceVersion, lastDeviceVersion;
     int ohfiMax = 256;
 
     std::map<int, MetaInfo> metaMap;

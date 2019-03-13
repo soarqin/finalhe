@@ -4,62 +4,66 @@
 <context>
     <name>FinalHE</name>
     <message>
-        <location filename="../finalhe.cc" line="147"/>
+        <location filename="../finalhe.cc" line="156"/>
         <source>Firmware %1</source>
         <translation>Firmware %1</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="150"/>
+        <location filename="../finalhe.cc" line="159"/>
         <source>-- Firmware update --</source>
         <translation>-- Firmware Aktualisierung --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="166"/>
+        <location filename="../finalhe.cc" line="175"/>
         <source>-- Additional applications --</source>
         <translation>-- Zusätzliche Anwendungen --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="195"/>
-        <location filename="../finalhe.cc" line="220"/>
+        <location filename="../finalhe.cc" line="204"/>
+        <location filename="../finalhe.cc" line="229"/>
+        <location filename="../finalhe.cc" line="254"/>
         <source>Fimrware version is not supported by h-encore.</source>
         <translation>Firmware version wird von h-encore nicht unterstützt.</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="196"/>
-        <location filename="../finalhe.cc" line="221"/>
+        <location filename="../finalhe.cc" line="205"/>
+        <location filename="../finalhe.cc" line="230"/>
+        <location filename="../finalhe.cc" line="255"/>
         <source>Update to %1 first.</source>
         <translation>Update zuerst auf %1.</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="198"/>
-        <location filename="../finalhe.cc" line="223"/>
+        <location filename="../finalhe.cc" line="207"/>
+        <location filename="../finalhe.cc" line="232"/>
+        <location filename="../finalhe.cc" line="257"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
         <translation>Auf der PS Vita:
 Einstellungen -&gt; System Update -&gt; System-Aktualisierung -&gt; Über einen PC aktualisieren</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="199"/>
-        <location filename="../finalhe.cc" line="224"/>
+        <location filename="../finalhe.cc" line="208"/>
+        <location filename="../finalhe.cc" line="233"/>
+        <location filename="../finalhe.cc" line="258"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
         <translation>Um per USB upzudaten:
 Lege das Update Packet(.PUB) in das Verzeichnis des Programms und starte es neu</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="232"/>
+        <location filename="../finalhe.cc" line="267"/>
         <source>Click button to START!</source>
         <translation>Drücke den Knopf um zu STARTEN!</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="250"/>
+        <location filename="../finalhe.cc" line="285"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>Gerät registrieren: %1
 Gebe diesen PIN auf der PS Vita ein: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="254"/>
+        <location filename="../finalhe.cc" line="289"/>
         <source>Registered device.</source>
         <translation>Registriertes Gerät.</translation>
     </message>
@@ -93,49 +97,50 @@ Gebe diesen PIN auf der PS Vita ein: %2</translation>
     </message>
     <message>
         <location filename="../finalhe.ui" line="122"/>
-        <source>Trim h-encore to ~13MB</source>
-        <translation>Kürze h-encore auf ~13MB</translation>
+        <source>Trim h-encore to ~6.5MB</source>
+        <translation>Kürze h-encore auf ~6.5MB</translation>
     </message>
 </context>
 <context>
     <name>Package</name>
     <message>
-        <location filename="../package.cc" line="58"/>
+        <location filename="../package.cc" line="60"/>
         <source>Launch Content Manager on PS Vita and connect to computer.</source>
         <translation>Starte den Inhaltsmanger auf der PS Vita und verbinde sie mit dem Computer.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="122"/>
+        <location filename="../package.cc" line="124"/>
         <source>Downloading %1</source>
         <translation>Herunterladen %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="143"/>
+        <location filename="../package.cc" line="145"/>
         <source>Unpacking %1</source>
         <translation>Entpacken %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="157"/>
+        <location filename="../package.cc" line="159"/>
+        <location filename="../package.cc" line="171"/>
         <source>Failed to unpack %1</source>
         <translation>Entpacken fehlgeschlagen %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="186"/>
+        <location filename="../package.cc" line="196"/>
         <source>Decompressing %1</source>
         <translation>Dekomprimieren %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="206"/>
+        <location filename="../package.cc" line="216"/>
         <source>Failed to decompress %1</source>
         <translation>Dekomprimieren fehlgeschlagen %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="296"/>
+        <location filename="../package.cc" line="306"/>
         <source>Verifying %1</source>
         <translation>Verifizieren %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="325"/>
+        <location filename="../package.cc" line="335"/>
         <source>sha256sum mismatch! Please check your network.</source>
         <translation>sha256sum stimmt nicht überein! Bitte prüfe deine Netwerkverbindung.</translation>
     </message>
@@ -144,7 +149,7 @@ Gebe diesen PIN auf der PS Vita ein: %2</translation>
         <translation type="vanished">Lade Sicherungschlüssel von cma.henkaku.xyz</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="415"/>
+        <location filename="../package.cc" line="425"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -157,12 +162,12 @@ Gebe diesen PIN auf der PS Vita ein: %2</translation>
 4. Starte &quot;h-encore&quot; und... Ja, das wars!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="451"/>
+        <location filename="../package.cc" line="461"/>
         <source>Trimming package</source>
         <translation>Kürze Paket</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="486"/>
+        <location filename="../package.cc" line="542"/>
         <source>Createing psvimg&apos;s</source>
         <translation>Erstelle psvimgs</translation>
     </message>
@@ -182,18 +187,18 @@ Drücke den Knopf um zu STARTEN!</translation>
 <context>
     <name>VitaConn</name>
     <message>
-        <location filename="../vita.cc" line="438"/>
+        <location filename="../vita.cc" line="445"/>
         <source>Waiting for connection to PS Vita...</source>
         <translation>Warte auf eine Verbindung zur PS Vita...</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="441"/>
-        <location filename="../vita.cc" line="443"/>
+        <location filename="../vita.cc" line="448"/>
+        <location filename="../vita.cc" line="450"/>
         <source>Connected to PS Vita</source>
         <translation>Mit PS Vita verbunden</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="441"/>
+        <location filename="../vita.cc" line="448"/>
         <source>Waiting for account ID</source>
         <translation>Warte auf Account ID</translation>
     </message>
@@ -202,7 +207,7 @@ Drücke den Knopf um zu STARTEN!</translation>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="316"/>
+        <location filename="../finalhe.cc" line="351"/>
         <source>English</source>
         <translation>Englisch</translation>
     </message>

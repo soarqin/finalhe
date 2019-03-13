@@ -24,61 +24,65 @@
         <translation>錯誤</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="147"/>
+        <location filename="../finalhe.cc" line="156"/>
         <source>Firmware %1</source>
         <translation>韌體 %1</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="150"/>
+        <location filename="../finalhe.cc" line="159"/>
         <source>-- Firmware update --</source>
         <translation>-- 韌體更新 --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="166"/>
+        <location filename="../finalhe.cc" line="175"/>
         <source>-- Additional applications --</source>
         <translation>-- 額外應用程式 --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="195"/>
-        <location filename="../finalhe.cc" line="220"/>
+        <location filename="../finalhe.cc" line="204"/>
+        <location filename="../finalhe.cc" line="229"/>
+        <location filename="../finalhe.cc" line="254"/>
         <source>Fimrware version is not supported by h-encore.</source>
         <translation>h-encore無法支援的韌體版本</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="196"/>
-        <location filename="../finalhe.cc" line="221"/>
+        <location filename="../finalhe.cc" line="205"/>
+        <location filename="../finalhe.cc" line="230"/>
+        <location filename="../finalhe.cc" line="255"/>
         <source>Update to %1 first.</source>
         <translation>請先更新到%1</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="199"/>
-        <location filename="../finalhe.cc" line="224"/>
+        <location filename="../finalhe.cc" line="208"/>
+        <location filename="../finalhe.cc" line="233"/>
+        <location filename="../finalhe.cc" line="258"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
         <translation>要通過USB連結更新:
 將更新檔案(.PUP)放於本軟體所在資料夾内后重開軟體</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="198"/>
-        <location filename="../finalhe.cc" line="223"/>
+        <location filename="../finalhe.cc" line="207"/>
+        <location filename="../finalhe.cc" line="232"/>
+        <location filename="../finalhe.cc" line="257"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
         <translation>設定 -&gt; 系統更新 -&gt; 連接至個人電腦更新</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="232"/>
+        <location filename="../finalhe.cc" line="267"/>
         <source>Click button to START!</source>
         <translation>現在點擊按鈕開始！</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="250"/>
+        <location filename="../finalhe.cc" line="285"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>正在登記裝置: %1
 請在PSVita上輸入PIN: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="254"/>
+        <location filename="../finalhe.cc" line="289"/>
         <source>Registered device.</source>
         <translation>裝置登記成功</translation>
     </message>
@@ -92,49 +96,50 @@ Input this PIN on PS Vita: %2</source>
     </message>
     <message>
         <location filename="../finalhe.ui" line="122"/>
-        <source>Trim h-encore to ~13MB</source>
-        <translation>將h-encore縮減至約13MB</translation>
+        <source>Trim h-encore to ~6.5MB</source>
+        <translation>將h-encore縮減至約6.5MB</translation>
     </message>
 </context>
 <context>
     <name>Package</name>
     <message>
-        <location filename="../package.cc" line="122"/>
+        <location filename="../package.cc" line="124"/>
         <source>Downloading %1</source>
         <translation>正在下載 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="143"/>
+        <location filename="../package.cc" line="145"/>
         <source>Unpacking %1</source>
         <translation>正在解開 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="157"/>
+        <location filename="../package.cc" line="159"/>
+        <location filename="../package.cc" line="171"/>
         <source>Failed to unpack %1</source>
         <translation>無法解開 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="186"/>
+        <location filename="../package.cc" line="196"/>
         <source>Decompressing %1</source>
         <translation>正在解開壓縮檔案 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="206"/>
+        <location filename="../package.cc" line="216"/>
         <source>Failed to decompress %1</source>
         <translation>無法解開壓縮檔案 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="296"/>
+        <location filename="../package.cc" line="306"/>
         <source>Verifying %1</source>
         <translation>正在校驗 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="325"/>
+        <location filename="../package.cc" line="335"/>
         <source>sha256sum mismatch! Please check your network.</source>
         <translation>sha256sum不適配！請檢查網路狀況</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="415"/>
+        <location filename="../package.cc" line="425"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -157,17 +162,17 @@ Click button to START!</source>
 現在點擊按鈕開始！</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="451"/>
+        <location filename="../package.cc" line="461"/>
         <source>Trimming package</source>
         <translation>正在縮減容量</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="58"/>
+        <location filename="../package.cc" line="60"/>
         <source>Launch Content Manager on PS Vita and connect to computer.</source>
         <translation>在PS Vita上執行內容管理器並連接到個人電腦</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="486"/>
+        <location filename="../package.cc" line="542"/>
         <source>Createing psvimg&apos;s</source>
         <translation>正在製作psvimg</translation>
     </message>
@@ -180,18 +185,18 @@ Please check your network connection!</source>
 <context>
     <name>VitaConn</name>
     <message>
-        <location filename="../vita.cc" line="438"/>
+        <location filename="../vita.cc" line="445"/>
         <source>Waiting for connection to PS Vita...</source>
         <translation>等待連接到PSV……</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="441"/>
-        <location filename="../vita.cc" line="443"/>
+        <location filename="../vita.cc" line="448"/>
+        <location filename="../vita.cc" line="450"/>
         <source>Connected to PS Vita</source>
         <translation>已經連接到PSV</translation>
     </message>
     <message>
-        <location filename="../vita.cc" line="441"/>
+        <location filename="../vita.cc" line="448"/>
         <source>Waiting for account ID</source>
         <translation>等待用戶ID</translation>
     </message>
@@ -200,7 +205,7 @@ Please check your network connection!</source>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="316"/>
+        <location filename="../finalhe.cc" line="351"/>
         <source>English</source>
         <translation>英文</translation>
     </message>
