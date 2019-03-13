@@ -1,5 +1,5 @@
 v1.8
-1. Support for memcore(h-encore 2.0 for VITA 3.60 support with PSN access), compiled from [my fork](https://github.com/soarqin/h-encore), thanks to [CelesteBlue-dev](https://github.com/CelesteBlue-dev) for his port
+1. Support for memocore(h-encore 2.0 for VITA 3.60 support with PSN access), compiled from [my fork](https://github.com/soarqin/h-encore), thanks to [CelesteBlue-dev](https://github.com/CelesteBlue-dev) for his port
 2. Can trim h-encore app to only 6.5MB now, thanks to [KuromeSan](https://github.com/KuromeSan)
 3. Fixed a bug that button is reset to be clickable when another info sync from PSVITA is received
 4. Fixed French language

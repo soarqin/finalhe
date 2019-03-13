@@ -41,7 +41,7 @@ public:
     inline const QMap<QString, AppInfo> &getExtraApps() { return extraApps; }
     void selectExtraApp(const QString &titleId, bool select);
     void calcBackupKey(const QString &aid);
-    inline void setUseMemcore(bool u) { useMemcore = u; }
+    inline void setUseMemocore(bool u) { useMemocore = u; }
 
 signals:
     void startDownload();
@@ -79,7 +79,7 @@ private slots:
 
 private:
     bool trimApp = false;
-    bool useMemcore = false;
+    bool useMemocore = false;
     QByteArray aidBytes;
     QString pkgBasePath;
     QString appBasePath;

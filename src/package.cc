@@ -32,8 +32,8 @@
 
 const char *HENCORE_FULL_FILE = "h-encore-full.zip";
 const char *HENCORE_FULL_SHA256 = "f4dc2160e79475237932180956b2fc14ac73eebe6b4e09a14dfa02ad94e0c99e";
-const char *MEMCORE_FULL_FILE = "memcore-full.zip";
-const char *MEMCORE_FULL_SHA256 = "e6945976de13d2e4257b917d2e18a1eb5e44c1adf9ab197804cdd4637ad974fa";
+const char *MEMOCORE_FULL_FILE = "memocore-full.zip";
+const char *MEMOCORE_FULL_SHA256 = "e6945976de13d2e4257b917d2e18a1eb5e44c1adf9ab197804cdd4637ad974fa";
 
 const char *BSPKG_URL = "http://ares.dl.playstation.net/cdn/JP0741/PCSG90096_00/xGMrXOkORxWRyqzLMihZPqsXAbAXLzvAdJFqtPJLAZTgOcqJobxQAhLNbgiFydVlcmVOrpZKklOYxizQCRpiLfjeROuWivGXfwgkq.pkg";
 const char *BSPKG_FILE = "BitterSmile.pkg";
@@ -286,7 +286,7 @@ void Package::startUnpackZipsFull() {
     for (auto &p : selectedExtraApps) {
         unzipQueue.push_back(*p);
     }
-    unzipQueue.push_back(AppInfo{ QDir(pkgBasePath).filePath(useMemcore ? MEMCORE_FULL_FILE : HENCORE_FULL_FILE), "PCSG90096", "h-encore" });
+    unzipQueue.push_back(AppInfo{ QDir(pkgBasePath).filePath(useMemocore ? MEMOCORE_FULL_FILE : HENCORE_FULL_FILE), "PCSG90096", "h-encore" });
     emit unpackNext();
 }
 
@@ -295,7 +295,7 @@ void Package::startUnpackZips() {
     for (auto &p : selectedExtraApps) {
         unzipQueue.push_back(*p);
     }
-    unzipQueue.push_back(AppInfo{ useMemcore ? ":/main/resources/raw/memcore.zip" : ":/main/resources/raw/h-encore.zip", "PCSG90096", "h-encore" });
+    unzipQueue.push_back(AppInfo{ useMemocore ? ":/main/resources/raw/memocore.zip" : ":/main/resources/raw/h-encore.zip", "PCSG90096", "h-encore" });
     emit unpackNext();
 }
 
@@ -433,8 +433,8 @@ void Package::checkHencoreFull() {
     static bool succ = false;
     Worker::start(this, [this](void *arg) {
         QDir dir(pkgBasePath);
-        QString filename = useMemcore ? dir.filePath(MEMCORE_FULL_FILE) : dir.filePath(HENCORE_FULL_FILE);
-        *(bool*)arg = verify(filename, useMemcore ? MEMCORE_FULL_SHA256 : HENCORE_FULL_SHA256);
+        QString filename = useMemocore ? dir.filePath(MEMOCORE_FULL_FILE) : dir.filePath(HENCORE_FULL_FILE);
+        *(bool*)arg = verify(filename, useMemocore ? MEMOCORE_FULL_SHA256 : HENCORE_FULL_SHA256);
     }, [this](void *arg) {
         if (*(bool*)arg) {
             startUnpackZipsFull();

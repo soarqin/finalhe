@@ -1,4 +1,4 @@
-1. [h-encore](https://github.com/TheOfficialFloW/h-encore)
+1. [h-encore](https://github.com/TheOfficialFloW/h-encore) and its 3.60 port [memocore](https://github.com/CelesteBlue-dev/h-encore)
 2. [yifanlu](https://github.com/yifanlu)'s original [libvitamtp](https://github.com/yifanlu/vitamtp)
 3. [codestation](https://github.com/codestation)'s [Qcma](https://github.com/codestation/qcma)(GPLv3, see COPYING.Qcma) and maintained [libvitamtp](https://github.com/codestation/vitamtp)
 4. [psvimgtools](https://github.com/yifanlu/psvimgtools)
