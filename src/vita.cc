@@ -663,12 +663,18 @@ void VitaConn::processEvent(vita_event_t *evt) {
             }
             switch (useUpdate) {
             case 1:
+                if (deviceVersion < "3.60") {
+                    data.replace("00.000.000", "03.600.000");
+                    data.replace("0.00", "3.60");
+                }
+                break;
+            case 2:
                 if (deviceVersion < "3.65") {
                     data.replace("00.000.000", "03.650.000");
                     data.replace("0.00", "3.65");
                 }
                 break;
-            case 2:
+            case 3:
                 if (deviceVersion < "3.68") {
                     data.replace("00.000.000", "03.680.000");
                     data.replace("0.00", "3.68");
