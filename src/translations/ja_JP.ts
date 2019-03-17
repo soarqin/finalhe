@@ -38,56 +38,52 @@
         <translation>--ファームウェア アップデート--</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="175"/>
+        <location filename="../finalhe.cc" line="173"/>
         <source>-- Additional applications --</source>
         <translation>--その他のアプリ―ケーション--</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="204"/>
-        <location filename="../finalhe.cc" line="229"/>
-        <location filename="../finalhe.cc" line="254"/>
+        <location filename="../finalhe.cc" line="202"/>
+        <location filename="../finalhe.cc" line="228"/>
         <source>Fimrware version is not supported by h-encore.</source>
         <translation>h-encoreはこのファームウェアをサポートしていません</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="205"/>
-        <location filename="../finalhe.cc" line="230"/>
-        <location filename="../finalhe.cc" line="255"/>
+        <location filename="../finalhe.cc" line="203"/>
+        <location filename="../finalhe.cc" line="229"/>
         <source>Update to %1 first.</source>
         <translation>最初に %1 にアップデート</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="208"/>
-        <location filename="../finalhe.cc" line="233"/>
-        <location filename="../finalhe.cc" line="258"/>
+        <location filename="../finalhe.cc" line="206"/>
+        <location filename="../finalhe.cc" line="232"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
         <translation>USB経由でアップデートするには:
 アップデートパッケージ(.PUP)をこのツールのフォルダに入れてこのツールを再実行して下さい</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="207"/>
-        <location filename="../finalhe.cc" line="232"/>
-        <location filename="../finalhe.cc" line="257"/>
+        <location filename="../finalhe.cc" line="205"/>
+        <location filename="../finalhe.cc" line="231"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
         <translation>PSVita側の作業
 設定 -&gt; システムアップデート -&gt; パソコンに接続してアップデートする と手順を踏んで下さい</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="267"/>
+        <location filename="../finalhe.cc" line="258"/>
         <source>Click button to START!</source>
         <translation>スタートをクリックして開始して下さい</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="285"/>
+        <location filename="../finalhe.cc" line="276"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>デバイス登録: %1
 PSVitaにPINコードを入力して下さい: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="289"/>
+        <location filename="../finalhe.cc" line="280"/>
         <source>Registered device.</source>
         <translation>登録されたデバイス</translation>
     </message>
@@ -101,8 +97,8 @@ PSVitaにPINコードを入力して下さい: %2</translation>
     </message>
     <message>
         <location filename="../finalhe.ui" line="122"/>
-        <source>Trim h-encore to ~6.5MB</source>
-        <translation>h-encoreを約6.5MBに容量を削減</translation>
+        <source>Trim h-encore to ~7MB</source>
+        <translation>h-encoreを約7MBに容量を削減</translation>
     </message>
 </context>
 <context>
@@ -177,7 +173,7 @@ Click button to START!</source>
         <translation>PCとUSB接続したPSVitaでコンテンツ管理を実行して下さい</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="542"/>
+        <location filename="../package.cc" line="539"/>
         <source>Createing psvimg&apos;s</source>
         <translation>psvimgを作成中</translation>
     </message>
@@ -210,7 +206,7 @@ Please check your network connection!</source>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="351"/>
+        <location filename="../finalhe.cc" line="345"/>
         <source>English</source>
         <translation>English</translation>
     </message>

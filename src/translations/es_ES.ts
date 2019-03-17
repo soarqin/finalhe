@@ -38,56 +38,52 @@
         <translation type="unfinished">-- Actualización de Firmware --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="175"/>
+        <location filename="../finalhe.cc" line="173"/>
         <source>-- Additional applications --</source>
         <translation type="unfinished">-- Aplicaciones adicionales --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="204"/>
-        <location filename="../finalhe.cc" line="229"/>
-        <location filename="../finalhe.cc" line="254"/>
+        <location filename="../finalhe.cc" line="202"/>
+        <location filename="../finalhe.cc" line="228"/>
         <source>Fimrware version is not supported by h-encore.</source>
         <translation type="unfinished">Versión de firmware no soportada por h-encore.</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="205"/>
-        <location filename="../finalhe.cc" line="230"/>
-        <location filename="../finalhe.cc" line="255"/>
+        <location filename="../finalhe.cc" line="203"/>
+        <location filename="../finalhe.cc" line="229"/>
         <source>Update to %1 first.</source>
         <translation type="unfinished">Primero, actualice %1.</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="208"/>
-        <location filename="../finalhe.cc" line="233"/>
-        <location filename="../finalhe.cc" line="258"/>
+        <location filename="../finalhe.cc" line="206"/>
+        <location filename="../finalhe.cc" line="232"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
         <translation type="unfinished">Para actualizar por USB:
 Ponga el Paquete de Actualización (.PUP) en la carpeta de esta herramienta y reinicie esta aplicación.</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="207"/>
-        <location filename="../finalhe.cc" line="232"/>
-        <location filename="../finalhe.cc" line="257"/>
+        <location filename="../finalhe.cc" line="205"/>
+        <location filename="../finalhe.cc" line="231"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
         <translation type="unfinished">En la PS Vita:
 Opciones -&gt; Actualización de Sistema -&gt; Actualizar Conectando al PC</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="267"/>
+        <location filename="../finalhe.cc" line="258"/>
         <source>Click button to START!</source>
         <translation>¡Pulsa el botón para EMPEZAR!</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="285"/>
+        <location filename="../finalhe.cc" line="276"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>Registrando dispositivo: %1
 Inserte este PIN en su PS Vita: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="289"/>
+        <location filename="../finalhe.cc" line="280"/>
         <source>Registered device.</source>
         <translation>Dispositivo registrado.</translation>
     </message>
@@ -101,8 +97,8 @@ Inserte este PIN en su PS Vita: %2</translation>
     </message>
     <message>
         <location filename="../finalhe.ui" line="122"/>
-        <source>Trim h-encore to ~6.5MB</source>
-        <translation>Reducir h-encore a ~ 6.5 MB</translation>
+        <source>Trim h-encore to ~7MB</source>
+        <translation>Reducir h-encore a ~ 7 MB</translation>
     </message>
 </context>
 <context>
@@ -177,7 +173,7 @@ Click button to START!</source>
         <translation>Usa el Gestor de Contenido en tu PS Vita y conéctala al PC.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="542"/>
+        <location filename="../package.cc" line="539"/>
         <source>Createing psvimg&apos;s</source>
         <translation>Creando el archivo psvimg</translation>
     </message>
@@ -211,7 +207,7 @@ Please check your network connection!</source>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="351"/>
+        <location filename="../finalhe.cc" line="345"/>
         <source>English</source>
         <translation>Inglés</translation>
     </message>

@@ -160,8 +160,6 @@ void FinalHE::updateExpandArea() {
                 item0->setFlags(Qt::NoItemFlags);
                 ui.extraItems->addItem(item0);
                 hasFirmware = true;
-                item->setCheckState(Qt::Checked);
-                i == 0 ? vita->setUse365Update() : vita->setUse368Update();
             } else
                 item->setCheckState(Qt::Unchecked);
             item->setData(Qt::UserRole, i + 1);
@@ -207,56 +205,49 @@ bool FinalHE::checkFwUpdate() {
             ? tr("On PS Vita:\nSettings -> System Update -> Update by Connecting to a PC")
             : tr("To update through USB:\nPut Update Package(.PUP) in this tool's folder and restart the tool")));
         return false;
-    } else if (vita->getDeviceVersion() > "3.60" && vita->getDeviceVersion() < "3.65") {
-        if (vita->has365Update() || vita->has368Update()) {
-            int count = ui.extraItems->count();
-            for (int i = 0; i < count; ++i) {
-                auto *eitem = ui.extraItems->item(i);
-                if (eitem->flags() == Qt::NoItemFlags) continue;
-                bool ok;
-                int n = eitem->data(Qt::UserRole).toInt(&ok);
-                if (ok) {
-                    if (n == 1) {
-                        ui.extraItems->removeItemWidget(eitem);
-                        delete eitem;
-                        count = ui.extraItems->count();
-                        --i;
-                    } else
-                        eitem->setCheckState(n > 1 ? Qt::Checked : Qt::Unchecked);
+    } else if (vita->getDeviceVersion() < "3.65") {
+        bool needUpdate = vita->getDeviceVersion() > "3.61";
+        int count = ui.extraItems->count();
+        for (int i = 0; i < count; ++i) {
+            auto *eitem = ui.extraItems->item(i);
+            if (eitem->flags() == Qt::NoItemFlags) continue;
+            bool ok;
+            int n = eitem->data(Qt::UserRole).toInt(&ok);
+            if (ok) {
+                if (n == 1) {
+                    ui.extraItems->removeItemWidget(eitem);
+                    delete eitem;
+                    count = ui.extraItems->count();
+                    --i;
+                } else if (needUpdate) {
+                    eitem->setCheckState(n > 1 ? Qt::Checked : Qt::Unchecked);
                 }
             }
         }
-        ui.textPkg->setText(tr("Fimrware version is not supported by h-encore.") + "\n"
-            + tr("Update to %1 first.").arg("3.65/3.68") + "\n"
-            + (vita->has368Update()
-            ? tr("On PS Vita:\nSettings -> System Update -> Update by Connecting to a PC")
-            : tr("To update through USB:\nPut Update Package(.PUP) in this tool's folder and restart the tool")));
-        return false;
-    } else if (vita->getDeviceVersion() > "3.65" && vita->getDeviceVersion() < "3.68") {
-        if (vita->has368Update()) {
-            int count = ui.extraItems->count();
-            for (int i = 0; i < count; ++i) {
-                auto *eitem = ui.extraItems->item(i);
-                if (eitem->flags() == Qt::NoItemFlags) continue;
-                bool ok;
-                int n = eitem->data(Qt::UserRole).toInt(&ok);
-                if (ok) {
-                    if (n == 1 || n == 2) {
-                        ui.extraItems->removeItemWidget(eitem);
-                        delete eitem;
-                        count = ui.extraItems->count();
-                        --i;
-                    } else
-                        eitem->setCheckState(n > 2 ? Qt::Checked : Qt::Unchecked);
+        if (needUpdate) {
+            ui.textPkg->setText(tr("Fimrware version is not supported by h-encore.") + "\n"
+                + tr("Update to %1 first.").arg("3.65/3.68") + "\n"
+                + (vita->has368Update()
+                ? tr("On PS Vita:\nSettings -> System Update -> Update by Connecting to a PC")
+                : tr("To update through USB:\nPut Update Package(.PUP) in this tool's folder and restart the tool")));
+            return false;
+        }
+    } else if (vita->getDeviceVersion() < "3.68") {
+        int count = ui.extraItems->count();
+        for (int i = 0; i < count; ++i) {
+            auto *eitem = ui.extraItems->item(i);
+            if (eitem->flags() == Qt::NoItemFlags) continue;
+            bool ok;
+            int n = eitem->data(Qt::UserRole).toInt(&ok);
+            if (ok) {
+                if (n == 1 || n == 2) {
+                    ui.extraItems->removeItemWidget(eitem);
+                    delete eitem;
+                    count = ui.extraItems->count();
+                    --i;
                 }
             }
         }
-        ui.textPkg->setText(tr("Fimrware version is not supported by h-encore.") + "\n"
-            + tr("Update to %1 first.").arg("3.68") + "\n"
-            + (vita->has368Update()
-            ? tr("On PS Vita:\nSettings -> System Update -> Update by Connecting to a PC")
-            : tr("To update through USB:\nPut Update Package(.PUP) in this tool's folder and restart the tool")));
-        return false;
     }
     return true;
 }
@@ -318,9 +309,12 @@ void FinalHE::extraItemsChanged(QListWidgetItem *item) {
         if (checked) {
             switch (fwidx) {
             case 1:
-                vita->setUse365Update();
+                vita->setUse360Update();
                 break;
             case 2:
+                vita->setUse365Update();
+                break;
+            case 3:
                 vita->setUse368Update();
                 break;
             default:

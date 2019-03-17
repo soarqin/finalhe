@@ -34,55 +34,51 @@
         <translation>-- 固件更新 --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="175"/>
+        <location filename="../finalhe.cc" line="173"/>
         <source>-- Additional applications --</source>
         <translation>-- 附加应用程序 --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="204"/>
-        <location filename="../finalhe.cc" line="229"/>
-        <location filename="../finalhe.cc" line="254"/>
+        <location filename="../finalhe.cc" line="202"/>
+        <location filename="../finalhe.cc" line="228"/>
         <source>Fimrware version is not supported by h-encore.</source>
         <translation>h-encore不支持的固件版本</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="205"/>
-        <location filename="../finalhe.cc" line="230"/>
-        <location filename="../finalhe.cc" line="255"/>
+        <location filename="../finalhe.cc" line="203"/>
+        <location filename="../finalhe.cc" line="229"/>
         <source>Update to %1 first.</source>
         <translation>请先更新到%1</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="208"/>
-        <location filename="../finalhe.cc" line="233"/>
-        <location filename="../finalhe.cc" line="258"/>
+        <location filename="../finalhe.cc" line="206"/>
+        <location filename="../finalhe.cc" line="232"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
         <translation>要通过USB更新:
 将更新包(.PUP)放在本工具所在目录内后重启工具</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="207"/>
-        <location filename="../finalhe.cc" line="232"/>
-        <location filename="../finalhe.cc" line="257"/>
+        <location filename="../finalhe.cc" line="205"/>
+        <location filename="../finalhe.cc" line="231"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
         <translation>设定 -&gt; 系统升级 -&gt; 连接至电脑进行升级</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="267"/>
+        <location filename="../finalhe.cc" line="258"/>
         <source>Click button to START!</source>
         <translation>现在点击按钮开始！</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="285"/>
+        <location filename="../finalhe.cc" line="276"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>正在注册设备: %1
 请在PSV上输入PIN: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="289"/>
+        <location filename="../finalhe.cc" line="280"/>
         <source>Registered device.</source>
         <translation>设备注册成功</translation>
     </message>
@@ -96,8 +92,8 @@ Input this PIN on PS Vita: %2</source>
     </message>
     <message>
         <location filename="../finalhe.ui" line="122"/>
-        <source>Trim h-encore to ~6.5MB</source>
-        <translation>将h-encore瘦身到约6.5MB</translation>
+        <source>Trim h-encore to ~7MB</source>
+        <translation>将h-encore瘦身到约7MB</translation>
     </message>
 </context>
 <context>
@@ -172,7 +168,7 @@ Click button to START!</source>
         <translation>在PSV上运行内容管理器并连接到计算机</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="542"/>
+        <location filename="../package.cc" line="539"/>
         <source>Createing psvimg&apos;s</source>
         <translation>正在创建psvimg</translation>
     </message>
@@ -205,7 +201,7 @@ Please check your network connection!</source>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="351"/>
+        <location filename="../finalhe.cc" line="345"/>
         <source>English</source>
         <translation>英语</translation>
     </message>

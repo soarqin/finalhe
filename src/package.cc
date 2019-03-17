@@ -502,18 +502,15 @@ void Package::createPsvImgs(QString titleID) {
                     if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("stitle"))
                         cdir.removeRecursively();
                     cdir = curr;
-                    if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("sys"))
-                        cdir.removeRecursively();
-                    cdir = curr;
                     if (cdir.cd("resource") && cdir.cd("image") && cdir.cd("sysc")) {
                         cdir.remove("kuro_waku.png");
                         cdir.remove("shiro_waku.png");
                         cdir.remove("sysc_bgm_mode_base.jpg");
                         cdir.remove("sysc_black.jpg");
-                        cdir.remove("sysc_button_number.png");
                         cdir.remove("sysc_cg_mode_base.jpg");
                         cdir.remove("sysc_how_to_base.jpg");
                         cdir.remove("sysc_info_base.jpg");
+                        cdir.remove("sysc_load_base.jpg");
                         cdir.remove("sysc_log_base.jpg");
                         cdir.remove("sysc_mabuta_1.png");
                         cdir.remove("sysc_mabuta_2.png");

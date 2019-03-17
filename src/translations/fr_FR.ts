@@ -18,56 +18,52 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="175"/>
+        <location filename="../finalhe.cc" line="173"/>
         <source>-- Additional applications --</source>
         <translation>-- Applications Additionelles --</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="204"/>
-        <location filename="../finalhe.cc" line="229"/>
-        <location filename="../finalhe.cc" line="254"/>
+        <location filename="../finalhe.cc" line="202"/>
+        <location filename="../finalhe.cc" line="228"/>
         <source>Fimrware version is not supported by h-encore.</source>
         <translation>La version du Fimrware n&apos;est pas supporté par h-encore.</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="205"/>
-        <location filename="../finalhe.cc" line="230"/>
-        <location filename="../finalhe.cc" line="255"/>
+        <location filename="../finalhe.cc" line="203"/>
+        <location filename="../finalhe.cc" line="229"/>
         <source>Update to %1 first.</source>
         <translation>Mettre à jour vers %1 d’abord.</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="207"/>
-        <location filename="../finalhe.cc" line="232"/>
-        <location filename="../finalhe.cc" line="257"/>
+        <location filename="../finalhe.cc" line="205"/>
+        <location filename="../finalhe.cc" line="231"/>
         <source>On PS Vita:
 Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
         <translation>Sur La PS Vita:
 Paramètres -&gt; Mise à jour système -&gt; mettre à jour connexion au PC</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="208"/>
-        <location filename="../finalhe.cc" line="233"/>
-        <location filename="../finalhe.cc" line="258"/>
+        <location filename="../finalhe.cc" line="206"/>
+        <location filename="../finalhe.cc" line="232"/>
         <source>To update through USB:
 Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source>
         <translation>Pour mettre a jour via  USB:
 Mettre le fichier de mise à jour (.PUP) dans le dossier de cet applications &apos;et redémarrer la</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="267"/>
+        <location filename="../finalhe.cc" line="258"/>
         <source>Click button to START!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="285"/>
+        <location filename="../finalhe.cc" line="276"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>Registrement de l’appareil: %1
 Mettre ce PIN dans la PS Vita: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="289"/>
+        <location filename="../finalhe.cc" line="280"/>
         <source>Registered device.</source>
         <translation>Appareil enregistré.</translation>
     </message>
@@ -101,8 +97,8 @@ Mettre ce PIN dans la PS Vita: %2</translation>
     </message>
     <message>
         <location filename="../finalhe.ui" line="122"/>
-        <source>Trim h-encore to ~6.5MB</source>
-        <translation>Reduction de h-encore à environs ~6.5MB</translation>
+        <source>Trim h-encore to ~7MB</source>
+        <translation>Reduction de h-encore à environs ~7MB</translation>
     </message>
 </context>
 <context>
@@ -167,7 +163,7 @@ Mettre ce PIN dans la PS Vita: %2</translation>
         <translation>Réduction du paquet</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="542"/>
+        <location filename="../package.cc" line="539"/>
         <source>Createing psvimg&apos;s</source>
         <translation>Création du psvimg&apos;s</translation>
     </message>
@@ -195,7 +191,7 @@ Mettre ce PIN dans la PS Vita: %2</translation>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="351"/>
+        <location filename="../finalhe.cc" line="345"/>
         <source>English</source>
         <translation>Anglaise</translation>
     </message>

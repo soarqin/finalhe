@@ -5,8 +5,8 @@ a tool to push h-encore exploit for PS VITA/PS TV automatically
 see [CREDITS.md](CREDITS.md)
 
 # Usage
-1. For common use just open the executable binary and follow instructions.
-2. If you want to update PS Vita to firmware 3.65 or 3.68 through USB connection, just download related Update Packages from [here](https://darthsternie.bplaced.net/ps-vita.html) and extract the normal PSP2UPDAT.PUP to the same folder of this tool
+1. For common use just open the executable binary and follow instructions. Supported firmwares: 3.60/3.61/3.65/3.67/3.68
+2. If you want to update PS Vita to firmware 3.60, 3.65 or 3.68 through USB connection, just download related Update Packages from [here](darthsternie.net/index.php/ps-vita-firmwares/) and extract the normal PSP2UPDAT.PUP to the same folder of this tool
 3. If you want to install VitaShell or enso by transferring in Content Manager, just download prebuilt zip from `releases` tab and put in the same folder of this tool
 
 # Prebuilt binaries for windows/macOS
