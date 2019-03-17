@@ -31,9 +31,9 @@
 #include <QSettings>
 
 const char *HENCORE_FULL_FILE = "h-encore-full.zip";
-const char *HENCORE_FULL_SHA256 = "f4dc2160e79475237932180956b2fc14ac73eebe6b4e09a14dfa02ad94e0c99e";
+const char *HENCORE_FULL_SHA256 = "ebbcaa1472eb541a6ec10fd5f31a64d40dddfe1767929031a9d5176b3f859a1c";
 const char *MEMECORE_FULL_FILE = "memecore-full.zip";
-const char *MEMECORE_FULL_SHA256 = "e6945976de13d2e4257b917d2e18a1eb5e44c1adf9ab197804cdd4637ad974fa";
+const char *MEMECORE_FULL_SHA256 = "c1c43f8a5c578da130ae109ef2cc2c1bfae5a472e424adb87b99ef1d8f919b97";
 
 const char *BSPKG_URL = "http://ares.dl.playstation.net/cdn/JP0741/PCSG90096_00/xGMrXOkORxWRyqzLMihZPqsXAbAXLzvAdJFqtPJLAZTgOcqJobxQAhLNbgiFydVlcmVOrpZKklOYxizQCRpiLfjeROuWivGXfwgkq.pkg";
 const char *BSPKG_FILE = "BitterSmile.pkg";
