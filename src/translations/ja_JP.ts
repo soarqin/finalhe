@@ -146,7 +146,7 @@ PSVitaにPINコードを入力して下さい: %2</translation>
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
 3. Transfer &quot;h-encore&quot; to your PS Vita.
 4. Run &quot;h-encore&quot; and... Yay, that&apos;s it!</source>
-        <translation>準備が完了したらPSVitaで以下の手順に従ってください:
+        <translation>準備が完了しました。PSVitaで以下の手順に従ってください:
 1. コンテンツ管理を実行してPCに接続
 2. 「パソコン-&gt;PS Vita」 -&gt;「アプリケーション」 -&gt;「PS Vita」を選択
 3. PSVitaにh-encoreをコピー
@@ -170,7 +170,7 @@ Click button to START!</source>
     <message>
         <location filename="../package.cc" line="60"/>
         <source>Launch Content Manager on PS Vita and connect to computer.</source>
-        <translation>PCとUSB接続したPSVitaでコンテンツ管理を実行して下さい</translation>
+        <translation>PSVitaでコンテンツ管理を実行してPCと接続して下さい</translation>
     </message>
     <message>
         <location filename="../package.cc" line="539"/>
