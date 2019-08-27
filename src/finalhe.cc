@@ -254,7 +254,12 @@ bool FinalHE::checkFwUpdate() {
 
 void FinalHE::enableStart() {
     if (checkFwUpdate()) {
-        pkg->setUseMemecore(vita->getDeviceVersion() == "3.60");
+        if (vita->getDeviceVersion() <= "3.61")
+            pkg->setCoreType(ECoreType::Memecore);
+        else if (vita->getDeviceVersion() <= "3.68")
+            pkg->setCoreType(ECoreType::HEncore);
+        else if (vita->getDeviceVersion() <= "3.71")
+            pkg->setCoreType(ECoreType::HEncore2);
         ui.textPkg->setText(tr("Click button to START!"));
         ui.btnStart->setEnabled(true);
     }

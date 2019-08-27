@@ -32,6 +32,8 @@
 
 const char *HENCORE_FULL_FILE = "h-encore-full.zip";
 const char *HENCORE_FULL_SHA256 = "ebbcaa1472eb541a6ec10fd5f31a64d40dddfe1767929031a9d5176b3f859a1c";
+const char *HENCORE_2_FULL_FILE = "h-encore-2-full.zip";
+const char *HENCORE_2_FULL_SHA256 = "ebbcaa1472eb541a6ec10fd5f31a64d40dddfe1767929031a9d5176b3f859a1c";
 const char *MEMECORE_FULL_FILE = "memecore-full.zip";
 const char *MEMECORE_FULL_SHA256 = "c1c43f8a5c578da130ae109ef2cc2c1bfae5a472e424adb87b99ef1d8f919b97";
 
@@ -286,7 +288,23 @@ void Package::startUnpackZipsFull() {
     for (auto &p : selectedExtraApps) {
         unzipQueue.push_back(*p);
     }
-    unzipQueue.push_back(AppInfo{ QDir(pkgBasePath).filePath(useMemecore ? MEMECORE_FULL_FILE : HENCORE_FULL_FILE), "PCSG90096", "h-encore" });
+    QString filename;
+    QString name;
+    switch(coreType) {
+    case ECoreType::HEncore:
+        filename = HENCORE_FULL_FILE;
+        name = "h-encore";
+        break;
+    case ECoreType::HEncore2:
+        filename = HENCORE_2_FULL_FILE;
+        name = "h-encore²";
+        break;
+    case ECoreType::Memecore:
+        filename = MEMECORE_FULL_FILE;
+        name = "h-encore";
+        break;
+    }
+    unzipQueue.push_back(AppInfo{ QDir(pkgBasePath).filePath(filename), "PCSG90096", name });
     emit unpackNext();
 }
 
@@ -295,7 +313,23 @@ void Package::startUnpackZips() {
     for (auto &p : selectedExtraApps) {
         unzipQueue.push_back(*p);
     }
-    unzipQueue.push_back(AppInfo{ useMemecore ? ":/main/resources/raw/memecore.zip" : ":/main/resources/raw/h-encore.zip", "PCSG90096", "h-encore" });
+    QString filename;
+    QString name;
+    switch(coreType) {
+    case ECoreType::HEncore:
+        filename = ":/main/resources/raw/h-encore.zip";
+        name = "h-encore";
+        break;
+    case ECoreType::HEncore2:
+        filename = ":/main/resources/raw/h-encore-2.zip";
+        name = "h-encore²";
+        break;
+    case ECoreType::Memecore:
+        filename = ":/main/resources/raw/memecore.zip";
+        name = "h-encore";
+        break;
+    }
+    unzipQueue.push_back(AppInfo{ filename, "PCSG90096", name });
     emit unpackNext();
 }
 
@@ -433,8 +467,23 @@ void Package::checkHencoreFull() {
     static bool succ = false;
     Worker::start(this, [this](void *arg) {
         QDir dir(pkgBasePath);
-        QString filename = useMemecore ? dir.filePath(MEMECORE_FULL_FILE) : dir.filePath(HENCORE_FULL_FILE);
-        *(bool*)arg = verify(filename, useMemecore ? MEMECORE_FULL_SHA256 : HENCORE_FULL_SHA256);
+        QString filename;
+        const char *hash;
+        switch(coreType) {
+        case ECoreType::HEncore:
+            filename = dir.filePath(HENCORE_FULL_FILE);
+            hash = HENCORE_FULL_SHA256;
+            break;
+        case ECoreType::HEncore2:
+            filename = dir.filePath(HENCORE_2_FULL_FILE);
+            hash = HENCORE_2_FULL_SHA256;
+            break;
+        case ECoreType::Memecore:
+            filename = dir.filePath(MEMECORE_FULL_FILE);
+            hash = MEMECORE_FULL_SHA256;
+            break;
+        }
+        *(bool*)arg = verify(filename, hash);
     }, [this](void *arg) {
         if (*(bool*)arg) {
             startUnpackZipsFull();

@@ -2,6 +2,7 @@
     <qresource prefix="/main">
         <file>resources/xml/psp2-updatelist.xml</file>
         <file>resources/raw/h-encore.zip</file>
+        <file>resources/raw/h-encore-2.zip</file>
         <file>resources/raw/memecore.zip</file>
         <file>resources/images/finalhe.png</file>
     </qresource>

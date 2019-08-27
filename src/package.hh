@@ -30,6 +30,12 @@ struct AppInfo {
     QString name;
 };
 
+enum class ECoreType {
+    HEncore,
+    HEncore2,
+    Memecore,
+};
+
 class Package : public QObject {
     Q_OBJECT
 public:
@@ -41,7 +47,7 @@ public:
     inline const QMap<QString, AppInfo> &getExtraApps() { return extraApps; }
     void selectExtraApp(const QString &titleId, bool select);
     void calcBackupKey(const QString &aid);
-    inline void setUseMemecore(bool u) { useMemecore = u; }
+    inline void setCoreType(ECoreType t) { coreType = t; }
 
 signals:
     void startDownload();
@@ -79,7 +85,7 @@ private slots:
 
 private:
     bool trimApp = false;
-    bool useMemecore = false;
+    ECoreType coreType = ECoreType::HEncore;
     QByteArray aidBytes;
     QString pkgBasePath;
     QString appBasePath;
