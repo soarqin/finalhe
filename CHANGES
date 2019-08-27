@@ -1,3 +1,7 @@
+v1.9
+1. Support 3.69-3.71 with h-encore²
+2. Fixed a bug which causes memcore not working on 3.61
+
 v1.81
 1. Remove deflate from h-encore to get payload loading slight faster
 2. Support 3.61/3.67 now, you won't be asked to update on these firmwares (#46)

@@ -66,19 +66,19 @@ Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
         <translation>设定 -&gt; 系统升级 -&gt; 连接至电脑进行升级</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="258"/>
+        <location filename="../finalhe.cc" line="263"/>
         <source>Click button to START!</source>
         <translation>现在点击按钮开始！</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="276"/>
+        <location filename="../finalhe.cc" line="281"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>正在注册设备: %1
 请在PSV上输入PIN: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="280"/>
+        <location filename="../finalhe.cc" line="285"/>
         <source>Registered device.</source>
         <translation>设备注册成功</translation>
     </message>
@@ -99,43 +99,43 @@ Input this PIN on PS Vita: %2</source>
 <context>
     <name>Package</name>
     <message>
-        <location filename="../package.cc" line="124"/>
+        <location filename="../package.cc" line="126"/>
         <source>Downloading %1</source>
         <translation>正在下载 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="145"/>
+        <location filename="../package.cc" line="147"/>
         <source>Unpacking %1</source>
         <translation>正在解包 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="159"/>
-        <location filename="../package.cc" line="171"/>
+        <location filename="../package.cc" line="161"/>
+        <location filename="../package.cc" line="173"/>
         <source>Failed to unpack %1</source>
         <translation>无法解包 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="196"/>
+        <location filename="../package.cc" line="198"/>
         <source>Decompressing %1</source>
         <translation>正在解压 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="216"/>
+        <location filename="../package.cc" line="218"/>
         <source>Failed to decompress %1</source>
         <translation>无法解压 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="306"/>
+        <location filename="../package.cc" line="340"/>
         <source>Verifying %1</source>
         <translation>正在校验 %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="335"/>
+        <location filename="../package.cc" line="369"/>
         <source>sha256sum mismatch! Please check your network.</source>
         <translation>sha256sum不匹配！请检查网络状态</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="425"/>
+        <location filename="../package.cc" line="459"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -158,17 +158,17 @@ Click button to START!</source>
 现在点击按钮开始！</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="461"/>
+        <location filename="../package.cc" line="510"/>
         <source>Trimming package</source>
         <translation>正在瘦身</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="60"/>
+        <location filename="../package.cc" line="62"/>
         <source>Launch Content Manager on PS Vita and connect to computer.</source>
         <translation>在PSV上运行内容管理器并连接到计算机</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="539"/>
+        <location filename="../package.cc" line="588"/>
         <source>Createing psvimg&apos;s</source>
         <translation>正在创建psvimg</translation>
     </message>
@@ -201,7 +201,7 @@ Please check your network connection!</source>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="345"/>
+        <location filename="../finalhe.cc" line="350"/>
         <source>English</source>
         <translation>英语</translation>
     </message>

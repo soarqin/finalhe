@@ -51,19 +51,19 @@ Put Update Package(.PUP) in this tool&apos;s folder and restart the tool</source
 Mettre le fichier de mise à jour (.PUP) dans le dossier de cet applications &apos;et redémarrer la</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="258"/>
+        <location filename="../finalhe.cc" line="263"/>
         <source>Click button to START!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="276"/>
+        <location filename="../finalhe.cc" line="281"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>Registrement de l’appareil: %1
 Mettre ce PIN dans la PS Vita: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="280"/>
+        <location filename="../finalhe.cc" line="285"/>
         <source>Registered device.</source>
         <translation>Appareil enregistré.</translation>
     </message>
@@ -104,48 +104,48 @@ Mettre ce PIN dans la PS Vita: %2</translation>
 <context>
     <name>Package</name>
     <message>
-        <location filename="../package.cc" line="60"/>
+        <location filename="../package.cc" line="62"/>
         <source>Launch Content Manager on PS Vita and connect to computer.</source>
         <translation>Lancer le gestionnaire de contenu sur la PS Vita et connecter là au PC.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="124"/>
+        <location filename="../package.cc" line="126"/>
         <source>Downloading %1</source>
         <translation>Téléchargement %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="145"/>
+        <location filename="../package.cc" line="147"/>
         <source>Unpacking %1</source>
         <translation>Dépaquetage %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="159"/>
-        <location filename="../package.cc" line="171"/>
+        <location filename="../package.cc" line="161"/>
+        <location filename="../package.cc" line="173"/>
         <source>Failed to unpack %1</source>
         <translation>Échec du dépaquetage %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="196"/>
+        <location filename="../package.cc" line="198"/>
         <source>Decompressing %1</source>
         <translation>Décompression %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="216"/>
+        <location filename="../package.cc" line="218"/>
         <source>Failed to decompress %1</source>
         <translation>Échec de la décompression %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="306"/>
+        <location filename="../package.cc" line="340"/>
         <source>Verifying %1</source>
         <translation>Vérification %1</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="335"/>
+        <location filename="../package.cc" line="369"/>
         <source>sha256sum mismatch! Please check your network.</source>
         <translation>sha256sum incorrect! S&apos;il vous plaît vérifier votre réseau.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="425"/>
+        <location filename="../package.cc" line="459"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -158,12 +158,12 @@ Mettre ce PIN dans la PS Vita: %2</translation>
 4. Exécuter &quot;h-encore&quot; et... Yay, C&apos;est&apos;Bon!</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="461"/>
+        <location filename="../package.cc" line="510"/>
         <source>Trimming package</source>
         <translation>Réduction du paquet</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="539"/>
+        <location filename="../package.cc" line="588"/>
         <source>Createing psvimg&apos;s</source>
         <translation>Création du psvimg&apos;s</translation>
     </message>
@@ -191,7 +191,7 @@ Mettre ce PIN dans la PS Vita: %2</translation>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="345"/>
+        <location filename="../finalhe.cc" line="350"/>
         <source>English</source>
         <translation>Anglaise</translation>
     </message>

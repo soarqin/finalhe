@@ -65,19 +65,19 @@ Settings -&gt; System Update -&gt; Update by Connecting to a PC</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="258"/>
+        <location filename="../finalhe.cc" line="263"/>
         <source>Click button to START!</source>
         <translation>Başlamak için düğmeye basın.</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="276"/>
+        <location filename="../finalhe.cc" line="281"/>
         <source>Registering device: %1
 Input this PIN on PS Vita: %2</source>
         <translation>Cihaz kaydediliyor: %1
 Bu PIN&apos;i PS Vita cihazınızda girin: %2</translation>
     </message>
     <message>
-        <location filename="../finalhe.cc" line="280"/>
+        <location filename="../finalhe.cc" line="285"/>
         <source>Registered device.</source>
         <translation>Cihaz kaydedildi.</translation>
     </message>
@@ -99,43 +99,43 @@ Bu PIN&apos;i PS Vita cihazınızda girin: %2</translation>
 <context>
     <name>Package</name>
     <message>
-        <location filename="../package.cc" line="124"/>
+        <location filename="../package.cc" line="126"/>
         <source>Downloading %1</source>
         <translation>%1 indiriliyor</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="145"/>
+        <location filename="../package.cc" line="147"/>
         <source>Unpacking %1</source>
         <translation>%1 arşivden çıkarılıyor</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="159"/>
-        <location filename="../package.cc" line="171"/>
+        <location filename="../package.cc" line="161"/>
+        <location filename="../package.cc" line="173"/>
         <source>Failed to unpack %1</source>
         <translation>%1 arşivden çıkarılamadı</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="196"/>
+        <location filename="../package.cc" line="198"/>
         <source>Decompressing %1</source>
         <translation>%1 decompress ediliyor</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="216"/>
+        <location filename="../package.cc" line="218"/>
         <source>Failed to decompress %1</source>
         <translation>%1 decompress edilemedi</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="306"/>
+        <location filename="../package.cc" line="340"/>
         <source>Verifying %1</source>
         <translation>%1 doğrulanıyor</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="335"/>
+        <location filename="../package.cc" line="369"/>
         <source>sha256sum mismatch! Please check your network.</source>
         <translation>sha256sum uyuşmadı. Lütfen internet bağlantınızı kontrol edin.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="425"/>
+        <location filename="../package.cc" line="459"/>
         <source>Everything is ready, now follow below steps on your PS Vita:
 1. Launch Content Manager and connect to your computer.
 2. Select &quot;PC -&gt; PS Vita System&quot; -&gt; &quot;Applications&quot; -&gt; &quot;PS Vita&quot;.
@@ -159,17 +159,17 @@ Click button to START!</source>
 Başlamak için düğmeye basın.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="461"/>
+        <location filename="../package.cc" line="510"/>
         <source>Trimming package</source>
         <translation>Paketten gereksiz dosyalar siliniyor.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="60"/>
+        <location filename="../package.cc" line="62"/>
         <source>Launch Content Manager on PS Vita and connect to computer.</source>
         <translation>PS Vita&apos;nızda İçerik Yöneticisi&apos;ni açın ve bilgisayara bağlayın.</translation>
     </message>
     <message>
-        <location filename="../package.cc" line="539"/>
+        <location filename="../package.cc" line="588"/>
         <source>Createing psvimg&apos;s</source>
         <translation>psvimg oluşturuluyor.</translation>
     </message>
@@ -203,7 +203,7 @@ Lütfen internet bağlantınızı kontrol edin.</translation>
     <name>base</name>
     <message>
         <location filename="../finalhe.cc" line="63"/>
-        <location filename="../finalhe.cc" line="345"/>
+        <location filename="../finalhe.cc" line="350"/>
         <source>English</source>
         <translation>İngilizce</translation>
     </message>
