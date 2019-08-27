@@ -94,9 +94,6 @@ static int scestat(const char *path, SceIoStat *sce) {
     sce->sst_mode = htole32(sce->sst_mode);
     sce->sst_attr = htole32(0);
     sce->sst_size = htole64(st.st_size);
-    st.st_ctime = 1533127150;
-    st.st_atime = 1533127150;
-    st.st_mtime = 1533127150;
     time_to_scetime(&st.st_ctime, &sce->sst_ctime);
     time_to_scetime(&st.st_atime, &sce->sst_atime);
     time_to_scetime(&st.st_mtime, &sce->sst_mtime);

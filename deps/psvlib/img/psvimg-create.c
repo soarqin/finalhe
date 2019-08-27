@@ -12,7 +12,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <time.h>
-#ifdef _MSC_VER
+#ifdef _WIN32
 #include <direct.h>
 #define mkdir(n, m) _mkdir(n)
 #else
