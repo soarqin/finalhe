@@ -16,7 +16,7 @@ see [CREDITS.md](CREDITS.md)
 
 ### Prebuilt binaries
 
-Download a pre-built executable binary below and follow instructions. Supported firmwares: 3.60, 3.61, 3.65-3.71
+Download a pre-built executable binary below and follow instructions. Supported firmwares: 3.60, 3.61, 3.65-3.72
 
 - For Windows get the [latest release](https://github.com/soarqin/finalhe/releases/latest)
   - if you have not installed USB driver for PS Vita: install `QcmaDriver_winusb.exe` (also on the releases page) 

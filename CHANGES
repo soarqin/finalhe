@@ -1,3 +1,6 @@
+v1.91
+1. Added support for 3.72 with updated h-encore²
+
 v1.9
 1. Support 3.69-3.71 with h-encore²
 2. Fixed a bug which causes memcore not working on 3.61
