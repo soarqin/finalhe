@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-
+cmake_policy(SET CMP0100 NEW)
 project(finalhe C CXX)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/Modules")
