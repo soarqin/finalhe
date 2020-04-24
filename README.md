@@ -36,7 +36,7 @@ Download a pre-built executable binary below and follow instructions. Supported 
 
 1. macOS: install [brew](https://brew.sh), install libusb & qt through brew (`brew install libusb qt`)
 2. Linux:
-   - Debian/Ubuntu: install build-essential, libxml2-dev, libusb-dev, zlib-dev or zlib1g-dev, qtbase5-dev, qttools5, cmake(if use cmake to build)
+   - Debian/Ubuntu: install build-essential, libxml2-dev, libusb-dev, libusb-1.0-0-dev, zlib-dev or zlib1g-dev, qtbase5-dev, qttools5, cmake(if use cmake to build)
    - Fedora/CentOS: group install "Development Tools", install libxml2-devel, libusb-devel, zlib-devel, qt5-qtbase-devel, qt5-qtbase, cmake3(if use cmake to build)
    - openSUSE: install cmake >= 11.0, gcc-c++, zlib-devel, libxml2-devel, libQt5Widgets-devel, libQt5Network-devel, libqt5-linguist-devel, libusb-compat-devel
    - Arch: install base-devel, libxml2, libusb, zlib, qt5, cmake (if using cmake to build)
