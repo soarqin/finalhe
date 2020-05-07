@@ -1,4 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
+if(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.17.0")
+    cmake_policy(SET CMP0100 NEW)
+endif()
 
 project(finalhe C CXX)
 
