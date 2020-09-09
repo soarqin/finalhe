@@ -30,7 +30,7 @@ Download a pre-built executable binary below and follow instructions. Supported 
   3. Run "FinalHE"
       - in your terminal type `FinalHE`
 - For Arch Linux
-  1. Install the `[finalhe-git](https://aur.archlinux.org/packages/finalhe-git/)` package from AUR:
+  1. Install the [`finalhe-git`](https://aur.archlinux.org/packages/finalhe-git/) package from AUR:
       - `yay -S finalhe-git`
   2. Run `finalhe` in your terminal
 
