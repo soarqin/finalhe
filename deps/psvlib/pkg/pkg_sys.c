@@ -7,17 +7,18 @@
 #include <string.h>
 #include <stdarg.h>
 
+static int gStdoutRedirected;
+
+extern pkg_output_func _output_func;
+extern pkg_error_func _error_func;
+
 #if defined(_WIN32)
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
 static HANDLE gStdout;
-static int gStdoutRedirected;
 static UINT gOldCP;
-
-extern pkg_output_func _output_func;
-extern pkg_error_func _error_func;
 
 void sys_output_init(void)
 {
