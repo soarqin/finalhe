@@ -1,8 +1,12 @@
 #include "sc_crc32.h"
 
+#ifdef __arm64__
+#include "sse2neon.h"
+#else
 #include <wmmintrin.h> // PCLMUL
 #include <tmmintrin.h> // SSSE3
 #include <smmintrin.h> // SSS4
+#endif
 
 // Whitepaper: https://www.intel.com/content/dam/www/public/us/en/documents/white-papers/fast-crc-computation-generic-polynomials-pclmulqdq-paper.pdf
 // ZLIB licensed code from https://github.com/jtkukunas/zlib/blob/master/crc_folding.c
