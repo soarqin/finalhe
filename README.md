@@ -1,6 +1,6 @@
 # Final h-encore
 
-Push the h-encore exploit for PS VITA andPS TV through a Windows, macOS or Linux GUI.
+Push the h-encore exploit for PS VITA and PS TV through a Windows, macOS or Linux GUI.
 
 ## Credits
 
