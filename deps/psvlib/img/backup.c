@@ -11,6 +11,7 @@
 #include <utime.h>
 #include <unistd.h>
 #endif
+#include <string.h>
 #include <fcntl.h>
 #include <stdint.h>
 #include <stdio.h>
