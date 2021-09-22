@@ -35,8 +35,8 @@ Download a pre-built executable binary below and follow instructions. Supported 
 ### Prerequisites 
 
 1. macOS: install [brew](https://brew.sh), install libusb, pkg-config & qt through brew (`brew install libusb pkg-config qt5`)
-  - Add qt to your path `echo 'export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"' >> ~/.zshrc`
-  - Add qt5 related environment variables to your zsh profile  `export LDFLAGS="-L/opt/homebrew/opt/qt@5/lib" >> ~/.zshrc && export CPPFLAGS="-I/opt/homebrew/opt/qt@5/include" >> ~/.zshcr && export PKG_CONFIG_PATH="/opt/homebrew/opt/qt@5/lib/pkgconfig" >> ~/.zshrc`
+    - Add qt to your path `echo 'export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"' >> ~/.zshrc`
+    - Add qt5 related environment variables to your zsh profile  `export LDFLAGS="-L/opt/homebrew/opt/qt@5/lib" >> ~/.zshrc && export CPPFLAGS="-I/opt/homebrew/opt/qt@5/include" >> ~/.zshcr && export PKG_CONFIG_PATH="/opt/homebrew/opt/qt@5/lib/pkgconfig" >> ~/.zshrc`
   - Allow the changes to your profile to take effect `source ~/.zshrc`
 2. macOS using build script:
     - change into the projects root directory and execute the `macOSBuildScript.sh` script: `./macOSBuildScript.sh`
