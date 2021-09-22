@@ -38,6 +38,9 @@ Download a pre-built executable binary below and follow instructions. Supported 
   - Add qt to your path `echo 'export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"' >> ~/.zshrc`
   - Add qt5 related environment variables to your zsh profile  `export LDFLAGS="-L/opt/homebrew/opt/qt@5/lib" >> ~/.zshrc && export CPPFLAGS="-I/opt/homebrew/opt/qt@5/include" >> ~/.zshcr && export PKG_CONFIG_PATH="/opt/homebrew/opt/qt@5/lib/pkgconfig" >> ~/.zshrc`
   - Allow the changes to your profile to take effect `source ~/.zshrc`
+2. macOS using build script:
+    - change into the projects root directory and execute the `macOSBuildScript.sh` script: `./macOSBuildScript.sh`
+    - The script will attempt to install all needed dependencies then build the project. After the build is done, it will ask the user if they want to run FinalHE or not.
 2. Linux:
    - Debian/Ubuntu: install build-essential, libxml2-dev, libusb-dev, libusb-1.0-0-dev, zlib-dev or zlib1g-dev, qtbase5-dev, qttools5, cmake(if use cmake to build)
    - Fedora/CentOS: group install "Development Tools", install libxml2-devel, libusb-devel, zlib-devel, qt5-qtbase-devel, qt5-qtbase, cmake3(if use cmake to build)
