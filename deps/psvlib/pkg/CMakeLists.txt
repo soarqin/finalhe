@@ -1,6 +1,7 @@
 if (MSVC)
     add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif ()
+add_definitions(-Wno-implicit-function-declaration)
 add_library(vitapkg
     pkg.c pkg.h
     pkg_out.c pkg_out.h
