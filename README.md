@@ -34,7 +34,7 @@ Download a pre-built executable binary below and follow instructions. Supported 
 
 ### Prerequisites 
 
-1. macOS: install [brew](https://brew.sh), install libusb, pkg-config & qt through brew (`brew install libusb pkg-config qt`)
+1. macOS: install [brew](https://brew.sh), install libusb, pkg-config & qt5 through brew (`brew install libusb pkg-config qt5`)
 2. Linux:
    - Debian/Ubuntu: install build-essential, libxml2-dev, libusb-dev, libusb-1.0-0-dev, zlib-dev or zlib1g-dev, qtbase5-dev, qttools5, cmake(if use cmake to build)
    - Fedora/CentOS: group install "Development Tools", install libxml2-devel, libusb-devel, zlib-devel, qt5-qtbase-devel, qt5-qtbase, qt5-linguist, cmake3(if use cmake to build)
@@ -46,7 +46,7 @@ Download a pre-built executable binary below and follow instructions. Supported 
 You can choose either `qmake` or `cmake` to build
 
 - cmake: run `cmake` to generate Makefile for compiling
-  - macOS: it cannot produce app bundle, and you need to specify `CMAKE_PREFIX_PATH` if Qt is not installed in default location: `cmake -DCMAKE_PREFIX_PATH=<Path of Qt Root> <Path of Project Root>`
+  - macOS: it cannot produce app bundle, and you need to specify `CMAKE_PREFIX_PATH` if Qt 5 is not installed in default location: `cmake -DCMAKE_PREFIX_PATH=<Path of Qt 5 Root> <Path of Project Root>`
 - qmake: run `qmake` to generate Makefile for compiling, run `make lcopy` in `src` folder to compile translations and copy them to binary folder
 
 ## Contribute translations

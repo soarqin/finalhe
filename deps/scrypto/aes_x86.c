@@ -1,8 +1,29 @@
 #include "aes.h"
 
 #include <string.h>
+
+#ifdef __arm64__
+#include "sse2neon.h"
+
+__m128i _mm_aesdec_si128 (__m128i a, __m128i RoundKey)
+{
+    return vaesimcq_u8(vaesdq_u8(a, (__m128i){})) ^ RoundKey;
+}
+
+__m128i _mm_aesdeclast_si128 (__m128i a, __m128i RoundKey)
+{
+    return vaesdq_u8(a, (__m128i){}) ^ RoundKey;
+}
+
+__m128i _mm_aesimc_si128 (__m128i a)
+{
+    return vaesimcq_u8(a);
+}
+
+#else
 #include <wmmintrin.h> // AESNI
 #include <tmmintrin.h> // SSSE3
+#endif
 
 #define AES_INIT_128(rkeys, i, rcon)               \
 {                                                  \
