@@ -42,7 +42,7 @@ FinalHE::FinalHE(QWidget *parent): QMainWindow(parent) {
     ui.textMTP->setStyleSheet("QLabel { color : blue; }");
 
     ui.progressBar->setMaximum(100);
-    QDir baseDir, dir(qApp->applicationDirPath());
+    QDir baseDir, dir(QDir::currentPath());
 #ifdef __APPLE__
     dir.cdUp(); dir.cdUp(); dir.cdUp();
 #endif
