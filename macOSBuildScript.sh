@@ -55,12 +55,39 @@ echo "All dependencies have been installed."
 echo "Building FinalHE..."
 cmake .
 make
+
+APPDIR="$(pwd)/src/FinalHE.app"
+if [ -d "$APPDIR" ]; then
+    rm -rf "$APPDIR"
+fi
+
+# create macOS standalone application
+mkdir "$APPDIR"
+mkdir "$APPDIR/Contents"
+cp "$(pwd)/src/FinalHE" "$APPDIR/Contents/FinalHE"
+
+mkdir "$APPDIR/Contents/Resources"
+touch "$APPDIR/Contents/Info.plist"
+echo '<?xml version="1.0" encoding="UTF-8"?>
+     <plist version="1.0">
+     <dict>
+        <key>CFBundleExecutable</key>
+	    <string>FinalHE</string>
+        <key>CFBundleIconFile</key>
+        <string>finalhe</string>
+        <key>CFBundleShortVersionString</key>
+        <string>1.92</string>
+     </dict>
+</plist>
+' > "$APPDIR/Contents/Info.plist"
+cp "$(pwd)/src/finalhe.icns" "$APPDIR/Contents/Resources/finalhe.icns"
+
 echo "Done."
 
 read -p "Would you like to run FinalHE (y/n)? " answer
 case ${answer:0:1} in
     y|Y )
-         $(pwd)/src/./FinalHE
+         open $(pwd)/src/FinalHE.app
     ;;
     * )
         exit 0
