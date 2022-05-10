@@ -258,7 +258,7 @@ void FinalHE::enableStart() {
             pkg->setCoreType(ECoreType::Memecore);
         else if (vita->getDeviceVersion() <= "3.68")
             pkg->setCoreType(ECoreType::HEncore);
-        else if (vita->getDeviceVersion() <= "3.73")
+        else if (vita->getDeviceVersion() >= "3.73")
             pkg->setCoreType(ECoreType::HEncore2);
         ui.textPkg->setText(tr("Click button to START!"));
         ui.btnStart->setEnabled(true);
