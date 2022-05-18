@@ -24,10 +24,8 @@ win32-msvc* {
     LIBS += \
         -L../deps/libusb -llibusb \
         -L../deps/libxml2 -llibxml2 \
-        -L../deps/iconv -liconv
-    !CONFIG(static) {
-        LIBS += -L../deps/zlib -lzstatic
-    }
+        -L../deps/iconv -liconv \
+        -L../deps/zlib -lzstatic
 } else {
     QT_CONFIG -= no-pkg-config
     CONFIG += link_pkgconfig
@@ -61,6 +59,7 @@ TRANSLATIONS += \
     translations/fr_FR.ts \
     translations/it_IT.ts \
     translations/ja_JP.ts \
+    translations/pl_PL.ts \
     translations/pt_BR.ts \
     translations/ru_RU.ts \
     translations/tr_TR.ts \

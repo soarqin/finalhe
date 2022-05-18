@@ -1,6 +1,6 @@
 # Final h-encore
 
-Push the h-encore exploit for PS VITA andPS TV through a Windows, macOS or Linux GUI.
+Push the h-encore exploit for PS VITA and PS TV through a Windows, macOS or Linux GUI.
 
 ## Credits
 
@@ -29,21 +29,19 @@ Download a pre-built executable binary below and follow instructions. Supported 
       - `sudo zypper install finalhe`
   3. Run "FinalHE"
       - in your terminal type `FinalHE`
+- For Arch Linux
+  1. Install the [`finalhe-git`](https://aur.archlinux.org/packages/finalhe-git/) package from AUR:
+      - `yay -S finalhe-git`
+  2. Run `finalhe` in your terminal
 
 ## Build from source
 
 ### Prerequisites 
 
-1. macOS: install [brew](https://brew.sh), install libusb, pkg-config & qt through brew (`brew install libusb pkg-config qt5`)
-    - Add qt to your path `echo 'export PATH="/opt/homebrew/opt/qt@5/bin:$PATH"' >> ~/.zshrc`
-    - Add qt5 related environment variables to your zsh profile  `export LDFLAGS="-L/opt/homebrew/opt/qt@5/lib" >> ~/.zshrc && export CPPFLAGS="-I/opt/homebrew/opt/qt@5/include" >> ~/.zshcr && export PKG_CONFIG_PATH="/opt/homebrew/opt/qt@5/lib/pkgconfig" >> ~/.zshrc`
-    - Allow the changes to your profile to take effect `source ~/.zshrc`
-2. macOS using build script:
-    - change into the projects root directory and execute the `macOSBuildScript.sh` script: `./macOSBuildScript.sh`
-    - The script will attempt to install all needed dependencies then build the project. After the build is done, it will ask the user if they want to run FinalHE or not.
-2. Linux:
+1. macOS: install [brew](https://brew.sh), build tools (`xcode-select --install`) then install dyld, libusb, pkg-config & qt5 through brew (`brew install dyld-headers libusb pkg-config qt5`)
+1. Linux:
    - Debian/Ubuntu: install build-essential, libxml2-dev, libusb-dev, libusb-1.0-0-dev, zlib-dev or zlib1g-dev, qtbase5-dev, qttools5, cmake(if use cmake to build)
-   - Fedora/CentOS: group install "Development Tools", install libxml2-devel, libusb-devel, zlib-devel, qt5-qtbase-devel, qt5-qtbase, cmake3(if use cmake to build)
+   - Fedora/CentOS: group install "Development Tools", install libxml2-devel, libusb-devel, zlib-devel, qt5-qtbase-devel, qt5-qtbase, qt5-linguist, cmake3(if use cmake to build)
    - openSUSE: install cmake >= 11.0, gcc-c++, zlib-devel, libxml2-devel, libQt5Widgets-devel, libQt5Network-devel, libqt5-linguist-devel, libusb-compat-devel
    - Arch: install base-devel, libxml2, libusb, zlib, qt5, cmake (if using cmake to build)
 
@@ -52,7 +50,7 @@ Download a pre-built executable binary below and follow instructions. Supported 
 You can choose either `qmake` or `cmake` to build
 
 - cmake: run `cmake` to generate Makefile for compiling
-  - macOS: it cannot produce app bundle, and you need to specify `CMAKE_PREFIX_PATH` if Qt is not installed in default location: `cmake -DCMAKE_PREFIX_PATH=<Path of Qt Root> <Path of Project Root>`
+  - macOS: it cannot produce app bundle, and you need to specify `CMAKE_PREFIX_PATH` if Qt is not installed in default location: `cmake -DCMAKE_PREFIX_PATH=<Path of Qt Root> <Path of Project Root>`. If you have installed qt5 with brew, and are on project root directory, you can run with `cmake -DCMAKE_PREFIX_PATH=/usr/local/opt/qt@5 .`. Then run `make` and you can open it by double clicking at `src/FinalHE`.
 - qmake: run `qmake` to generate Makefile for compiling, run `make lcopy` in `src` folder to compile translations and copy them to binary folder
 
 ## Contribute translations

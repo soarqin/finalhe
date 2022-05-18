@@ -1,3 +1,7 @@
+v1.93
+1. (#125) Added support for 3.74 with existing h-encore^2
+2. (#108) Project builds on Apple M1 now
+
 v1.92
 1. Added support for 3.73 with existing h-encore^2
 
