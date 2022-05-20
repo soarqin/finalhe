@@ -81,7 +81,7 @@ Ustawienia -&gt; Aktualizacja systemu -&gt; Aktualizacja po przez połączenie z
 Input this PIN on PS Vita: %2</source>
         <translation>
 Rejestrowanie urządzenia: % 1.
-Wprowadź ten kod PIN na PS Vita: %2</translation>
+Wprowadź kod PIN na PS Vita: %2</translation>
     </message>
     <message>
         <location filename="../finalhe.cc" line="285"/>
@@ -150,7 +150,7 @@ Wprowadź ten kod PIN na PS Vita: %2</translation>
         <translation>Wszystko gotowe, teraz wykonaj poniższe czynności na swoim PS Vita:
 1. Uruchom Menedżera Zawartości &quot; Kopiuj zawartość i połącz się z komputerem.
 2. Wybierz opcję: &quot;Komputer PC -&gt; System PS Vita&quot; -&gt; &quot;Aplikacje&quot; -&gt; &quot;PS Vita&quot;.
-3. Przenieś &quot;h-encore&quot; a tu PS Vita.
+3. Przenieś &quot;h-encore&quot; na PS Vita.
 4. Uruchom &quot;h-encore&quot; i... to, wszystko ;)!</translation>
     </message>
     <message>
@@ -166,7 +166,7 @@ Kliknij przycisk, aby ROZPOCZĄĆ!</translation>
     <message>
         <location filename="../package.cc" line="510"/>
         <source>Trimming package</source>
-        <translation>Zmniejszenie rozmiaru pliku pkg</translation>
+        <translation>Zmniejszanie rozmiaru pliku pkg</translation>
     </message>
     <message>
         <location filename="../package.cc" line="62"/>
