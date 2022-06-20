@@ -44,3 +44,13 @@ moc_*.cpp
 moc_*.h
 qrc_*.cpp
 ui_*.h
+
+# CMake files
+CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
+mocs_*.cpp
+
+# Build result
+src/FinalHE
+finalhe.qrc.depends
